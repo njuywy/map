@@ -6,8 +6,8 @@
 <meta property="og:description" content="🍎🍌🍇 水果俄罗斯方块 - 炜煜之博客              * { margin: 0; padding: 0; box-sizing: border-box; }         body {             font-family: &#39;Segoe UI&#39;, sans-serif;             background: linear">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://njuywy.github.io/my-blog/img/avatar.png">
-<meta property="article:published_time" content="2026-02-12T06:11:23.843Z">
-<meta property="article:modified_time" content="2026-02-12T06:11:23.843Z">
+<meta property="article:published_time" content="2026-02-12T06:13:42.027Z">
+<meta property="article:modified_time" content="2026-02-12T06:13:42.027Z">
 <meta property="article:author" content="炜煜">
 <meta property="article:tag" content="技术, 生活, 编程">
 <meta name="twitter:card" content="summary">
@@ -480,139 +480,138 @@
             requestAnimationFrame(draw);
         }
         
-        // 水果图案绘制函数
+        // 水果图案绘制函数 - 占满整个方块
         function drawFruit(ctx, x, y, fruitIndex, size) {
             const cx = x + size/2;
             const cy = y + size/2;
+            const s = size - 6; // 实际绘制区域
             
             ctx.save();
             
             switch(fruitIndex) {
-                case 1: // 🍎 苹果 - 红色圆形带叶
+                case 1: // 🍎 苹果 - 大红圆+叶
                     // 苹果主体
                     ctx.fillStyle = '#e74c3c';
                     ctx.beginPath();
-                    ctx.arc(cx, cy + 2, size/2.5, 0, Math.PI * 2);
-                    ctx.fill();
-                    // 高光
-                    ctx.fillStyle = 'rgba(255,255,255,0.3)';
-                    ctx.beginPath();
-                    ctx.ellipse(cx - size/6, cy - size/10, size/12, size/20, -0.5, 0, Math.PI * 2);
-                    ctx.fill();
-                    // 叶子
-                    ctx.fillStyle = '#27ae60';
-                    ctx.beginPath();
-                    ctx.ellipse(cx, cy - size/3, size/10, size/20, -0.3, 0, Math.PI * 2);
-                    ctx.fill();
-                    break;
-                    
-                case 2: // 🍌 香蕉 - 黄色弯月形
-                    ctx.fillStyle = '#f1c40f';
-                    ctx.beginPath();
-                    ctx.ellipse(cx, cy, size/2.5, size/4, 0.3, 0, Math.PI * 2);
-                    ctx.fill();
-                    // 纹理
-                    ctx.strokeStyle = '#e67e22';
-                    ctx.lineWidth = 1;
-                    ctx.beginPath();
-                    ctx.arc(cx + size/10, cy - size/10, size/15, 0, Math.PI);
-                    ctx.stroke();
-                    break;
-                    
-                case 3: // 🍇 葡萄 - 紫色圆球簇
-                    ctx.fillStyle = '#9b59b6';
-                    for (let i = 0; i < 3; i++) {
-                        for (let j = 0; j < 2 - Math.abs(i-1); j++) {
-                            ctx.beginPath();
-                            ctx.arc(cx + (i-1) * size/5, cy + (j-0.5) * size/5, size/7, 0, Math.PI * 2);
-                            ctx.fill();
-                        }
-                    }
-                    // 葡萄梗
-                    ctx.strokeStyle = '#27ae60';
-                    ctx.lineWidth = 2;
-                    ctx.beginPath();
-                    ctx.moveTo(cx, cy - size/3);
-                    ctx.lineTo(cx, cy - size/2.2);
-                    ctx.stroke();
-                    break;
-                    
-                case 4: // 🍊 橘子 - 橙色圆形带纹理
-                    ctx.fillStyle = '#e67e22';
-                    ctx.beginPath();
-                    ctx.arc(cx, cy, size/2.5, 0, Math.PI * 2);
-                    ctx.fill();
-                    // 橘子纹理点
-                    ctx.fillStyle = '#d35400';
-                    for (let i = 0; i < 5; i++) {
-                        const angle = (i / 5) * Math.PI * 2;
-                        const r = size/6;
-                        ctx.beginPath();
-                        ctx.arc(cx + Math.cos(angle) * r, cy + Math.sin(angle) * r, 1.5, 0, Math.PI * 2);
-                        ctx.fill();
-                    }
-                    break;
-                    
-                case 5: // 🍋 柠檬 - 黄色椭圆带尖
-                    ctx.fillStyle = '#f39c12';
-                    ctx.beginPath();
-                    ctx.ellipse(cx, cy, size/2.5, size/3.5, 0, 0, Math.PI * 2);
-                    ctx.fill();
-                    // 柠檬尖头
-                    ctx.beginPath();
-                    ctx.moveTo(cx - size/8, cy - size/4);
-                    ctx.lineTo(cx, cy - size/2.5);
-                    ctx.lineTo(cx + size/8, cy - size/4);
-                    ctx.fill();
-                    break;
-                    
-                case 6: // 🍓 草莓 - 红色心形带籽
-                    ctx.fillStyle = '#e74c3c';
-                    // 草莓形状（心形简化）
-                    ctx.beginPath();
-                    ctx.moveTo(cx, cy + size/4);
-                    ctx.bezierCurveTo(cx - size/3, cy - size/6, cx - size/4, cy - size/3, cx, cy - size/5);
-                    ctx.bezierCurveTo(cx + size/4, cy - size/3, cx + size/3, cy - size/6, cx, cy + size/4);
-                    ctx.fill();
-                    // 草莓籽
-                    ctx.fillStyle = '#f39c12';
-                    ctx.beginPath();
-                    ctx.arc(cx - size/8, cy, 1.5, 0, Math.PI * 2);
-                    ctx.arc(cx + size/8, cy - size/12, 1.5, 0, Math.PI * 2);
-                    ctx.arc(cx, cy + size/12, 1.5, 0, Math.PI * 2);
-                    ctx.fill();
-                    // 草莓叶
-                    ctx.fillStyle = '#27ae60';
-                    ctx.beginPath();
-                    ctx.moveTo(cx, cy - size/4);
-                    ctx.lineTo(cx - size/10, cy - size/6);
-                    ctx.lineTo(cx, cy - size/5);
-                    ctx.lineTo(cx + size/10, cy - size/6);
-                    ctx.fill();
-                    break;
-                    
-                case 7: // 🍒 樱桃 - 红色圆形带柄
-                    // 左樱桃
-                    ctx.fillStyle = '#c0392b';
-                    ctx.beginPath();
-                    ctx.arc(cx - size/5, cy + size/8, size/7, 0, Math.PI * 2);
-                    ctx.fill();
-                    // 右樱桃
-                    ctx.beginPath();
-                    ctx.arc(cx + size/5, cy + size/8, size/7, 0, Math.PI * 2);
+                    ctx.arc(cx, cy, s/2.2, 0, Math.PI * 2);
                     ctx.fill();
                     // 高光
                     ctx.fillStyle = 'rgba(255,255,255,0.4)';
                     ctx.beginPath();
-                    ctx.arc(cx - size/5 - size/20, cy + size/8 - size/20, 2, 0, Math.PI * 2);
-                    ctx.arc(cx + size/5 - size/20, cy + size/8 - size/20, 2, 0, Math.PI * 2);
+                    ctx.arc(cx - s/7, cy - s/7, s/12, 0, Math.PI * 2);
                     ctx.fill();
-                    // 樱桃柄
-                    ctx.strokeStyle = '#8e44ad';
+                    // 叶子
+                    ctx.fillStyle = '#27ae60';
+                    ctx.beginPath();
+                    ctx.ellipse(cx, cy - s/2.3, s/8, s/15, -0.3, 0, Math.PI * 2);
+                    ctx.fill();
+                    break;
+                    
+                case 2: // 🍌 香蕉 - 大弯月
+                    ctx.fillStyle = '#f1c40f';
+                    ctx.beginPath();
+                    ctx.ellipse(cx, cy, s/2, s/3.5, 0.4, 0, Math.PI * 2);
+                    ctx.fill();
+                    // 纹理线
+                    ctx.strokeStyle = '#d4a017';
                     ctx.lineWidth = 2;
                     ctx.beginPath();
-                    ctx.moveTo(cx - size/5, cy - size/8);
-                    ctx.quadraticCurveTo(cx, cy - size/2, cx + size/5, cy - size/8);
+                    ctx.arc(cx - s/10, cy - s/12, s/8, 0, Math.PI);
+                    ctx.stroke();
+                    break;
+                    
+                case 3: // 🍇 葡萄 - 大紫球簇
+                    ctx.fillStyle = '#9b59b6';
+                    for (let i = 0; i < 3; i++) {
+                        for (let j = 0; j < 3 - Math.abs(i-1); j++) {
+                            ctx.beginPath();
+                            ctx.arc(cx + (i-1) * s/4, cy + (j-1) * s/4, s/5, 0, Math.PI * 2);
+                            ctx.fill();
+                        }
+                    }
+                    // 梗
+                    ctx.strokeStyle = '#27ae60';
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.moveTo(cx, cy - s/2.5);
+                    ctx.lineTo(cx, cy - s/2);
+                    ctx.stroke();
+                    break;
+                    
+                case 4: // 🍊 橘子 - 大橙圆+纹理
+                    ctx.fillStyle = '#e67e22';
+                    ctx.beginPath();
+                    ctx.arc(cx, cy, s/2.2, 0, Math.PI * 2);
+                    ctx.fill();
+                    // 纹理点
+                    ctx.fillStyle = '#d35400';
+                    for (let i = 0; i < 6; i++) {
+                        const angle = (i / 6) * Math.PI * 2;
+                        ctx.beginPath();
+                        ctx.arc(cx + Math.cos(angle) * s/5, cy + Math.sin(angle) * s/5, 2, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                    break;
+                    
+                case 5: // 🍋 柠檬 - 大黄椭圆
+                    ctx.fillStyle = '#f39c12';
+                    ctx.beginPath();
+                    ctx.ellipse(cx, cy, s/2.2, s/3, 0, 0, Math.PI * 2);
+                    ctx.fill();
+                    // 尖头
+                    ctx.beginPath();
+                    ctx.moveTo(cx - s/10, cy - s/3.5);
+                    ctx.lineTo(cx, cy - s/2.2);
+                    ctx.lineTo(cx + s/10, cy - s/3.5);
+                    ctx.fill();
+                    break;
+                    
+                case 6: // 🍓 草莓 - 大心形
+                    ctx.fillStyle = '#e74c3c';
+                    ctx.beginPath();
+                    ctx.moveTo(cx, cy + s/4);
+                    ctx.bezierCurveTo(cx - s/2.2, cy - s/8, cx - s/3, cy - s/2.2, cx, cy - s/5);
+                    ctx.bezierCurveTo(cx + s/3, cy - s/2.2, cx + s/2.2, cy - s/8, cx, cy + s/4);
+                    ctx.fill();
+                    // 籽
+                    ctx.fillStyle = '#f39c12';
+                    for (let i = 0; i < 3; i++) {
+                        ctx.beginPath();
+                        ctx.arc(cx - s/8 + i * s/8, cy, 2, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                    // 叶
+                    ctx.fillStyle = '#27ae60';
+                    ctx.beginPath();
+                    ctx.moveTo(cx, cy - s/4);
+                    ctx.lineTo(cx - s/8, cy - s/5);
+                    ctx.lineTo(cx, cy - s/3);
+                    ctx.lineTo(cx + s/8, cy - s/5);
+                    ctx.fill();
+                    break;
+                    
+                case 7: // 🍒 樱桃 - 大双球
+                    ctx.fillStyle = '#c0392b';
+                    // 左
+                    ctx.beginPath();
+                    ctx.arc(cx - s/5, cy + s/10, s/5, 0, Math.PI * 2);
+                    ctx.fill();
+                    // 右
+                    ctx.beginPath();
+                    ctx.arc(cx + s/5, cy + s/10, s/5, 0, Math.PI * 2);
+                    ctx.fill();
+                    // 高光
+                    ctx.fillStyle = 'rgba(255,255,255,0.5)';
+                    ctx.beginPath();
+                    ctx.arc(cx - s/5 - s/15, cy + s/10 - s/15, 3, 0, Math.PI * 2);
+                    ctx.arc(cx + s/5 - s/15, cy + s/10 - s/15, 3, 0, Math.PI * 2);
+                    ctx.fill();
+                    // 柄
+                    ctx.strokeStyle = '#8e44ad';
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.moveTo(cx - s/5, cy - s/10);
+                    ctx.quadraticCurveTo(cx, cy - s/2, cx + s/5, cy - s/10);
                     ctx.stroke();
                     break;
             }
@@ -623,62 +622,56 @@
         function drawBlock(ctx, x, y, fruitIndex) {
             const px = x * BLOCK_SIZE;
             const py = y * BLOCK_SIZE;
-            const size = BLOCK_SIZE - 4;
             
-            // 绘制方块背景（浅色）
-            ctx.fillStyle = 'rgba(255,255,255,0.9)';
-            ctx.fillRect(px + 2, py + 2, size, size);
+            // 方块背景（浅白底）
+            ctx.fillStyle = 'rgba(255,255,255,0.95)';
+            ctx.fillRect(px + 2, py + 2, BLOCK_SIZE - 4, BLOCK_SIZE - 4);
             
-            // 绘制方块边框
-            ctx.strokeStyle = 'rgba(0,0,0,0.1)';
-            ctx.lineWidth = 1;
-            ctx.strokeRect(px + 2, py + 2, size, size);
-            
-            // 绘制水果图案
-            drawFruit(ctx, px + 2, py + 2, fruitIndex, size);
+            // 绘制水果（占满整个方块）
+            drawFruit(ctx, px + 2, py + 2, fruitIndex, BLOCK_SIZE - 4);
         }
         
-        // 预览窗口的水果绘制（简化版）
+        // 预览窗口的水果绘制
         function drawFruitPreview(ctx, cx, cy, fruitIndex, size) {
             ctx.save();
             
             switch(fruitIndex) {
                 case 1: // 苹果
                     ctx.fillStyle = '#e74c3c';
-                    ctx.beginPath(); ctx.arc(cx, cy, size/2, 0, Math.PI * 2); ctx.fill();
-                    ctx.fillStyle = '#27ae60';
-                    ctx.beginPath(); ctx.ellipse(cx, cy - size/2, size/8, size/15, 0, 0, Math.PI * 2); ctx.fill();
+                    ctx.beginPath(); ctx.arc(cx, cy, size/2.2, 0, Math.PI * 2); ctx.fill();
                     break;
                 case 2: // 香蕉
                     ctx.fillStyle = '#f1c40f';
-                    ctx.beginPath(); ctx.ellipse(cx, cy, size/2, size/4, 0.3, 0, Math.PI * 2); ctx.fill();
+                    ctx.beginPath(); ctx.ellipse(cx, cy, size/2, size/3.5, 0.4, 0, Math.PI * 2); ctx.fill();
                     break;
                 case 3: // 葡萄
                     ctx.fillStyle = '#9b59b6';
                     for (let i = 0; i < 3; i++) {
-                        for (let j = 0; j < 2 - Math.abs(i-1); j++) {
-                            ctx.beginPath(); ctx.arc(cx + (i-1) * size/4, cy + (j-0.5) * size/4, size/7, 0, Math.PI * 2); ctx.fill();
+                        for (let j = 0; j < 3 - Math.abs(i-1); j++) {
+                            ctx.beginPath(); ctx.arc(cx + (i-1) * size/4, cy + (j-1) * size/4, size/5, 0, Math.PI * 2); ctx.fill();
                         }
                     }
                     break;
                 case 4: // 橘子
                     ctx.fillStyle = '#e67e22';
-                    ctx.beginPath(); ctx.arc(cx, cy, size/2, 0, Math.PI * 2); ctx.fill();
+                    ctx.beginPath(); ctx.arc(cx, cy, size/2.2, 0, Math.PI * 2); ctx.fill();
                     break;
                 case 5: // 柠檬
                     ctx.fillStyle = '#f39c12';
-                    ctx.beginPath(); ctx.ellipse(cx, cy, size/2, size/3.5, 0, 0, Math.PI * 2); ctx.fill();
+                    ctx.beginPath(); ctx.ellipse(cx, cy, size/2.2, size/3, 0, 0, Math.PI * 2); ctx.fill();
                     break;
                 case 6: // 草莓
                     ctx.fillStyle = '#e74c3c';
-                    ctx.beginPath(); ctx.moveTo(cx, cy + size/4);
-                    ctx.bezierCurveTo(cx - size/2, cy - size/8, cx - size/3, cy - size/2, cx, cy - size/5);
-                    ctx.bezierCurveTo(cx + size/3, cy - size/2, cx + size/2, cy - size/8, cx, cy + size/4); ctx.fill();
+                    ctx.beginPath();
+                    ctx.moveTo(cx, cy + size/4);
+                    ctx.bezierCurveTo(cx - size/2.2, cy - size/8, cx - size/3, cy - size/2.2, cx, cy - size/5);
+                    ctx.bezierCurveTo(cx + size/3, cy - size/2.2, cx + size/2.2, cy - size/8, cx, cy + size/4);
+                    ctx.fill();
                     break;
                 case 7: // 樱桃
                     ctx.fillStyle = '#c0392b';
-                    ctx.beginPath(); ctx.arc(cx - size/5, cy + size/8, size/6, 0, Math.PI * 2); ctx.fill();
-                    ctx.beginPath(); ctx.arc(cx + size/5, cy + size/8, size/6, 0, Math.PI * 2); ctx.fill();
+                    ctx.beginPath(); ctx.arc(cx - size/5, cy + size/10, size/5, 0, Math.PI * 2); ctx.fill();
+                    ctx.beginPath(); ctx.arc(cx + size/5, cy + size/10, size/5, 0, Math.PI * 2); ctx.fill();
                     break;
             }
             
@@ -687,17 +680,19 @@
         
         function drawNextPiece() {
             nextCtx.fillStyle = '#1a1a2e';
-            nextCtx.fillRect(0, 0, 120, 120);
+            nextCtx.fillRect(0, 0, 150, 150);
             
             if (nextPiece) {
-                const offsetX = (120 - nextPiece.shape[0].length * 25) / 2;
-                const offsetY = (120 - nextPiece.shape.length * 25) / 2;
+                const scale = 1.3;
+                const blockSize = 30 * scale;
+                const offsetX = (150 - nextPiece.shape[0].length * blockSize) / 2;
+                const offsetY = (150 - nextPiece.shape.length * blockSize) / 2;
                 nextPiece.shape.forEach((row, y) => {
                     row.forEach((value, x) => {
                         if (value) {
-                            nextCtx.fillStyle = '#fff';
-                            nextCtx.fillRect(offsetX + x * 25 + 2, offsetY + y * 25 + 2, 21, 21);
-                            drawFruitPreview(nextCtx, offsetX + x * 25 + 12, offsetY + y * 25 + 12, value, 20);
+                            nextCtx.fillStyle = 'rgba(255,255,255,0.95)';
+                            nextCtx.fillRect(offsetX + x * blockSize, offsetY + y * blockSize, blockSize - 2, blockSize - 2);
+                            drawFruitPreview(nextCtx, offsetX + x * blockSize + blockSize/2, offsetY + y * blockSize + blockSize/2, value, blockSize - 4);
                         }
                     });
                 });
@@ -955,7 +950,7 @@
           </div>
           <ul class="card-category-list" id="aside-cat-list">
             <li class="card-category-list-item "><a class="card-category-list-link" href="/my-blog/categories/%E5%B7%A5%E4%BD%9C%E8%AE%B0%E5%BD%95/"><span class="card-category-list-name">工作记录</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/my-blog/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3/"><span class="card-category-list-name">技术文档</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/my-blog/categories/%E9%9A%8F%E7%AC%94/"><span class="card-category-list-name">随笔</span><span class="card-category-list-count">1</span></a></li>
-          </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/my-blog/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" style="font-size: 1.1em; color: #999">学习笔记</a> <a href="/my-blog/tags/Vue3/" style="font-size: 1.1em; color: #999">Vue3</a> <a href="/my-blog/tags/Java/" style="font-size: 1.1em; color: #999">Java</a> <a href="/my-blog/tags/MySQL/" style="font-size: 1.1em; color: #999">MySQL</a> <a href="/my-blog/tags/XML/" style="font-size: 1.1em; color: #999">XML</a> <a href="/my-blog/tags/Hexo/" style="font-size: 1.1em; color: #999">Hexo</a> <a href="/my-blog/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 1.1em; color: #999">博客</a> <a href="/my-blog/tags/JAXB/" style="font-size: 1.1em; color: #999">JAXB</a></div></div><div class="card-widget card-archives">
+          </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/my-blog/tags/MySQL/" style="font-size: 1.1em; color: #999">MySQL</a> <a href="/my-blog/tags/Java/" style="font-size: 1.1em; color: #999">Java</a> <a href="/my-blog/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" style="font-size: 1.1em; color: #999">学习笔记</a> <a href="/my-blog/tags/Vue3/" style="font-size: 1.1em; color: #999">Vue3</a> <a href="/my-blog/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 1.1em; color: #999">博客</a> <a href="/my-blog/tags/XML/" style="font-size: 1.1em; color: #999">XML</a> <a href="/my-blog/tags/JAXB/" style="font-size: 1.1em; color: #999">JAXB</a> <a href="/my-blog/tags/Hexo/" style="font-size: 1.1em; color: #999">Hexo</a></div></div><div class="card-widget card-archives">
     <div class="item-headline">
       <i class="fas fa-archive"></i>
       <span>归档</span>
@@ -974,4 +969,4 @@
         </li>
       
     </ul>
-  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">3</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总浏览量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2026-02-12T06:11:33.639Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 炜煜</span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/my-blog/js/utils.js?v=5.5.4"></script><script src="/my-blog/js/main.js?v=5.5.4"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
+  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">3</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总浏览量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2026-02-12T06:13:51.344Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 炜煜</span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/my-blog/js/utils.js?v=5.5.4"></script><script src="/my-blog/js/main.js?v=5.5.4"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
