@@ -1,13 +1,13 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>炜煜之博客 | 炜煜之博客</title><meta name="author" content="炜煜"><meta name="copyright" content="炜煜"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="🧱 俄罗斯方块 - 炜煜之博客              * { margin: 0; padding: 0; box-sizing: border-box; }         body {             font-family: &#39;Segoe UI&#39;, sans-serif;             background: linear-gradi">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>炜煜之博客 | 炜煜之博客</title><meta name="author" content="炜煜"><meta name="copyright" content="炜煜"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="🍎🍌🍇 水果俄罗斯方块 - 炜煜之博客              * { margin: 0; padding: 0; box-sizing: border-box; }         body {             font-family: &#39;Segoe UI&#39;, sans-serif;             background: linear">
 <meta property="og:type" content="website">
 <meta property="og:title" content="炜煜之博客">
 <meta property="og:url" content="https://njuywy.github.io/my-blog/games/tetris.html">
 <meta property="og:site_name" content="炜煜之博客">
-<meta property="og:description" content="🧱 俄罗斯方块 - 炜煜之博客              * { margin: 0; padding: 0; box-sizing: border-box; }         body {             font-family: &#39;Segoe UI&#39;, sans-serif;             background: linear-gradi">
+<meta property="og:description" content="🍎🍌🍇 水果俄罗斯方块 - 炜煜之博客              * { margin: 0; padding: 0; box-sizing: border-box; }         body {             font-family: &#39;Segoe UI&#39;, sans-serif;             background: linear">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://njuywy.github.io/my-blog/img/avatar.png">
-<meta property="article:published_time" content="2026-01-30T08:44:11.211Z">
-<meta property="article:modified_time" content="2026-01-30T08:44:11.211Z">
+<meta property="article:published_time" content="2026-02-12T05:52:02.835Z">
+<meta property="article:modified_time" content="2026-02-12T05:52:02.835Z">
 <meta property="article:author" content="炜煜">
 <meta property="article:tag" content="技术, 生活, 编程">
 <meta name="twitter:card" content="summary">
@@ -149,7 +149,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🧱 俄罗斯方块 - 炜煜之博客</title>
+    <title>🍎🍌🍇 水果俄罗斯方块 - 炜煜之博客</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -201,7 +201,7 @@
     </style>
 </head>
 <body>
-    <h1>🧱 俄罗斯方块</h1>
+    <h1>🍎🍌🍇 水果俄罗斯方块</h1>
     <div class="game-container">
         <canvas id="gameCanvas" width="300" height="600"></canvas>
         <div class="side-panel">
@@ -238,9 +238,21 @@
         const ROWS = 20;
         const BLOCK_SIZE = 30;
         
-        const COLORS = [
+        const FRUITS = [
             null,
-            '#00f5d4', '#00bbf9', '#fee440', '#f15bb5', '#9b5de5', '#00f5d4', '#ff006e'
+            '🍎', // T - 红色苹果
+            '🍌', // S - 香蕉
+            '🍇', // Z - 葡萄
+            '🍊', // L - 橘子
+            '🍋', // J - 柠檬
+            '🍓', // O - 草莓
+            '🍒'  // I - 樱桃
+        ];
+        
+        // 水果背景色
+        const FRUIT_COLORS = [
+            null,
+            '#ff6b6b', '#ffe66d', '#a29bfe', '#fd79a8', '#fab1a0', '#ff7675', '#e74c3c'
         ];
         
         const SHAPES = [
@@ -333,9 +345,10 @@
                     cleared++;
                     y++;
                     
-                    // 特效
+                    // 特效 - 水果爆炸
                     for (let x = 0; x < COLS; x++) {
-                        createExplosion(x * BLOCK_SIZE + 15, y * BLOCK_SIZE + 15, COLORS[Math.floor(Math.random() * 7) + 1]);
+                        const randomFruit = Math.floor(Math.random() * 7) + 1;
+                        createExplosion(x * BLOCK_SIZE + 15, y * BLOCK_SIZE + 15, FRUIT_COLORS[randomFruit]);
                     }
                 }
             }
@@ -405,7 +418,7 @@
             for (let y = 0; y < ROWS; y++) {
                 for (let x = 0; x < COLS; x++) {
                     if (board[y][x]) {
-                        drawBlock(ctx, x, y, COLORS[board[y][x]]);
+                        drawBlock(ctx, x, y, board[y][x]);
                     }
                 }
             }
@@ -415,7 +428,7 @@
                 currentPiece.shape.forEach((row, y) => {
                     row.forEach((value, x) => {
                         if (value) {
-                            drawBlock(ctx, currentPiece.x + x, currentPiece.y + y, COLORS[value]);
+                            drawBlock(ctx, currentPiece.x + x, currentPiece.y + y, value);
                         }
                     });
                 });
@@ -429,7 +442,7 @@
                 currentPiece.shape.forEach((row, y) => {
                     row.forEach((value, x) => {
                         if (value) {
-                            ctx.strokeStyle = COLORS[value];
+                            ctx.strokeStyle = FRUIT_COLORS[value];
                             ctx.strokeRect((currentPiece.x + x) * BLOCK_SIZE + 2, (ghostY + y) * BLOCK_SIZE + 2, BLOCK_SIZE - 4, BLOCK_SIZE - 4);
                         }
                     });
@@ -467,15 +480,26 @@
             requestAnimationFrame(draw);
         }
         
-        function drawBlock(ctx, x, y, color) {
-            ctx.fillStyle = color;
+        function drawBlock(ctx, x, y, fruitIndex) {
+            const bgColor = FRUIT_COLORS[fruitIndex] || '#fff';
+            const emoji = FRUITS[fruitIndex] || '';
+            
+            // 绘制水果背景
+            ctx.fillStyle = bgColor;
             ctx.fillRect(x * BLOCK_SIZE + 1, y * BLOCK_SIZE + 1, BLOCK_SIZE - 2, BLOCK_SIZE - 2);
+            
+            // 添加光泽效果
             ctx.fillStyle = 'rgba(255,255,255,0.3)';
-            ctx.fillRect(x * BLOCK_SIZE + 1, y * BLOCK_SIZE + 1, BLOCK_SIZE - 2, 5);
-            ctx.fillRect(x * BLOCK_SIZE + 1, y * BLOCK_SIZE + 1, 5, BLOCK_SIZE - 2);
-            ctx.fillStyle = 'rgba(0,0,0,0.3)';
-            ctx.fillRect(x * BLOCK_SIZE + 1, y * BLOCK_SIZE + BLOCK_SIZE - 6, BLOCK_SIZE - 2, 5);
-            ctx.fillRect(x * BLOCK_SIZE + BLOCK_SIZE - 6, y * BLOCK_SIZE + 1, 5, BLOCK_SIZE - 2);
+            ctx.beginPath();
+            ctx.arc(x * BLOCK_SIZE + BLOCK_SIZE/3, y * BLOCK_SIZE + BLOCK_SIZE/3, 4, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // 绘制水果 emoji
+            ctx.fillStyle = '#000';
+            ctx.font = '20px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(emoji, x * BLOCK_SIZE + BLOCK_SIZE/2, y * BLOCK_SIZE + BLOCK_SIZE/2 + 2);
         }
         
         function drawNextPiece() {
@@ -488,8 +512,14 @@
                 nextPiece.shape.forEach((row, y) => {
                     row.forEach((value, x) => {
                         if (value) {
-                            nextCtx.fillStyle = COLORS[value];
+                            nextCtx.fillStyle = FRUIT_COLORS[value];
                             nextCtx.fillRect(offsetX + x * 25 + 2, offsetY + y * 25 + 2, 21, 21);
+                            // 预览也显示水果
+                            nextCtx.fillStyle = '#000';
+                            nextCtx.font = '16px Arial';
+                            nextCtx.textAlign = 'center';
+                            nextCtx.textBaseline = 'middle';
+                            nextCtx.fillText(FRUITS[value], offsetX + x * 25 + 12, offsetY + y * 25 + 12);
                         }
                     });
                 });
@@ -747,7 +777,7 @@
           </div>
           <ul class="card-category-list" id="aside-cat-list">
             <li class="card-category-list-item "><a class="card-category-list-link" href="/my-blog/categories/%E5%B7%A5%E4%BD%9C%E8%AE%B0%E5%BD%95/"><span class="card-category-list-name">工作记录</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/my-blog/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3/"><span class="card-category-list-name">技术文档</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/my-blog/categories/%E9%9A%8F%E7%AC%94/"><span class="card-category-list-name">随笔</span><span class="card-category-list-count">1</span></a></li>
-          </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/my-blog/tags/Vue3/" style="font-size: 1.1em; color: #999">Vue3</a> <a href="/my-blog/tags/JAXB/" style="font-size: 1.1em; color: #999">JAXB</a> <a href="/my-blog/tags/Java/" style="font-size: 1.1em; color: #999">Java</a> <a href="/my-blog/tags/MySQL/" style="font-size: 1.1em; color: #999">MySQL</a> <a href="/my-blog/tags/XML/" style="font-size: 1.1em; color: #999">XML</a> <a href="/my-blog/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 1.1em; color: #999">博客</a> <a href="/my-blog/tags/Hexo/" style="font-size: 1.1em; color: #999">Hexo</a> <a href="/my-blog/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" style="font-size: 1.1em; color: #999">学习笔记</a></div></div><div class="card-widget card-archives">
+          </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/my-blog/tags/JAXB/" style="font-size: 1.1em; color: #999">JAXB</a> <a href="/my-blog/tags/Java/" style="font-size: 1.1em; color: #999">Java</a> <a href="/my-blog/tags/MySQL/" style="font-size: 1.1em; color: #999">MySQL</a> <a href="/my-blog/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" style="font-size: 1.1em; color: #999">学习笔记</a> <a href="/my-blog/tags/Hexo/" style="font-size: 1.1em; color: #999">Hexo</a> <a href="/my-blog/tags/Vue3/" style="font-size: 1.1em; color: #999">Vue3</a> <a href="/my-blog/tags/XML/" style="font-size: 1.1em; color: #999">XML</a> <a href="/my-blog/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 1.1em; color: #999">博客</a></div></div><div class="card-widget card-archives">
     <div class="item-headline">
       <i class="fas fa-archive"></i>
       <span>归档</span>
@@ -766,4 +796,4 @@
         </li>
       
     </ul>
-  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">3</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总浏览量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2026-01-30T09:53:26.167Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 炜煜</span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/my-blog/js/utils.js?v=5.5.4"></script><script src="/my-blog/js/main.js?v=5.5.4"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
+  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">3</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总浏览量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2026-02-12T05:58:58.617Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 炜煜</span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/my-blog/js/utils.js?v=5.5.4"></script><script src="/my-blog/js/main.js?v=5.5.4"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
