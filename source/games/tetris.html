@@ -83,6 +83,32 @@
     <a href="index.html" class="back-btn">← 返回游戏选择</a>
 
     <script>
+        // 预加载水果图片
+        const fruitImages = {};
+        const fruitImageNames = [
+            'b2cbe261-642a-45bf-82b3-791e86685999.png', // 苹果
+            'fc061d08-83cc-4f84-8958-c01f3f024191.png', // 香蕉
+            'd454d536-6a07-475f-a277-d4a4774c3a81.png',  // 葡萄
+            'd54111ab-1693-4567-be7d-06035631d86f.png',  // 橘子
+        ];
+        
+        // 顺序：苹果、香蕉、葡萄、橘子、柠檬、草莓、樱桃
+        const fruitOrder = [0, 1, 2, 3, 0, 2, 3]; // 对应类型1-7
+        
+        let imagesLoaded = 0;
+        fruitImageNames.forEach((name, index) => {
+            const img = new Image();
+            img.src = '/my-blog/images/fruits/' + name;
+            img.onload = () => {
+                imagesLoaded++;
+                if (imagesLoaded === fruitImageNames.length) {
+                    // 图片加载完成后启动游戏
+                    initGame();
+                }
+            };
+            fruitImages[index] = img;
+        });
+        
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
         const nextCanvas = document.getElementById('nextCanvas');
@@ -334,202 +360,33 @@
             requestAnimationFrame(draw);
         }
         
-        // 水果图案绘制函数 - 占满整个方块
-        function drawFruit(ctx, x, y, fruitIndex, size) {
-            const cx = x + size/2;
-            const cy = y + size/2;
-            const s = size - 6; // 实际绘制区域
-            
-            ctx.save();
-            
-            switch(fruitIndex) {
-                case 1: // 🍎 苹果 - 大红圆+叶
-                    // 苹果主体
-                    ctx.fillStyle = '#e74c3c';
-                    ctx.beginPath();
-                    ctx.arc(cx, cy, s/2.2, 0, Math.PI * 2);
-                    ctx.fill();
-                    // 高光
-                    ctx.fillStyle = 'rgba(255,255,255,0.4)';
-                    ctx.beginPath();
-                    ctx.arc(cx - s/7, cy - s/7, s/12, 0, Math.PI * 2);
-                    ctx.fill();
-                    // 叶子
-                    ctx.fillStyle = '#27ae60';
-                    ctx.beginPath();
-                    ctx.ellipse(cx, cy - s/2.3, s/8, s/15, -0.3, 0, Math.PI * 2);
-                    ctx.fill();
-                    break;
-                    
-                case 2: // 🍌 香蕉 - 大弯月
-                    ctx.fillStyle = '#f1c40f';
-                    ctx.beginPath();
-                    ctx.ellipse(cx, cy, s/2, s/3.5, 0.4, 0, Math.PI * 2);
-                    ctx.fill();
-                    // 纹理线
-                    ctx.strokeStyle = '#d4a017';
-                    ctx.lineWidth = 2;
-                    ctx.beginPath();
-                    ctx.arc(cx - s/10, cy - s/12, s/8, 0, Math.PI);
-                    ctx.stroke();
-                    break;
-                    
-                case 3: // 🍇 葡萄 - 大紫球簇
-                    ctx.fillStyle = '#9b59b6';
-                    for (let i = 0; i < 3; i++) {
-                        for (let j = 0; j < 3 - Math.abs(i-1); j++) {
-                            ctx.beginPath();
-                            ctx.arc(cx + (i-1) * s/4, cy + (j-1) * s/4, s/5, 0, Math.PI * 2);
-                            ctx.fill();
-                        }
-                    }
-                    // 梗
-                    ctx.strokeStyle = '#27ae60';
-                    ctx.lineWidth = 3;
-                    ctx.beginPath();
-                    ctx.moveTo(cx, cy - s/2.5);
-                    ctx.lineTo(cx, cy - s/2);
-                    ctx.stroke();
-                    break;
-                    
-                case 4: // 🍊 橘子 - 大橙圆+纹理
-                    ctx.fillStyle = '#e67e22';
-                    ctx.beginPath();
-                    ctx.arc(cx, cy, s/2.2, 0, Math.PI * 2);
-                    ctx.fill();
-                    // 纹理点
-                    ctx.fillStyle = '#d35400';
-                    for (let i = 0; i < 6; i++) {
-                        const angle = (i / 6) * Math.PI * 2;
-                        ctx.beginPath();
-                        ctx.arc(cx + Math.cos(angle) * s/5, cy + Math.sin(angle) * s/5, 2, 0, Math.PI * 2);
-                        ctx.fill();
-                    }
-                    break;
-                    
-                case 5: // 🍋 柠檬 - 大黄椭圆
-                    ctx.fillStyle = '#f39c12';
-                    ctx.beginPath();
-                    ctx.ellipse(cx, cy, s/2.2, s/3, 0, 0, Math.PI * 2);
-                    ctx.fill();
-                    // 尖头
-                    ctx.beginPath();
-                    ctx.moveTo(cx - s/10, cy - s/3.5);
-                    ctx.lineTo(cx, cy - s/2.2);
-                    ctx.lineTo(cx + s/10, cy - s/3.5);
-                    ctx.fill();
-                    break;
-                    
-                case 6: // 🍓 草莓 - 大心形
-                    ctx.fillStyle = '#e74c3c';
-                    ctx.beginPath();
-                    ctx.moveTo(cx, cy + s/4);
-                    ctx.bezierCurveTo(cx - s/2.2, cy - s/8, cx - s/3, cy - s/2.2, cx, cy - s/5);
-                    ctx.bezierCurveTo(cx + s/3, cy - s/2.2, cx + s/2.2, cy - s/8, cx, cy + s/4);
-                    ctx.fill();
-                    // 籽
-                    ctx.fillStyle = '#f39c12';
-                    for (let i = 0; i < 3; i++) {
-                        ctx.beginPath();
-                        ctx.arc(cx - s/8 + i * s/8, cy, 2, 0, Math.PI * 2);
-                        ctx.fill();
-                    }
-                    // 叶
-                    ctx.fillStyle = '#27ae60';
-                    ctx.beginPath();
-                    ctx.moveTo(cx, cy - s/4);
-                    ctx.lineTo(cx - s/8, cy - s/5);
-                    ctx.lineTo(cx, cy - s/3);
-                    ctx.lineTo(cx + s/8, cy - s/5);
-                    ctx.fill();
-                    break;
-                    
-                case 7: // 🍒 樱桃 - 大双球
-                    ctx.fillStyle = '#c0392b';
-                    // 左
-                    ctx.beginPath();
-                    ctx.arc(cx - s/5, cy + s/10, s/5, 0, Math.PI * 2);
-                    ctx.fill();
-                    // 右
-                    ctx.beginPath();
-                    ctx.arc(cx + s/5, cy + s/10, s/5, 0, Math.PI * 2);
-                    ctx.fill();
-                    // 高光
-                    ctx.fillStyle = 'rgba(255,255,255,0.5)';
-                    ctx.beginPath();
-                    ctx.arc(cx - s/5 - s/15, cy + s/10 - s/15, 3, 0, Math.PI * 2);
-                    ctx.arc(cx + s/5 - s/15, cy + s/10 - s/15, 3, 0, Math.PI * 2);
-                    ctx.fill();
-                    // 柄
-                    ctx.strokeStyle = '#8e44ad';
-                    ctx.lineWidth = 3;
-                    ctx.beginPath();
-                    ctx.moveTo(cx - s/5, cy - s/10);
-                    ctx.quadraticCurveTo(cx, cy - s/2, cx + s/5, cy - s/10);
-                    ctx.stroke();
-                    break;
-            }
-            
-            ctx.restore();
-        }
-        
-        function drawBlock(ctx, x, y, fruitIndex) {
+        function drawBlock(ctx, x, y, fruitType) {
             const px = x * BLOCK_SIZE;
             const py = y * BLOCK_SIZE;
+            const imgIndex = fruitOrder[fruitType - 1];
             
-            // 方块背景（浅白底）
+            // 绘制方块背景
             ctx.fillStyle = 'rgba(255,255,255,0.95)';
             ctx.fillRect(px + 2, py + 2, BLOCK_SIZE - 4, BLOCK_SIZE - 4);
             
-            // 绘制水果（占满整个方块）
-            drawFruit(ctx, px + 2, py + 2, fruitIndex, BLOCK_SIZE - 4);
+            // 绘制水果图片
+            if (fruitImages[imgIndex] && fruitImages[imgIndex].complete) {
+                ctx.drawImage(fruitImages[imgIndex], px + 4, py + 4, BLOCK_SIZE - 8, BLOCK_SIZE - 8);
+            }
         }
         
         // 预览窗口的水果绘制
-        function drawFruitPreview(ctx, cx, cy, fruitIndex, size) {
-            ctx.save();
+        function drawFruitPreview(ctx, cx, cy, fruitType, size) {
+            const imgIndex = fruitOrder[fruitType - 1];
             
-            switch(fruitIndex) {
-                case 1: // 苹果
-                    ctx.fillStyle = '#e74c3c';
-                    ctx.beginPath(); ctx.arc(cx, cy, size/2.2, 0, Math.PI * 2); ctx.fill();
-                    break;
-                case 2: // 香蕉
-                    ctx.fillStyle = '#f1c40f';
-                    ctx.beginPath(); ctx.ellipse(cx, cy, size/2, size/3.5, 0.4, 0, Math.PI * 2); ctx.fill();
-                    break;
-                case 3: // 葡萄
-                    ctx.fillStyle = '#9b59b6';
-                    for (let i = 0; i < 3; i++) {
-                        for (let j = 0; j < 3 - Math.abs(i-1); j++) {
-                            ctx.beginPath(); ctx.arc(cx + (i-1) * size/4, cy + (j-1) * size/4, size/5, 0, Math.PI * 2); ctx.fill();
-                        }
-                    }
-                    break;
-                case 4: // 橘子
-                    ctx.fillStyle = '#e67e22';
-                    ctx.beginPath(); ctx.arc(cx, cy, size/2.2, 0, Math.PI * 2); ctx.fill();
-                    break;
-                case 5: // 柠檬
-                    ctx.fillStyle = '#f39c12';
-                    ctx.beginPath(); ctx.ellipse(cx, cy, size/2.2, size/3, 0, 0, Math.PI * 2); ctx.fill();
-                    break;
-                case 6: // 草莓
-                    ctx.fillStyle = '#e74c3c';
-                    ctx.beginPath();
-                    ctx.moveTo(cx, cy + size/4);
-                    ctx.bezierCurveTo(cx - size/2.2, cy - size/8, cx - size/3, cy - size/2.2, cx, cy - size/5);
-                    ctx.bezierCurveTo(cx + size/3, cy - size/2.2, cx + size/2.2, cy - size/8, cx, cy + size/4);
-                    ctx.fill();
-                    break;
-                case 7: // 樱桃
-                    ctx.fillStyle = '#c0392b';
-                    ctx.beginPath(); ctx.arc(cx - size/5, cy + size/10, size/5, 0, Math.PI * 2); ctx.fill();
-                    ctx.beginPath(); ctx.arc(cx + size/5, cy + size/10, size/5, 0, Math.PI * 2); ctx.fill();
-                    break;
+            // 背景
+            ctx.fillStyle = 'rgba(255,255,255,0.95)';
+            ctx.fillRect(cx - size/2, cy - size/2, size, size);
+            
+            // 图片
+            if (fruitImages[imgIndex] && fruitImages[imgIndex].complete) {
+                ctx.drawImage(fruitImages[imgIndex], cx - size/2 + 2, cy - size/2 + 2, size - 4, size - 4);
             }
-            
-            ctx.restore();
         }
         
         function drawNextPiece() {
@@ -544,13 +401,18 @@
                 nextPiece.shape.forEach((row, y) => {
                     row.forEach((value, x) => {
                         if (value) {
-                            nextCtx.fillStyle = 'rgba(255,255,255,0.95)';
-                            nextCtx.fillRect(offsetX + x * blockSize, offsetY + y * blockSize, blockSize - 2, blockSize - 2);
-                            drawFruitPreview(nextCtx, offsetX + x * blockSize + blockSize/2, offsetY + y * blockSize + blockSize/2, value, blockSize - 4);
+                            drawFruitPreview(nextCtx, offsetX + x * blockSize + blockSize/2, offsetY + y * blockSize + blockSize/2, value, blockSize);
                         }
                     });
                 });
             }
+        }
+        
+        function initGame() {
+            initBoard();
+            spawnPiece();
+            draw();
+            update();
         }
         
         function update(time = 0) {
@@ -658,10 +520,12 @@
             spawnPiece();
         }
         
-        initBoard();
-        spawnPiece();
-        draw();
-        update();
+        // 如果图片加载超时（5秒），直接启动游戏
+        setTimeout(() => {
+            if (imagesLoaded < fruitImageNames.length) {
+                initGame();
+            }
+        }, 5000);
     </script>
 </body>
 </html>
