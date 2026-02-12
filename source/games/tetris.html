@@ -46,10 +46,10 @@
     <a href="index.html">← 返回游戏列表</a>
 
     <script>
-        // 3张水果图片
-        const img1 = new Image(); img1.src = '/my-blog/images/fruits/ea18bbb6-bb82-46fe-94f6-c79e5ace3e0f.png';
-        const img2 = new Image(); img2.src = '/my-blog/images/fruits/c445134b-784d-4a4e-9a0a-73016a0b13b5.png';
-        const img3 = new Image(); img3.src = '/my-blog/images/fruits/859f6f20-3921-4c68-b5f3-d761edfb26eb.png';
+        // 3张水果图片 - 使用相对路径
+        const img1 = new Image(); img1.src = '../images/fruits/ea18bbb6-bb82-46fe-94f6-c79e5ace3e0f.png';
+        const img2 = new Image(); img2.src = '../images/fruits/c445134b-784d-4a4e-9a0a-73016a0b13b5.png';
+        const img3 = new Image(); img3.src = '../images/fruits/859f6f20-3921-4c68-b5f3-d761edfb26eb.png';
         
         // 7种方块对应3张图片
         const imgs = [null, img1, img2, img3, img1, img2, img3, img1];
