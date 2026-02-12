@@ -335,25 +335,37 @@
         }
         
         function drawBlock(ctx, x, y, fruitIndex) {
-            const bgColor = FRUIT_COLORS[fruitIndex] || '#fff';
+            const px = x * BLOCK_SIZE;
+            const py = y * BLOCK_SIZE;
             const emoji = FRUITS[fruitIndex] || '';
             
-            // 绘制水果背景
-            ctx.fillStyle = bgColor;
-            ctx.fillRect(x * BLOCK_SIZE + 1, y * BLOCK_SIZE + 1, BLOCK_SIZE - 2, BLOCK_SIZE - 2);
+            // 绘制水果背景块
+            ctx.fillStyle = '#fff';
+            ctx.fillRect(px + 2, py + 2, BLOCK_SIZE - 4, BLOCK_SIZE - 4);
             
-            // 添加光泽效果
-            ctx.fillStyle = 'rgba(255,255,255,0.3)';
-            ctx.beginPath();
-            ctx.arc(x * BLOCK_SIZE + BLOCK_SIZE/3, y * BLOCK_SIZE + BLOCK_SIZE/3, 4, 0, Math.PI * 2);
-            ctx.fill();
+            // 水果对应的鲜艳背景色
+            const bgColors = {
+                1: '#ffcccc', // 苹果红
+                2: '#fff4cc', // 香蕉黄
+                3: '#e8ccff', // 葡萄紫
+                4: '#ffcc99', // 橘子橙
+                5: '#ffffcc', // 柠檬黄
+                6: '#ffcccc', // 草莓红
+                7: '#ff99cc'  // 樱桃粉
+            };
+            ctx.fillStyle = bgColors[fruitIndex] || '#eee';
+            ctx.fillRect(px + 3, py + 3, BLOCK_SIZE - 6, BLOCK_SIZE - 6);
             
-            // 绘制水果 emoji
-            ctx.fillStyle = '#000';
-            ctx.font = '20px Arial';
+            // 绘制大水果 emoji 作为贴图
+            ctx.font = '22px Arial';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            ctx.fillText(emoji, x * BLOCK_SIZE + BLOCK_SIZE/2, y * BLOCK_SIZE + BLOCK_SIZE/2 + 2);
+            ctx.fillText(emoji, px + BLOCK_SIZE/2, py + BLOCK_SIZE/2 + 1);
+            
+            // 添加边框
+            ctx.strokeStyle = 'rgba(0,0,0,0.1)';
+            ctx.lineWidth = 1;
+            ctx.strokeRect(px + 2, py + 2, BLOCK_SIZE - 4, BLOCK_SIZE - 4);
         }
         
         function drawNextPiece() {
@@ -366,11 +378,20 @@
                 nextPiece.shape.forEach((row, y) => {
                     row.forEach((value, x) => {
                         if (value) {
-                            nextCtx.fillStyle = FRUIT_COLORS[value];
+                            // 绘制大方块背景
+                            nextCtx.fillStyle = '#fff';
+                            nextCtx.fillRect(offsetX + x * 25 + 1, offsetY + y * 25 + 1, 23, 23);
+                            
+                            // 背景色
+                            const bgColors = {
+                                1: '#ffcccc', 2: '#fff4cc', 3: '#e8ccff',
+                                4: '#ffcc99', 5: '#ffffcc', 6: '#ffcccc', 7: '#ff99cc'
+                            };
+                            nextCtx.fillStyle = bgColors[value] || '#eee';
                             nextCtx.fillRect(offsetX + x * 25 + 2, offsetY + y * 25 + 2, 21, 21);
-                            // 预览也显示水果
-                            nextCtx.fillStyle = '#000';
-                            nextCtx.font = '16px Arial';
+                            
+                            // 显示大水果
+                            nextCtx.font = '18px Arial';
                             nextCtx.textAlign = 'center';
                             nextCtx.textBaseline = 'middle';
                             nextCtx.fillText(FRUITS[value], offsetX + x * 25 + 12, offsetY + y * 25 + 12);
