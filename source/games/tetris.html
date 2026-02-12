@@ -5,45 +5,80 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>水果俄罗斯方块</title>
     <style>
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background: #1a1a2e;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
+        /* 游戏容器 - 使用ID选择器确保优先级 */
+        #game-wrapper {
+            font-family: 'Segoe UI', sans-serif !important;
+            background: #1a1a2e !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            min-height: 100vh !important;
+            margin: 0 !important;
+            padding: 20px !important;
+            position: relative !important;
+            z-index: 1 !important;
         }
-        h1 { color: #fff; margin-bottom: 10px; }
-        .container { display: flex; gap: 20px; }
-        canvas { background: #0a0a0a; border-radius: 8px; }
-        .info {
-            background: rgba(255,255,255,0.1);
-            padding: 15px;
-            border-radius: 8px;
-            color: #fff;
-            min-width: 120px;
+        #game-wrapper h1 {
+            color: #fff !important;
+            margin-bottom: 10px !important;
+            font-size: 2em !important;
         }
-        .info div { margin-bottom: 10px; }
-        .info span { color: #74b9ff; font-size: 1.5em; font-weight: bold; }
-        .controls { color: #aaa; margin-top: 15px; text-align: center; font-size: 0.9em; }
-        a { color: #74b9ff; margin-top: 15px; display: inline-block; }
+        #game-wrapper .container {
+            display: flex !important;
+            gap: 20px !important;
+        }
+        #game-wrapper canvas {
+            background: #0a0a0a !important;
+            border-radius: 8px !important;
+            display: block !important;
+        }
+        #game-wrapper .info {
+            background: rgba(255,255,255,0.1) !important;
+            padding: 15px !important;
+            border-radius: 8px !important;
+            color: #fff !important;
+            min-width: 120px !important;
+        }
+        #game-wrapper .info div {
+            margin-bottom: 10px !important;
+        }
+        #game-wrapper .info span {
+            color: #74b9ff !important;
+            font-size: 1.5em !important;
+            font-weight: bold !important;
+        }
+        #game-wrapper .controls {
+            color: #aaa !important;
+            margin-top: 15px !important;
+            text-align: center !important;
+            font-size: 0.9em !important;
+        }
+        #game-wrapper a {
+            color: #74b9ff !important;
+            margin-top: 15px !important;
+            display: inline-block !important;
+            text-decoration: none !important;
+        }
+        #game-wrapper a:hover {
+            text-decoration: underline !important;
+        }
     </style>
 </head>
 <body>
-    <h1>🍎🍌🍇 水果俄罗斯方块</h1>
-    <div class="container">
-        <canvas id="game" width="300" height="600"></canvas>
-        <div class="info">
-            <div>分数<br><span id="score">0</span></div>
-            <div>等级<br><span id="level">1</span></div>
-            <div>消除行<br><span id="lines">0</span></div>
-            <div>下一个<br><canvas id="next" width="80" height="80"></canvas></div>
+    <div id="game-wrapper">
+        <h1>🍎🍌🍇 水果俄罗斯方块</h1>
+        <div class="container">
+            <canvas id="game" width="300" height="600"></canvas>
+            <div class="info">
+                <div>分数<br><span id="score">0</span></div>
+                <div>等级<br><span id="level">1</span></div>
+                <div>消除行<br><span id="lines">0</span></div>
+                <div>下一个<br><canvas id="next" width="80" height="80"></canvas></div>
+            </div>
         </div>
+        <div class="controls">←→移动 | ↑旋转 | ↓加速 | 空格落地 | P暂停</div>
+        <a href="index.html">← 返回游戏列表</a>
     </div>
-    <div class="controls">←→移动 | ↑旋转 | ↓加速 | 空格落地 | P暂停</div>
-    <a href="index.html">← 返回游戏列表</a>
 
     <script>
         // 3张水果图片 - 使用Raw GitHub URL
