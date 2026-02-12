@@ -3,506 +3,178 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🍎🍌🍇 水果俄罗斯方块 - 炜煜之博客</title>
+    <title>水果俄罗斯方块</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-            min-height: 100vh;
+            background: #1a1a2e;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
             padding: 20px;
         }
-        h1 { color: #fff; margin-bottom: 15px; font-size: 2em; }
-        .game-container {
-            display: flex;
-            gap: 30px;
-            align-items: flex-start;
-        }
-        canvas { border-radius: 10px; box-shadow: 0 0 30px rgba(116, 185, 255, 0.3); }
-        .side-panel {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        .info-box {
+        h1 { color: #fff; margin-bottom: 10px; }
+        .container { display: flex; gap: 20px; }
+        canvas { background: #0a0a0a; border-radius: 8px; }
+        .info {
             background: rgba(255,255,255,0.1);
-            padding: 15px 20px;
-            border-radius: 10px;
+            padding: 15px;
+            border-radius: 8px;
             color: #fff;
+            min-width: 120px;
         }
-        .info-label { color: #aaa; font-size: 0.9em; }
-        .info-value { font-size: 1.5em; font-weight: bold; color: #74b9ff; }
-        #nextCanvas { border-radius: 8px; }
-        .controls {
-            margin-top: 20px;
-            color: #aaa;
-            text-align: center;
-        }
-        .back-btn {
-            display: inline-block;
-            padding: 12px 30px;
-            margin-top: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            text-decoration: none;
-            border-radius: 25px;
-            font-weight: bold;
-        }
-        #loading {
-            color: #fff;
-            font-size: 1.2em;
-            text-align: center;
-            padding: 20px;
-        }
+        .info div { margin-bottom: 10px; }
+        .info span { color: #74b9ff; font-size: 1.5em; font-weight: bold; }
+        .controls { color: #aaa; margin-top: 15px; text-align: center; font-size: 0.9em; }
+        a { color: #74b9ff; margin-top: 15px; display: inline-block; }
     </style>
 </head>
 <body>
-    <h1>🍎🍌🍇 水果俄罗斯方块</h1>
-    <div id="loading">正在加载水果图片...</div>
-    <div class="game-container" id="gameContainer" style="display:none;">
-        <canvas id="gameCanvas" width="400" height="800"></canvas>
-        <div class="side-panel">
-            <div class="info-box">
-                <div class="info-label">分数</div>
-                <div class="info-value" id="score">0</div>
-            </div>
-            <div class="info-box">
-                <div class="info-label">等级</div>
-                <div class="info-value" id="level">1</div>
-            </div>
-            <div class="info-box">
-                <div class="info-label">消除行数</div>
-                <div class="info-value" id="lines">0</div>
-            </div>
-            <div class="info-box">
-                <div class="info-label">下一个</div>
-                <canvas id="nextCanvas" width="120" height="120"></canvas>
-            </div>
+    <h1>水果俄罗斯方块</h1>
+    <div class="container">
+        <canvas id="game" width="300" height="600"></canvas>
+        <div class="info">
+            <div>分数<br><span id="score">0</span></div>
+            <div>等级<br><span id="level">1</span></div>
+            <div>消除行<br><span id="lines">0</span></div>
+            <div>下一个<br><canvas id="next" width="80" height="80"></canvas></div>
         </div>
     </div>
-    <div class="controls">
-        <p>← → 移动 | ↑ 旋转 | ↓ 加速 | 空格 瞬间下落 | P 暂停</p>
-    </div>
-    <a href="index.html" class="back-btn">← 返回游戏选择</a>
+    <div class="controls">←→移动 | ↑旋转 | ↓加速 | 空格落地 | P暂停</div>
+    <a href="index.html">← 返回游戏列表</a>
 
     <script>
-        // 预加载3张水果图片（循环使用）
-        const fruitImages = {};
+        const img1 = new Image(); img1.src = '/my-blog/images/fruits/e10ae87d-290d-4d05-8732-c9569f546d06.png';
+        const img2 = new Image(); img2.src = '/my-blog/images/fruits/98c1bef1-a393-47d8-ba06-875460edea37.png';
+        const img3 = new Image(); img3.src = '/my-blog/images/fruits/9c66ac75-73f3-47c0-8b61-f72ce3f672e4.png';
+        const imgs = [null, img1, img2, img3, img1, img2, img3, img1];
         
-        // 3种水果图片（按顺序）
-        const fruitFiles = [
-            'e10ae87d-290d-4d05-8732-c9569f546d06.png',  // 图片1
-            '98c1bef1-a393-47d8-ba06-875460edea37.png',  // 图片2
-            '9c66ac75-73f3-47c0-8b61-f72ce3f672e4.png'   // 图片3
-        ];
-        
-        // 对应7种方块类型：循环使用这3张图片
-        const fruitMap = [1, 2, 3, 1, 2, 3, 1]; // T,S,Z,L,J,O,I
-        
-        let imagesLoaded = 0;
-        fruitFiles.forEach((file, index) => {
-            const img = new Image();
-            img.src = '/my-blog/images/fruits/' + file;
-            img.onload = () => {
-                imagesLoaded++;
-                if (imagesLoaded === fruitFiles.length) {
-                    initGame();
-                }
-            };
-            img.onerror = () => {
-                console.error('Failed to load:', file);
-                imagesLoaded++;
-                if (imagesLoaded === fruitFiles.length) {
-                    initGame();
-                }
-            };
-            fruitImages[index + 1] = img;
-        });
-        
-        // 5秒后强制开始
-        setTimeout(() => {
-            if (document.getElementById('loading').style.display !== 'none') {
-                initGame();
-            }
-        }, 5000);
-        
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
-        const nextCanvas = document.getElementById('nextCanvas');
-        const nextCtx = nextCanvas.getContext('2d');
-        
-        const COLS = 10;
-        const ROWS = 20;
-        const BLOCK_SIZE = 40;
+        const cvs = document.getElementById('game');
+        const ctx = cvs.getContext('2d');
+        const ncvs = document.getElementById('next');
+        const nctx = ncvs.getContext('2d');
+        const COLS = 10, ROWS = 20, SIZE = 30;
         
         const SHAPES = [
-            [],
-            [[0,1,0],[1,1,1]], // T
-            [[0,2,2],[2,2,0]], // S
-            [[3,3,0],[0,3,3]], // Z
-            [[4,0,0],[4,4,4]], // L
-            [[0,0,5],[5,5,5]], // J
-            [[6,6],[6,6]],     // O
-            [[0,7,0,0],[0,7,0,0],[0,7,0,0],[0,7,0,0]] // I
+            [], [[0,1,0],[1,1,1]], [[0,2,2],[2,2,0]], [[3,3,0],[0,3,3]],
+            [[4,0,0],[4,4,4]], [[0,0,5],[5,5,5]], [[6,6],[6,6]], [[0,7,0,0],[0,7,0,0],[0,7,0,0],[0,7,0,0]]
         ];
         
-        let board = [];
-        let score = 0;
-        let level = 1;
-        let lines = 0;
-        let gameOver = false;
-        let isPaused = false;
-        let dropCounter = 0;
-        let dropInterval = 1000;
-        let lastTime = 0;
-        let currentPiece = null;
-        let nextPiece = null;
-        let particles = [];
+        let board = Array(ROWS).fill().map(() => Array(COLS).fill(0));
+        let piece, nextPiece, score = 0, level = 1, lines = 0;
+        let gameOver = false, paused = false;
+        let dropCounter = 0, lastTime = 0;
         
-        function initBoard() {
-            board = Array(ROWS).fill(null).map(() => Array(COLS).fill(0));
+        function newPiece(type) {
+            return { shape: SHAPES[type].map(r => [...r]), type: type, x: 4, y: 0 };
         }
         
-        function createPiece(type) {
-            const shape = SHAPES[type].map(row => [...row]);
-            return {
-                shape: shape,
-                type: type,
-                x: Math.floor(COLS / 2) - Math.floor(shape[0].length / 2),
-                y: 0
-            };
+        function randomPiece() { return newPiece(Math.floor(Math.random() * 7) + 1); }
+        
+        function rotate(p) {
+            const n = p.shape.length, m = p.shape[0].length;
+            let r = Array(m).fill().map(() => Array(n).fill(0));
+            for(let i=0;i<n;i++) for(let j=0;j<m;j++) r[j][n-1-i] = p.shape[i][j];
+            return r;
         }
         
-        function getRandomPiece() {
-            return Math.floor(Math.random() * 7) + 1;
-        }
-        
-        function rotate(piece) {
-            const n = piece.shape.length;
-            const m = piece.shape[0].length;
-            const rotated = Array(m).fill(null).map(() => Array(n).fill(0));
-            for (let i = 0; i < n; i++) {
-                for (let j = 0; j < m; j++) {
-                    rotated[j][n - 1 - i] = piece.shape[i][j];
-                }
-            }
-            return rotated;
-        }
-        
-        function isValid(piece, offsetX = 0, offsetY = 0, newShape = null) {
-            const shape = newShape || piece.shape;
-            for (let y = 0; y < shape.length; y++) {
-                for (let x = 0; x < shape[y].length; x++) {
-                    if (shape[y][x]) {
-                        const newX = piece.x + x + offsetX;
-                        const newY = piece.y + y + offsetY;
-                        if (newX < 0 || newX >= COLS || newY >= ROWS) return false;
-                        if (newY >= 0 && board[newY][newX]) return false;
-                    }
-                }
+        function valid(p, dx=0, dy=0, s=null) {
+            s = s || p.shape;
+            for(let y=0;y<s.length;y++) for(let x=0;x<s[y].length;x++) if(s[y][x]) {
+                let nx = p.x + x + dx, ny = p.y + y + dy;
+                if(nx<0||nx>=COLS||ny>=ROWS||(ny>=0&&board[ny][nx])) return false;
             }
             return true;
         }
         
         function merge() {
-            currentPiece.shape.forEach((row, y) => {
-                row.forEach((value, x) => {
-                    if (value) {
-                        const boardY = currentPiece.y + y;
-                        const boardX = currentPiece.x + x;
-                        if (boardY >= 0) board[boardY][boardX] = value;
-                    }
-                });
-            });
+            piece.shape.forEach((r,y)=>r.forEach((v,x)=>{
+                if(v && piece.y+y>=0) board[piece.y+y][piece.x+x] = v;
+            }));
         }
         
-        function clearLines() {
-            let cleared = 0;
-            for (let y = ROWS - 1; y >= 0; y--) {
-                if (board[y].every(cell => cell !== 0)) {
-                    board.splice(y, 1);
-                    board.unshift(Array(COLS).fill(0));
-                    cleared++;
+        function clear() {
+            for(let y=ROWS-1;y>=0;y--) {
+                if(board[y].every(v=>v)) {
+                    board.splice(y,1); board.unshift(Array(COLS).fill(0));
+                    lines++; score += [0,100,300,500,800][Math.min(lines%10,4)] * level;
+                    level = Math.floor(lines/10)+1;
                     y++;
-                    
-                    for (let x = 0; x < COLS; x++) {
-                        createExplosion(x * BLOCK_SIZE + 20, y * BLOCK_SIZE + 20, '#ff6b6b');
-                    }
                 }
             }
-            if (cleared > 0) {
-                lines += cleared;
-                score += [0, 100, 300, 500, 800][cleared] * level;
-                level = Math.floor(lines / 10) + 1;
-                dropInterval = Math.max(100, 1000 - (level - 1) * 50);
-                updateUI();
+        }
+        
+        function drawBlock(c, x, y, type, sz) {
+            const i = imgs[type];
+            if(i && i.complete && i.naturalWidth>0) {
+                c.drawImage(i, x*sz+2, y*sz+2, sz-4, sz-4);
+            } else {
+                c.fillStyle = '#fff'; c.fillRect(x*sz+2, y*sz+2, sz-4, sz-4);
             }
-        }
-        
-        function createExplosion(x, y, color) {
-            for (let i = 0; i < 8; i++) {
-                const angle = Math.random() * Math.PI * 2;
-                const speed = Math.random() * 3 + 1;
-                particles.push({
-                    x: x, y: y,
-                    vx: Math.cos(angle) * speed,
-                    vy: Math.sin(angle) * speed,
-                    life: 20,
-                    color: color
-                });
-            }
-        }
-        
-        function updateParticles() {
-            particles = particles.filter(p => {
-                p.x += p.vx;
-                p.y += p.vy;
-                p.vy += 0.1;
-                p.life--;
-                return p.life > 0;
-            });
-        }
-        
-        function drawParticles(ctx) {
-            particles.forEach(p => {
-                ctx.globalAlpha = p.life / 20;
-                ctx.fillStyle = p.color;
-                ctx.fillRect(p.x - 3, p.y - 3, 6, 6);
-            });
-            ctx.globalAlpha = 1;
         }
         
         function draw() {
-            ctx.fillStyle = '#0a0a0a';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#0a0a0a'; ctx.fillRect(0,0,300,600);
+            board.forEach((r,y)=>r.forEach((v,x)=>v && drawBlock(ctx,x,y,v,SIZE)));
+            if(piece) piece.shape.forEach((r,y)=>r.forEach((v,x)=>v && drawBlock(ctx,piece.x+x,piece.y+y,v,SIZE)));
             
-            ctx.strokeStyle = 'rgba(255,255,255,0.05)';
-            for (let i = 0; i <= COLS; i++) {
-                ctx.beginPath();
-                ctx.moveTo(i * BLOCK_SIZE, 0);
-                ctx.lineTo(i * BLOCK_SIZE, canvas.height);
-                ctx.stroke();
-            }
-            for (let i = 0; i <= ROWS; i++) {
-                ctx.beginPath();
-                ctx.moveTo(0, i * BLOCK_SIZE);
-                ctx.lineTo(canvas.width, i * BLOCK_SIZE);
-                ctx.stroke();
+            nctx.fillStyle = '#1a1a2e'; nctx.fillRect(0,0,80,80);
+            if(nextPiece) {
+                const s = nextPiece.shape;
+                const sx = Math.floor((80 - s[0].length * 18) / 2);
+                const sy = Math.floor((80 - s.length * 18) / 2);
+                s.forEach((r,y)=>r.forEach((v,x)=>{
+                    if(v) nctx.drawImage(imgs[nextPiece.type], sx + x*18+2, sy + y*18+2, 14, 14);
+                }));
             }
             
-            for (let y = 0; y < ROWS; y++) {
-                for (let x = 0; x < COLS; x++) {
-                    if (board[y][x]) {
-                        drawBlock(ctx, x, y, board[y][x]);
-                    }
-                }
-            }
-            
-            if (currentPiece) {
-                currentPiece.shape.forEach((row, y) => {
-                    row.forEach((value, x) => {
-                        if (value) {
-                            drawBlock(ctx, currentPiece.x + x, currentPiece.y + y, value);
-                        }
-                    });
-                });
-                
-                let ghostY = currentPiece.y;
-                while (isValid(currentPiece, 0, ghostY - currentPiece.y + 1)) {
-                    ghostY++;
-                }
-                ctx.globalAlpha = 0.3;
-                ctx.strokeStyle = '#fff';
-                currentPiece.shape.forEach((row, y) => {
-                    row.forEach((value, x) => {
-                        if (value) {
-                            ctx.strokeRect((currentPiece.x + x) * BLOCK_SIZE + 2, (ghostY + y) * BLOCK_SIZE + 2, BLOCK_SIZE - 4, BLOCK_SIZE - 4);
-                        }
-                    });
-                });
-                ctx.globalAlpha = 1;
-            }
-            
-            drawParticles(ctx);
-            
-            if (gameOver) {
-                ctx.fillStyle = 'rgba(0,0,0,0.8)';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = '#ff6b6b';
-                ctx.font = 'bold 40px Arial';
-                ctx.textAlign = 'center';
-                ctx.fillText('游戏结束!', canvas.width/2, canvas.height/2 - 30);
-                ctx.fillStyle = '#fff';
-                ctx.font = '25px Arial';
-                ctx.fillText('最终分数: ' + score, canvas.width/2, canvas.height/2 + 10);
-            }
-            
-            if (isPaused && !gameOver) {
-                ctx.fillStyle = 'rgba(0,0,0,0.7)';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = '#fff';
-                ctx.font = 'bold 40px Arial';
-                ctx.textAlign = 'center';
-                ctx.fillText('已暂停', canvas.width/2, canvas.height/2);
-                ctx.font = '20px Arial';
-                ctx.fillText('按 P 继续', canvas.width/2, canvas.height/2 + 40);
-            }
-            
-            requestAnimationFrame(draw);
-        }
-        
-        function drawBlock(ctx, x, y, fruitType) {
-            const px = x * BLOCK_SIZE;
-            const py = y * BLOCK_SIZE;
-            const imgIndex = fruitMap[fruitType - 1];
-            
-            ctx.fillStyle = 'rgba(255,255,255,0.95)';
-            ctx.fillRect(px + 2, py + 2, BLOCK_SIZE - 4, BLOCK_SIZE - 4);
-            
-            if (fruitImages[imgIndex] && fruitImages[imgIndex].complete && fruitImages[imgIndex].naturalWidth > 0) {
-                ctx.drawImage(fruitImages[imgIndex], px + 4, py + 4, BLOCK_SIZE - 8, BLOCK_SIZE - 8);
-            }
-        }
-        
-        function drawNextPiece() {
-            nextCtx.fillStyle = '#1a1a2e';
-            nextCtx.fillRect(0, 0, 120, 120);
-            
-            if (nextPiece) {
-                const blockSize = 25;
-                const offsetX = (120 - nextPiece.shape[0].length * blockSize) / 2;
-                const offsetY = (120 - nextPiece.shape.length * blockSize) / 2;
-                nextPiece.shape.forEach((row, y) => {
-                    row.forEach((value, x) => {
-                        if (value) {
-                            nextCtx.fillStyle = 'rgba(255,255,255,0.95)';
-                            nextCtx.fillRect(offsetX + x * blockSize + 2, offsetY + y * blockSize + 2, blockSize - 4, blockSize - 4);
-                            const imgIndex = fruitMap[value - 1];
-                            if (fruitImages[imgIndex] && fruitImages[imgIndex].complete && fruitImages[imgIndex].naturalWidth > 0) {
-                                nextCtx.drawImage(fruitImages[imgIndex], offsetX + x * blockSize + 4, offsetY + y * blockSize + 4, blockSize - 8, blockSize - 8);
-                            }
-                        }
-                    });
-                });
-            }
-        }
-        
-        function update(time = 0) {
-            if (gameOver || isPaused) {
-                requestAnimationFrame(update);
-                return;
-            }
-            
-            const deltaTime = time - lastTime;
-            lastTime = time;
-            dropCounter += deltaTime;
-            
-            if (dropCounter > dropInterval) {
-                drop();
-            }
-            
-            updateParticles();
-            requestAnimationFrame(update);
-        }
-        
-        function drop() {
-            if (isValid(currentPiece, 0, 1)) {
-                currentPiece.y++;
-            } else {
-                merge();
-                clearLines();
-                spawnPiece();
-            }
-            dropCounter = 0;
-        }
-        
-        function spawnPiece() {
-            currentPiece = nextPiece || createPiece(getRandomPiece());
-            nextPiece = createPiece(getRandomPiece());
-            drawNextPiece();
-            
-            if (!isValid(currentPiece)) {
-                gameOver = true;
-            }
-        }
-        
-        function hardDrop() {
-            while (isValid(currentPiece, 0, 1)) {
-                currentPiece.y++;
-                score += 2;
-            }
-            drop();
-            updateUI();
-        }
-        
-        function updateUI() {
             document.getElementById('score').textContent = score;
             document.getElementById('level').textContent = level;
             document.getElementById('lines').textContent = lines;
+            
+            if(gameOver) {
+                ctx.fillStyle = 'rgba(0,0,0,0.8)'; ctx.fillRect(0,0,300,600);
+                ctx.fillStyle = '#ff6b6b'; ctx.font = '30px Arial'; ctx.textAlign='center';
+                ctx.fillText('游戏结束!',150,280); ctx.fillStyle='#fff'; ctx.fillText('分数:'+score,150,320);
+            }
+            if(paused && !gameOver) {
+                ctx.fillStyle='rgba(0,0,0,0.7)'; ctx.fillRect(0,0,300,600);
+                ctx.fillStyle='#fff'; ctx.font='30px Arial'; ctx.textAlign='center';
+                ctx.fillText('暂停',150,300);
+            }
         }
         
-        document.addEventListener('keydown', (e) => {
-            if (gameOver) {
-                if (e.code === 'Space') {
-                    resetGame();
-                }
-                return;
+        function update(t=0) {
+            if(gameOver || paused) { requestAnimationFrame(update); return; }
+            let dt = t - lastTime; lastTime = t; dropCounter += dt;
+            if(dropCounter > Math.max(100, 1000-(level-1)*50)) {
+                if(valid(piece,0,1)) piece.y++; else { merge(); clear(); piece=nextPiece||randomPiece(); nextPiece=randomPiece(); if(!valid(piece)) gameOver=true; }
+                dropCounter=0;
             }
-            
+            draw(); requestAnimationFrame(update);
+        }
+        
+        function start() {
+            piece = randomPiece(); nextPiece = randomPiece(); draw(); update();
+        }
+        
+        document.addEventListener('keydown', e => {
+            if(gameOver && e.code==='Space') { board=Array(ROWS).fill().map(()=>Array(COLS).fill(0)); score=0; level=1; lines=0; gameOver=false; piece=nextPiece=randomPiece(); return; }
+            if(gameOver || paused) return;
             switch(e.code) {
-                case 'ArrowLeft':
-                    if (isValid(currentPiece, -1, 0)) currentPiece.x--;
-                    break;
-                case 'ArrowRight':
-                    if (isValid(currentPiece, 1, 0)) currentPiece.x++;
-                    break;
-                case 'ArrowDown':
-                    if (isValid(currentPiece, 0, 1)) {
-                        currentPiece.y++;
-                        score += 1;
-                        updateUI();
-                    }
-                    break;
-                case 'ArrowUp':
-                    const rotated = rotate(currentPiece);
-                    if (isValid(currentPiece, 0, 0, rotated)) {
-                        currentPiece.shape = rotated;
-                    }
-                    break;
-                case 'Space':
-                    hardDrop();
-                    break;
-                case 'KeyP':
-                    isPaused = !isPaused;
-                    break;
+                case 'ArrowLeft': if(valid(piece,-1,0)) piece.x--; break;
+                case 'ArrowRight': if(valid(piece,1,0)) piece.x++; break;
+                case 'ArrowDown': if(valid(piece,0,1)) piece.y++; break;
+                case 'ArrowUp': let r=rotate(piece); if(valid(piece,0,0,r)) piece.shape=r; break;
+                case 'Space': while(valid(piece,0,1)) piece.y++; merge(); clear(); piece=nextPiece||randomPiece(); nextPiece=randomPiece(); if(!valid(piece)) gameOver=true; break;
+                case 'KeyP': paused=true; break;
             }
+            draw();
         });
         
-        function resetGame() {
-            initBoard();
-            score = 0;
-            level = 1;
-            lines = 0;
-            dropInterval = 1000;
-            gameOver = false;
-            isPaused = false;
-            particles = [];
-            updateUI();
-            spawnPiece();
-        }
-        
-        function initGame() {
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('gameContainer').style.display = 'flex';
-            initBoard();
-            spawnPiece();
-            draw();
-            update();
-        }
+        window.onload = start;
     </script>
 </body>
 </html>
