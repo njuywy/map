@@ -6,8 +6,8 @@
 <meta property="og:description" content="🍎🍌🍇 水果俄罗斯方块 - 炜煜之博客              * { margin: 0; padding: 0; box-sizing: border-box; }         body {             font-family: &#39;Segoe UI&#39;, sans-serif;             background: linear">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://njuywy.github.io/my-blog/img/avatar.png">
-<meta property="article:published_time" content="2026-02-12T06:15:41.521Z">
-<meta property="article:modified_time" content="2026-02-12T06:15:41.521Z">
+<meta property="article:published_time" content="2026-02-12T06:17:58.701Z">
+<meta property="article:modified_time" content="2026-02-12T06:17:58.701Z">
 <meta property="article:author" content="炜煜">
 <meta property="article:tag" content="技术, 生活, 编程">
 <meta name="twitter:card" content="summary">
@@ -198,11 +198,18 @@
             border-radius: 25px;
             font-weight: bold;
         }
+        #loading {
+            color: #fff;
+            font-size: 1.2em;
+            text-align: center;
+            padding: 20px;
+        }
     </style>
 </head>
 <body>
     <h1>🍎🍌🍇 水果俄罗斯方块</h1>
-    <div class="game-container">
+    <div id="loading">正在加载水果图片...</div>
+    <div class="game-container" id="gameContainer" style="display:none;">
         <canvas id="gameCanvas" width="400" height="800"></canvas>
         <div class="side-panel">
             <div class="info-box">
@@ -229,31 +236,46 @@
     <a href="index.html" class="back-btn">← 返回游戏选择</a>
 
     <script>
-        // 预加载水果图片
+        // 预加载7张水果图片
         const fruitImages = {};
-        const fruitImageNames = [
-            'b2cbe261-642a-45bf-82b3-791e86685999.png', // 苹果
-            'fc061d08-83cc-4f84-8958-c01f3f024191.png', // 香蕉
+        
+        // 7种水果图片（按顺序：苹果、香蕉、葡萄、橘子、柠檬、草莓、樱桃）
+        const fruitFiles = [
+            'b2cbe261-642a-45bf-82b3-791e86685999.png',  // 苹果
+            'fc061d08-83cc-4f84-8958-c01f3f024191.png',  // 香蕉
             'd454d536-6a07-475f-a277-d4a4774c3a81.png',  // 葡萄
             'd54111ab-1693-4567-be7d-06035631d86f.png',  // 橘子
+            '959e0f52-ee81-4258-9a32-48e89a0924f1.png',  // 柠檬
+            '14d334c1-f12e-4986-ba1b-bc9455a51b04.png',  // 草莓
+            '6b7d4ef4-1374-4301-9b2d-ea9d328eb9ce.png'   // 樱桃
         ];
         
-        // 顺序：苹果、香蕉、葡萄、橘子、柠檬、草莓、樱桃
-        const fruitOrder = [0, 1, 2, 3, 0, 2, 3]; // 对应类型1-7
-        
         let imagesLoaded = 0;
-        fruitImageNames.forEach((name, index) => {
+        fruitFiles.forEach((file, index) => {
             const img = new Image();
-            img.src = '/my-blog/images/fruits/' + name;
+            img.src = '/my-blog/images/fruits/' + file;
             img.onload = () => {
                 imagesLoaded++;
-                if (imagesLoaded === fruitImageNames.length) {
-                    // 图片加载完成后启动游戏
+                if (imagesLoaded === fruitFiles.length) {
                     initGame();
                 }
             };
-            fruitImages[index] = img;
+            img.onerror = () => {
+                console.error('Failed to load:', file);
+                imagesLoaded++;
+                if (imagesLoaded === fruitFiles.length) {
+                    initGame();
+                }
+            };
+            fruitImages[index + 1] = img; // fruitType 1-7 对应 index 0-6
         });
+        
+        // 5秒后强制开始（防止图片加载失败卡住）
+        setTimeout(() => {
+            if (document.getElementById('loading').style.display !== 'none') {
+                initGame();
+            }
+        }, 5000);
         
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
@@ -262,24 +284,7 @@
         
         const COLS = 10;
         const ROWS = 20;
-        const BLOCK_SIZE = 40;  // 增大到 40px
-        
-        const FRUITS = [
-            null,
-            '🍎', // T - 红色苹果
-            '🍌', // S - 香蕉
-            '🍇', // Z - 葡萄
-            '🍊', // L - 橘子
-            '🍋', // J - 柠檬
-            '🍓', // O - 草莓
-            '🍒'  // I - 樱桃
-        ];
-        
-        // 水果背景色
-        const FRUIT_COLORS = [
-            null,
-            '#ff6b6b', '#ffe66d', '#a29bfe', '#fd79a8', '#fab1a0', '#ff7675', '#e74c3c'
-        ];
+        const BLOCK_SIZE = 40;
         
         const SHAPES = [
             [],
@@ -371,10 +376,9 @@
                     cleared++;
                     y++;
                     
-                    // 特效 - 水果爆炸
+                    // 特效
                     for (let x = 0; x < COLS; x++) {
-                        const randomFruit = Math.floor(Math.random() * 7) + 1;
-                        createExplosion(x * BLOCK_SIZE + 15, y * BLOCK_SIZE + 15, FRUIT_COLORS[randomFruit]);
+                        createExplosion(x * BLOCK_SIZE + 20, y * BLOCK_SIZE + 20, '#ff6b6b');
                     }
                 }
             }
@@ -468,7 +472,7 @@
                 currentPiece.shape.forEach((row, y) => {
                     row.forEach((value, x) => {
                         if (value) {
-                            ctx.strokeStyle = FRUIT_COLORS[value];
+                            ctx.strokeStyle = '#fff';
                             ctx.strokeRect((currentPiece.x + x) * BLOCK_SIZE + 2, (ghostY + y) * BLOCK_SIZE + 2, BLOCK_SIZE - 4, BLOCK_SIZE - 4);
                         }
                     });
@@ -488,7 +492,7 @@
                 ctx.fillText('游戏结束!', canvas.width/2, canvas.height/2 - 30);
                 ctx.fillStyle = '#fff';
                 ctx.font = '25px Arial';
-                ctx.fillText(`最终分数: ${score}`, canvas.width/2, canvas.height/2 + 10);
+                ctx.fillText('最终分数: ' + score, canvas.width/2, canvas.height/2 + 10);
             }
             
             // 暂停
@@ -509,56 +513,37 @@
         function drawBlock(ctx, x, y, fruitType) {
             const px = x * BLOCK_SIZE;
             const py = y * BLOCK_SIZE;
-            const imgIndex = fruitOrder[fruitType - 1];
             
-            // 绘制方块背景
+            // 方块背景（浅白底）
             ctx.fillStyle = 'rgba(255,255,255,0.95)';
             ctx.fillRect(px + 2, py + 2, BLOCK_SIZE - 4, BLOCK_SIZE - 4);
             
             // 绘制水果图片
-            if (fruitImages[imgIndex] && fruitImages[imgIndex].complete) {
-                ctx.drawImage(fruitImages[imgIndex], px + 4, py + 4, BLOCK_SIZE - 8, BLOCK_SIZE - 8);
-            }
-        }
-        
-        // 预览窗口的水果绘制
-        function drawFruitPreview(ctx, cx, cy, fruitType, size) {
-            const imgIndex = fruitOrder[fruitType - 1];
-            
-            // 背景
-            ctx.fillStyle = 'rgba(255,255,255,0.95)';
-            ctx.fillRect(cx - size/2, cy - size/2, size, size);
-            
-            // 图片
-            if (fruitImages[imgIndex] && fruitImages[imgIndex].complete) {
-                ctx.drawImage(fruitImages[imgIndex], cx - size/2 + 2, cy - size/2 + 2, size - 4, size - 4);
+            if (fruitImages[fruitType] && fruitImages[fruitType].complete && fruitImages[fruitType].naturalWidth > 0) {
+                ctx.drawImage(fruitImages[fruitType], px + 4, py + 4, BLOCK_SIZE - 8, BLOCK_SIZE - 8);
             }
         }
         
         function drawNextPiece() {
             nextCtx.fillStyle = '#1a1a2e';
-            nextCtx.fillRect(0, 0, 150, 150);
+            nextCtx.fillRect(0, 0, 120, 120);
             
             if (nextPiece) {
-                const scale = 1.3;
-                const blockSize = 30 * scale;
-                const offsetX = (150 - nextPiece.shape[0].length * blockSize) / 2;
-                const offsetY = (150 - nextPiece.shape.length * blockSize) / 2;
+                const blockSize = 25;
+                const offsetX = (120 - nextPiece.shape[0].length * blockSize) / 2;
+                const offsetY = (120 - nextPiece.shape.length * blockSize) / 2;
                 nextPiece.shape.forEach((row, y) => {
                     row.forEach((value, x) => {
                         if (value) {
-                            drawFruitPreview(nextCtx, offsetX + x * blockSize + blockSize/2, offsetY + y * blockSize + blockSize/2, value, blockSize);
+                            nextCtx.fillStyle = 'rgba(255,255,255,0.95)';
+                            nextCtx.fillRect(offsetX + x * blockSize + 2, offsetY + y * blockSize + 2, blockSize - 4, blockSize - 4);
+                            if (fruitImages[value] && fruitImages[value].complete && fruitImages[value].naturalWidth > 0) {
+                                nextCtx.drawImage(fruitImages[value], offsetX + x * blockSize + 4, offsetY + y * blockSize + 4, blockSize - 8, blockSize - 8);
+                            }
                         }
                     });
                 });
             }
-        }
-        
-        function initGame() {
-            initBoard();
-            spawnPiece();
-            draw();
-            update();
         }
         
         function update(time = 0) {
@@ -666,12 +651,14 @@
             spawnPiece();
         }
         
-        // 如果图片加载超时（5秒），直接启动游戏
-        setTimeout(() => {
-            if (imagesLoaded < fruitImageNames.length) {
-                initGame();
-            }
-        }, 5000);
+        function initGame() {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('gameContainer').style.display = 'flex';
+            initBoard();
+            spawnPiece();
+            draw();
+            update();
+        }
     </script>
 
 <!-- 彩蛋脚本：连续点击头像3次进入游戏页面 -->
@@ -814,7 +801,7 @@
           </div>
           <ul class="card-category-list" id="aside-cat-list">
             <li class="card-category-list-item "><a class="card-category-list-link" href="/my-blog/categories/%E5%B7%A5%E4%BD%9C%E8%AE%B0%E5%BD%95/"><span class="card-category-list-name">工作记录</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/my-blog/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3/"><span class="card-category-list-name">技术文档</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/my-blog/categories/%E9%9A%8F%E7%AC%94/"><span class="card-category-list-name">随笔</span><span class="card-category-list-count">1</span></a></li>
-          </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/my-blog/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 1.1em; color: #999">博客</a> <a href="/my-blog/tags/Hexo/" style="font-size: 1.1em; color: #999">Hexo</a> <a href="/my-blog/tags/XML/" style="font-size: 1.1em; color: #999">XML</a> <a href="/my-blog/tags/Java/" style="font-size: 1.1em; color: #999">Java</a> <a href="/my-blog/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" style="font-size: 1.1em; color: #999">学习笔记</a> <a href="/my-blog/tags/JAXB/" style="font-size: 1.1em; color: #999">JAXB</a> <a href="/my-blog/tags/MySQL/" style="font-size: 1.1em; color: #999">MySQL</a> <a href="/my-blog/tags/Vue3/" style="font-size: 1.1em; color: #999">Vue3</a></div></div><div class="card-widget card-archives">
+          </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/my-blog/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" style="font-size: 1.1em; color: #999">学习笔记</a> <a href="/my-blog/tags/MySQL/" style="font-size: 1.1em; color: #999">MySQL</a> <a href="/my-blog/tags/Hexo/" style="font-size: 1.1em; color: #999">Hexo</a> <a href="/my-blog/tags/Java/" style="font-size: 1.1em; color: #999">Java</a> <a href="/my-blog/tags/JAXB/" style="font-size: 1.1em; color: #999">JAXB</a> <a href="/my-blog/tags/Vue3/" style="font-size: 1.1em; color: #999">Vue3</a> <a href="/my-blog/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 1.1em; color: #999">博客</a> <a href="/my-blog/tags/XML/" style="font-size: 1.1em; color: #999">XML</a></div></div><div class="card-widget card-archives">
     <div class="item-headline">
       <i class="fas fa-archive"></i>
       <span>归档</span>
@@ -833,4 +820,4 @@
         </li>
       
     </ul>
-  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">3</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总浏览量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2026-02-12T06:15:52.224Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 炜煜</span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/my-blog/js/utils.js?v=5.5.4"></script><script src="/my-blog/js/main.js?v=5.5.4"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
+  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">3</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总浏览量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2026-02-12T06:18:08.661Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 炜煜</span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/my-blog/js/utils.js?v=5.5.4"></script><script src="/my-blog/js/main.js?v=5.5.4"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
