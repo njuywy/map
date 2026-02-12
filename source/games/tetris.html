@@ -90,19 +90,18 @@
     <a href="index.html" class="back-btn">← 返回游戏选择</a>
 
     <script>
-        // 预加载7张水果图片
+        // 预加载3张水果图片（循环使用）
         const fruitImages = {};
         
-        // 7种水果图片（按顺序：苹果、香蕉、葡萄、橘子、柠檬、草莓、樱桃）
+        // 3种水果图片（按顺序）
         const fruitFiles = [
-            'b2cbe261-642a-45bf-82b3-791e86685999.png',  // 苹果
-            'fc061d08-83cc-4f84-8958-c01f3f024191.png',  // 香蕉
-            'd454d536-6a07-475f-a277-d4a4774c3a81.png',  // 葡萄
-            'd54111ab-1693-4567-be7d-06035631d86f.png',  // 橘子
-            '959e0f52-ee81-4258-9a32-48e89a0924f1.png',  // 柠檬
-            '14d334c1-f12e-4986-ba1b-bc9455a51b04.png',  // 草莓
-            '6b7d4ef4-1374-4301-9b2d-ea9d328eb9ce.png'   // 樱桃
+            'e10ae87d-290d-4d05-8732-c9569f546d06.png',  // 图片1
+            '98c1bef1-a393-47d8-ba06-875460edea37.png',  // 图片2
+            '9c66ac75-73f3-47c0-8b61-f72ce3f672e4.png'   // 图片3
         ];
+        
+        // 对应7种方块类型：循环使用这3张图片
+        const fruitMap = [1, 2, 3, 1, 2, 3, 1]; // T,S,Z,L,J,O,I
         
         let imagesLoaded = 0;
         fruitFiles.forEach((file, index) => {
@@ -121,10 +120,10 @@
                     initGame();
                 }
             };
-            fruitImages[index + 1] = img; // fruitType 1-7 对应 index 0-6
+            fruitImages[index + 1] = img;
         });
         
-        // 5秒后强制开始（防止图片加载失败卡住）
+        // 5秒后强制开始
         setTimeout(() => {
             if (document.getElementById('loading').style.display !== 'none') {
                 initGame();
@@ -230,7 +229,6 @@
                     cleared++;
                     y++;
                     
-                    // 特效
                     for (let x = 0; x < COLS; x++) {
                         createExplosion(x * BLOCK_SIZE + 20, y * BLOCK_SIZE + 20, '#ff6b6b');
                     }
@@ -279,11 +277,9 @@
         }
         
         function draw() {
-            // 清空画布
             ctx.fillStyle = '#0a0a0a';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
-            // 绘制网格
             ctx.strokeStyle = 'rgba(255,255,255,0.05)';
             for (let i = 0; i <= COLS; i++) {
                 ctx.beginPath();
@@ -298,7 +294,6 @@
                 ctx.stroke();
             }
             
-            // 绘制已固定的方块
             for (let y = 0; y < ROWS; y++) {
                 for (let x = 0; x < COLS; x++) {
                     if (board[y][x]) {
@@ -307,7 +302,6 @@
                 }
             }
             
-            // 绘制当前方块
             if (currentPiece) {
                 currentPiece.shape.forEach((row, y) => {
                     row.forEach((value, x) => {
@@ -317,16 +311,15 @@
                     });
                 });
                 
-                // 幽灵方块
                 let ghostY = currentPiece.y;
                 while (isValid(currentPiece, 0, ghostY - currentPiece.y + 1)) {
                     ghostY++;
                 }
                 ctx.globalAlpha = 0.3;
+                ctx.strokeStyle = '#fff';
                 currentPiece.shape.forEach((row, y) => {
                     row.forEach((value, x) => {
                         if (value) {
-                            ctx.strokeStyle = '#fff';
                             ctx.strokeRect((currentPiece.x + x) * BLOCK_SIZE + 2, (ghostY + y) * BLOCK_SIZE + 2, BLOCK_SIZE - 4, BLOCK_SIZE - 4);
                         }
                     });
@@ -336,7 +329,6 @@
             
             drawParticles(ctx);
             
-            // 游戏结束
             if (gameOver) {
                 ctx.fillStyle = 'rgba(0,0,0,0.8)';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -349,7 +341,6 @@
                 ctx.fillText('最终分数: ' + score, canvas.width/2, canvas.height/2 + 10);
             }
             
-            // 暂停
             if (isPaused && !gameOver) {
                 ctx.fillStyle = 'rgba(0,0,0,0.7)';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -367,14 +358,13 @@
         function drawBlock(ctx, x, y, fruitType) {
             const px = x * BLOCK_SIZE;
             const py = y * BLOCK_SIZE;
+            const imgIndex = fruitMap[fruitType - 1];
             
-            // 方块背景（浅白底）
             ctx.fillStyle = 'rgba(255,255,255,0.95)';
             ctx.fillRect(px + 2, py + 2, BLOCK_SIZE - 4, BLOCK_SIZE - 4);
             
-            // 绘制水果图片
-            if (fruitImages[fruitType] && fruitImages[fruitType].complete && fruitImages[fruitType].naturalWidth > 0) {
-                ctx.drawImage(fruitImages[fruitType], px + 4, py + 4, BLOCK_SIZE - 8, BLOCK_SIZE - 8);
+            if (fruitImages[imgIndex] && fruitImages[imgIndex].complete && fruitImages[imgIndex].naturalWidth > 0) {
+                ctx.drawImage(fruitImages[imgIndex], px + 4, py + 4, BLOCK_SIZE - 8, BLOCK_SIZE - 8);
             }
         }
         
@@ -391,8 +381,9 @@
                         if (value) {
                             nextCtx.fillStyle = 'rgba(255,255,255,0.95)';
                             nextCtx.fillRect(offsetX + x * blockSize + 2, offsetY + y * blockSize + 2, blockSize - 4, blockSize - 4);
-                            if (fruitImages[value] && fruitImages[value].complete && fruitImages[value].naturalWidth > 0) {
-                                nextCtx.drawImage(fruitImages[value], offsetX + x * blockSize + 4, offsetY + y * blockSize + 4, blockSize - 8, blockSize - 8);
+                            const imgIndex = fruitMap[value - 1];
+                            if (fruitImages[imgIndex] && fruitImages[imgIndex].complete && fruitImages[imgIndex].naturalWidth > 0) {
+                                nextCtx.drawImage(fruitImages[imgIndex], offsetX + x * blockSize + 4, offsetY + y * blockSize + 4, blockSize - 8, blockSize - 8);
                             }
                         }
                     });
@@ -454,7 +445,6 @@
             document.getElementById('lines').textContent = lines;
         }
         
-        // 控制
         document.addEventListener('keydown', (e) => {
             if (gameOver) {
                 if (e.code === 'Space') {
