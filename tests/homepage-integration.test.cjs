@@ -21,7 +21,7 @@ for (const relativePath of [
 
 const homepage = read('source/index.html');
 assert.match(homepage, /id="map"/);
-assert.match(homepage, /href="blog\/"/);
+assert.doesNotMatch(homepage, />博客文章</);
 assert.match(homepage, /显示全部点位/);
 
 const sandbox = { window: {} };
