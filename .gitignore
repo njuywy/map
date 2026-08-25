@@ -3,6 +3,8 @@ Thumbs.db
 db.json
 *.log
 node_modules/
+__pycache__/
+*.py[cod]
 public/
 .deploy*/
 _multiconfig.yml
