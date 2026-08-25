@@ -8,7 +8,7 @@
         
         // 创建吃豆人小球
         const pacman = document.createElement('a');
-        pacman.href = '/my-blog/games/';
+        pacman.href = '/map/games/';
         pacman.title = '🎮 点击进入小游戏！';
         pacman.style.cssText = `
             position: absolute;
@@ -47,7 +47,7 @@
         // 点击事件
         pacman.onclick = function(e) {
             e.preventDefault();
-            window.location.href = '/my-blog/games/';
+            window.location.href = '/map/games/';
         };
         
         avatarArea.appendChild(pacman);
@@ -102,7 +102,7 @@
         
         // 点击提示也进入游戏
         hint.onclick = function() {
-            window.location.href = '/my-blog/games/';
+            window.location.href = '/map/games/';
         };
     }
     
