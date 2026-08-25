@@ -1,0 +1,729 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>炜煜之博客 | 炜煜之博客</title><meta name="author" content="炜煜"><meta name="copyright" content="炜煜"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="🔢 数独 - 炜煜之博客              * { margin: 0; padding: 0; box-sizing: border-box; }         body {             font-family: &#39;Segoe UI&#39;, sans-serif;             background: linear-gradient">
+<meta property="og:type" content="website">
+<meta property="og:title" content="炜煜之博客">
+<meta property="og:url" content="https://njuywy.github.io/my-blog/games/sudoku.html">
+<meta property="og:site_name" content="炜煜之博客">
+<meta property="og:description" content="🔢 数独 - 炜煜之博客              * { margin: 0; padding: 0; box-sizing: border-box; }         body {             font-family: &#39;Segoe UI&#39;, sans-serif;             background: linear-gradient">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://njuywy.github.io/my-blog/img/avatar.png">
+<meta property="article:published_time" content="2026-08-25T05:35:02.744Z">
+<meta property="article:modified_time" content="2026-08-25T05:35:02.744Z">
+<meta property="article:author" content="炜煜">
+<meta property="article:tag" content="技术, 生活, 编程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://njuywy.github.io/my-blog/img/avatar.png"><script type="application/ld+json"></script><link rel="shortcut icon" href="/my-blog/img/favicon.png"><link rel="canonical" href="https://njuywy.github.io/my-blog/games/sudoku.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/my-blog/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/my-blog/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '炜煜之博客',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'page'
+}</script><meta name="generator" content="Hexo 8.1.1"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/my-blog/img/avatar.png" onerror="this.onerror=null;this.src='/my-blog/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/my-blog/archives/"><div class="headline">文章</div><div class="length-num">3</div></a><a href="/my-blog/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/my-blog/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/my-blog/"><i class="fa-fw fas fa-map-location-dot"></i><span> Railway Map</span></a></div><div class="menus_item"><a class="site-page" href="/my-blog/blog/"><i class="fa-fw fas fa-newspaper"></i><span> Blog</span></a></div><div class="menus_item"><a class="site-page" href="/my-blog/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/my-blog/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/my-blog/categories/"><i class="fa-fw fas fa-th"></i><span> Categories</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="not-home-page" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/my-blog/"><span class="site-name">炜煜之博客</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/my-blog/"><i class="fa-fw fas fa-map-location-dot"></i><span> Railway Map</span></a></div><div class="menus_item"><a class="site-page" href="/my-blog/blog/"><i class="fa-fw fas fa-newspaper"></i><span> Blog</span></a></div><div class="menus_item"><a class="site-page" href="/my-blog/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/my-blog/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/my-blog/categories/"><i class="fa-fw fas fa-th"></i><span> Categories</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="page-site-info"><h1 id="site-title"></h1></div></header><main class="layout" id="content-inner"><div id="page"><div class="container" id="article-container"><!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔢 数独 - 炜煜之博客</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        h1 { color: #fff; margin-bottom: 15px; font-size: 2em; }
+        .game-container {
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+        }
+        canvas { border-radius: 10px; box-shadow: 0 0 30px rgba(253, 203, 110, 0.3); }
+        .side-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            min-width: 200px;
+        }
+        .info-box {
+            background: rgba(255,255,255,0.1);
+            padding: 15px 20px;
+            border-radius: 10px;
+            color: #fff;
+        }
+        .info-label { color: #aaa; font-size: 0.9em; }
+        .info-value { font-size: 1.5em; font-weight: bold; color: #fdcb6e; }
+        .difficulty-btns {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .diff-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .diff-btn.easy { background: #00b894; color: white; }
+        .diff-btn.medium { background: #fdcb6e; color: #333; }
+        .diff-btn.hard { background: #e17055; color: white; }
+        .diff-btn.active { outline: 3px solid #fff; }
+        .diff-btn:hover { transform: translateY(-2px); }
+        
+        .number-pad {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            margin-top: 15px;
+        }
+        .num-btn {
+            padding: 15px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .num-btn:hover { background: rgba(255,255,255,0.2); transform: scale(1.1); }
+        .num-btn.undo { background: #636e72; grid-column: span 5; }
+        .num-btn.erase { background: #d63031; grid-column: span 5; }
+        
+        .controls {
+            margin-top: 20px;
+            color: #aaa;
+            text-align: center;
+        }
+        .back-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            margin-top: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔢 数独</h1>
+    <div class="game-container">
+        <canvas id="gameCanvas" width="500" height="500"></canvas>
+        <div class="side-panel">
+            <div class="info-box">
+                <div class="info-label">难度</div>
+                <div class="difficulty-btns">
+                    <button class="diff-btn easy active" onclick="setDifficulty('easy')">简单</button>
+                    <button class="diff-btn medium" onclick="setDifficulty('medium')">中等</button>
+                    <button class="diff-btn hard" onclick="setDifficulty('hard')">困难</button>
+                </div>
+            </div>
+            <div class="info-box">
+                <div class="info-label">已用时间</div>
+                <div class="info-value" id="timer">00:00</div>
+            </div>
+            <div class="info-box">
+                <div class="info-label">提示次数</div>
+                <div class="info-value" id="hints">3</div>
+            </div>
+            <div class="info-box">
+                <div class="info-label">错误次数</div>
+                <div class="info-value" id="errors">0</div>
+            </div>
+            <div class="number-pad">
+                <button class="num-btn" onclick="inputNumber(1)">1</button>
+                <button class="num-btn" onclick="inputNumber(2)">2</button>
+                <button class="num-btn" onclick="inputNumber(3)">3</button>
+                <button class="num-btn" onclick="inputNumber(4)">4</button>
+                <button class="num-btn" onclick="inputNumber(5)">5</button>
+                <button class="num-btn" onclick="inputNumber(6)">6</button>
+                <button class="num-btn" onclick="inputNumber(7)">7</button>
+                <button class="num-btn" onclick="inputNumber(8)">8</button>
+                <button class="num-btn" onclick="inputNumber(9)">9</button>
+                <button class="num-btn" onclick="inputNumber(0)">0</button>
+                <button class="num-btn undo" onclick="undo()">↩️ 撤销</button>
+                <button class="num-btn erase" onclick="erase()">🗑️ 清除</button>
+            </div>
+        </div>
+    </div>
+    <div class="controls">
+        <p>🎯 点击格子 | ⌨️ 键盘输入 1-9 | 空格键显示候选数</p>
+    </div>
+    <a href="index.html" class="back-btn">← 返回游戏选择</a>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const CELL_SIZE = 500 / 9;
+        
+        let puzzle = [];
+        let solution = [];
+        let fixed = [];
+        let selected = { x: -1, y: -1 };
+        let history = [];
+        let hints = 3;
+        let errors = 0;
+        let startTime = null;
+        let timerInterval = null;
+        let difficulty = 'easy';
+        let candidates = {};
+        let showCandidates = false;
+        
+        function generateSudoku() {
+            // 生成完整数独
+            solution = Array(9).fill(null).map(() => Array(9).fill(0));
+            solve(solution);
+            
+            // 挖空
+            puzzle = solution.map(row => [...row]);
+            fixed = solution.map(row => [...row]);
+            
+            let attempts = difficulty === 'easy' ? 35 : difficulty === 'medium' ? 45 : 55;
+            while (attempts > 0) {
+                const x = Math.floor(Math.random() * 9);
+                const y = Math.floor(Math.random() * 9);
+                if (puzzle[y][x] !== 0) {
+                    puzzle[y][x] = 0;
+                    attempts--;
+                }
+            }
+            
+            // 重置固定数组
+            fixed = puzzle.map((row, y) => row.map((val, x) => val !== 0));
+        }
+        
+        function solve(board) {
+            for (let y = 0; y < 9; y++) {
+                for (let x = 0; x < 9; x++) {
+                    if (board[y][x] === 0) {
+                        const nums = [1,2,3,4,5,6,7,8,9];
+                        shuffle(nums);
+                        for (const num of nums) {
+                            if (isValid(board, x, y, num)) {
+                                board[y][x] = num;
+                                if (solve(board)) return true;
+                                board[y][x] = 0;
+                            }
+                        }
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+        
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+        
+        function isValid(board, x, y, num) {
+            for (let i = 0; i < 9; i++) {
+                if (board[y][i] === num || board[i][x] === num) return false;
+            }
+            const boxX = Math.floor(x / 3) * 3;
+            const boxY = Math.floor(y / 3) * 3;
+            for (let dy = 0; dy < 3; dy++) {
+                for (let dx = 0; dx < 3; dx++) {
+                    if (board[boxY + dy][boxX + dx] === num) return false;
+                }
+            }
+            return true;
+        }
+        
+        function draw() {
+            ctx.fillStyle = '#1a1a2e';
+            ctx.fillRect(0, 0, 500, 500);
+            
+            // 绘制格子
+            for (let y = 0; y < 9; y++) {
+                for (let x = 0; x < 9; x++) {
+                    const px = x * CELL_SIZE;
+                    const py = y * CELL_SIZE;
+                    
+                    // 背景
+                    ctx.fillStyle = ((x + y) % 2 === 0) ? '#2d3436' : '#363c44';
+                    ctx.fillRect(px, py, CELL_SIZE, CELL_SIZE);
+                    
+                    // 选中高亮
+                    if (selected.x === x && selected.y === y) {
+                        ctx.fillStyle = 'rgba(253, 203, 110, 0.4)';
+                        ctx.fillRect(px, py, CELL_SIZE, CELL_SIZE);
+                    }
+                    
+                    // 数字
+                    if (puzzle[y][x] !== 0) {
+                        ctx.fillStyle = fixed[y][x] ? '#74b9ff' : '#fdcb6e';
+                        ctx.font = `bold ${CELL_SIZE * 0.6}px Arial`;
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillText(puzzle[y][x], px + CELL_SIZE/2, py + CELL_SIZE/2);
+                    } else if (showCandidates && candidates[`${x},${y}`]) {
+                        ctx.fillStyle = '#636e72';
+                        ctx.font = `${CELL_SIZE * 0.2}px Arial`;
+                        const cands = candidates[`${x},${y}`].join(' ');
+                        ctx.fillText(cands, px + CELL_SIZE/2, py + CELL_SIZE/2);
+                    }
+                }
+            }
+            
+            // 绘制边框
+            ctx.strokeStyle = '#fff';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(0, 0, 500, 500);
+            
+            // 3x3 边框
+            ctx.lineWidth = 3;
+            for (let i = 1; i < 9; i++) {
+                ctx.beginPath();
+                ctx.moveTo(i * CELL_SIZE * 3, 0);
+                ctx.lineTo(i * CELL_SIZE * 3, 500);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(0, i * CELL_SIZE * 3);
+                ctx.lineTo(500, i * CELL_SIZE * 3);
+                ctx.stroke();
+            }
+            
+            requestAnimationFrame(draw);
+        }
+        
+        function inputNumber(num) {
+            if (selected.x < 0 || selected.y < 0) return;
+            if (fixed[selected.y][selected.x]) return;
+            
+            // 记录历史
+            history.push({
+                x: selected.x,
+                y: selected.y,
+                oldValue: puzzle[selected.y][selected.x],
+                newValue: num
+            });
+            
+            const oldValue = puzzle[selected.y][selected.x];
+            puzzle[selected.y][selected.x] = num;
+            
+            if (num !== 0 && num !== solution[selected.y][selected.x]) {
+                errors++;
+                document.getElementById('errors').textContent = errors;
+            }
+            
+            checkWin();
+        }
+        
+        function undo() {
+            if (history.length > 0) {
+                const last = history.pop();
+                puzzle[last.y][last.x] = last.oldValue;
+            }
+        }
+        
+        function erase() {
+            inputNumber(0);
+        }
+        
+        function hint() {
+            if (hints <= 0) return;
+            
+            // 找到一个空格
+            const empty = [];
+            for (let y = 0; y < 9; y++) {
+                for (let x = 0; x < 9; x++) {
+                    if (puzzle[y][x] === 0) empty.push({x, y});
+                }
+            }
+            
+            if (empty.length > 0) {
+                const pos = empty[Math.floor(Math.random() * empty.length)];
+                const correct = solution[pos.y][pos.x];
+                puzzle[pos.y][pos.x] = correct;
+                history.push({
+                    x: pos.x, y: pos.y, oldValue: 0, newValue: correct
+                });
+                hints--;
+                document.getElementById('hints').textContent = hints;
+                checkWin();
+            }
+        }
+        
+        function checkWin() {
+            for (let y = 0; y < 9; y++) {
+                for (let x = 0; x < 9; x++) {
+                    if (puzzle[y][x] === 0 || puzzle[y][x] !== solution[y][x]) {
+                        return;
+                    }
+                }
+            }
+            clearInterval(timerInterval);
+            
+            // 绘制胜利画面
+            ctx.fillStyle = 'rgba(0,0,0,0.8)';
+            ctx.fillRect(0, 0, 500, 500);
+            ctx.fillStyle = '#00b894';
+            ctx.font = 'bold 50px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('🎉 完成!', 250, 220);
+            ctx.fillStyle = '#fff';
+            ctx.font = '25px Arial';
+            ctx.fillText(`用时: ${document.getElementById('timer').textContent}`, 250, 280);
+            ctx.fillText(`错误: ${errors}次`, 250, 320);
+        }
+        
+        function setDifficulty(diff) {
+            difficulty = diff;
+            document.querySelectorAll('.diff-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.diff-btn.${diff}`).classList.add('active');
+            resetGame();
+        }
+        
+        function resetGame() {
+            puzzle = [];
+            solution = [];
+            fixed = [];
+            selected = {x: -1, y: -1};
+            history = [];
+            hints = 3;
+            errors = 0;
+            showCandidates = false;
+            document.getElementById('hints').textContent = hints;
+            document.getElementById('errors').textContent = errors;
+            generateSudoku();
+            startTimer();
+        }
+        
+        function startTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+            startTime = Date.now();
+            timerInterval = setInterval(() => {
+                const elapsed = Math.floor((Date.now() - startTime) / 1000);
+                const min = Math.floor(elapsed / 60).toString().padStart(2, '0');
+                const sec = (elapsed % 60).toString().padStart(2, '0');
+                document.getElementById('timer').textContent = `${min}:${sec}`;
+            }, 1000);
+        }
+        
+        // 事件监听
+        canvas.addEventListener('click', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const x = Math.floor((e.clientX - rect.left) / CELL_SIZE);
+            const y = Math.floor((e.clientY - rect.top) / CELL_SIZE);
+            if (x >= 0 && x < 9 && y >= 0 && y < 9) {
+                selected = {x, y};
+            }
+        });
+        
+        document.addEventListener('keydown', (e) => {
+            if (e.key >= '1' && e.key <= '9') {
+                inputNumber(parseInt(e.key));
+            } else if (e.key === '0' || e.key === 'Backspace') {
+                erase();
+            } else if (e.key === ' ') {
+                showCandidates = !showCandidates;
+            } else if (e.key === 'z' && (e.ctrlKey || e.metaKey)) {
+                undo();
+            } else if (e.key === 'h') {
+                hint();
+            }
+        });
+        
+        generateSudoku();
+        startTimer();
+        draw();
+    </script>
+
+<!-- 彩蛋脚本：连续点击头像3次进入游戏页面 -->
+<style>
+.avatar-click-counter {
+    position: fixed !important;
+    top: 20px !important;
+    right: 20px !important;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: white !important;
+    padding: 15px 25px !important;
+    border-radius: 15px !important;
+    font-size: 16px !important;
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4) !important;
+    z-index: 9999 !important;
+    opacity: 0 !important;
+    transition: opacity 0.3s !important;
+    cursor: pointer !important;
+}
+.avatar-click-counter.show {
+    opacity: 1 !important;
+    animation: pulse 0.5s ease-in-out;
+}
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+.easter-egg-success {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    background: linear-gradient(135deg, #00b894 0%, #00cec9 100%) !important;
+    color: white !important;
+    padding: 30px 50px !important;
+    border-radius: 20px !important;
+    font-size: 24px !important;
+    font-weight: bold !important;
+    box-shadow: 0 10px 40px rgba(0, 184, 148, 0.5) !important;
+    z-index: 10000 !important;
+    text-align: center !important;
+    animation: bounceIn 0.5s ease-out !important;
+}
+@keyframes bounceIn {
+    0% { transform: translate(-50%, -50%) scale(0); }
+    50% { transform: translate(-50%, -50%) scale(1.1); }
+    100% { transform: translate(-50%, -50%) scale(1); }
+}
+</style>
+<script>
+(function(){
+    var clickCount = 0;
+    var clickTimer = null;
+    var avatarArea = document.querySelector('.avatar-img') || document.querySelector('#aside-profile') || document.querySelector('.author-info');
+    var counter = null;
+    var successShown = false;
+    
+    if (!avatarArea) return;
+    
+    avatarArea.style.cursor = 'pointer';
+    avatarArea.title = '🎮 连续点击3次进入游戏页面！';
+    
+    avatarArea.addEventListener('click', function(e){
+        if (successShown) return;
+        
+        clickCount++;
+        
+        // 显示计数器
+        if (!counter) {
+            counter = document.createElement('div');
+            counter.className = 'avatar-click-counter';
+            counter.innerHTML = '🎮 已点击 <span id="clickNum">0</span>/3 次';
+            document.body.appendChild(counter);
+        }
+        
+        document.getElementById('clickNum').textContent = clickCount;
+        counter.classList.add('show');
+        
+        // 视觉反馈
+        avatarArea.style.transition = 'transform 0.1s';
+        avatarArea.style.transform = 'scale(0.95)';
+        setTimeout(function(){
+            avatarArea.style.transform = 'scale(1)';
+        }, 100);
+        
+        // 清除之前的定时器
+        if (clickTimer) clearTimeout(clickTimer);
+        
+        // 检查是否达到3次
+        if (clickCount >= 3) {
+            successShown = true;
+            
+            // 显示成功提示
+            var success = document.createElement('div');
+            success.className = 'easter-egg-success';
+            success.innerHTML = '🎉 恭喜触发彩蛋！<br><br>正在进入游戏页面...';
+            document.body.appendChild(success);
+            
+            // 3秒后跳转
+            setTimeout(function(){
+                window.location.href = '/my-blog/games/';
+            }, 1500);
+            
+            // 移除计数器
+            if (counter) {
+                counter.classList.remove('show');
+                setTimeout(function(){ counter.remove(); }, 300);
+            }
+        } else {
+            // 重置计时器
+            clickTimer = setTimeout(function(){
+                clickCount = 0;
+                if (counter) {
+                    counter.classList.remove('show');
+                    document.getElementById('clickNum').textContent = '0';
+                }
+            }, 3000);
+        }
+    });
+    
+    // 本地存储状态
+    try {
+        var savedState = localStorage.getItem('avatarEasterEgg');
+        if (savedState === 'triggered') {
+            // 已经触发过，显示简短提示
+            var hint = document.createElement('div');
+            hint.className = 'avatar-click-counter show';
+            hint.innerHTML = '🎮 <a href="/my-blog/games/" style="color:white;text-decoration:underline;">点击这里进入游戏页面</a>';
+            document.body.appendChild(hint);
+        }
+    } catch(e) {}
+})();
+</script>
+</body>
+</html>
+</div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/my-blog/img/avatar.png" onerror="this.onerror=null;this.src='/my-blog/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">炜煜</div><div class="author-info-description">个人博客，分享技术与生活</div><div class="site-data"><a href="/my-blog/archives/"><div class="headline">文章</div><div class="length-num">3</div></a><a href="/my-blog/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/my-blog/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/你的用户名" target="_blank" title="GitHub"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:your@email.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/my-blog/2026/01/30/jaxb-docs/" title="JAXB使用文档">JAXB使用文档</a><time datetime="2026-01-30T07:30:00.000Z" title="发表于 2026-01-30 15:30:00">2026-01-30</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/my-blog/2026/01/30/hello-world/" title="你好，世界！">你好，世界！</a><time datetime="2026-01-30T06:00:00.000Z" title="发表于 2026-01-30 14:00:00">2026-01-30</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/my-blog/2026/01/30/20260130-work-log/" title="20260130-数智公司">20260130-数智公司</a><time datetime="2026-01-30T06:00:00.000Z" title="发表于 2026-01-30 14:00:00">2026-01-30</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>分类</span>
+            
+          </div>
+          <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/my-blog/categories/%E5%B7%A5%E4%BD%9C%E8%AE%B0%E5%BD%95/"><span class="card-category-list-name">工作记录</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/my-blog/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3/"><span class="card-category-list-name">技术文档</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/my-blog/categories/%E9%9A%8F%E7%AC%94/"><span class="card-category-list-name">随笔</span><span class="card-category-list-count">1</span></a></li>
+          </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/my-blog/tags/Java/" style="font-size: 1.1em; color: #999">Java</a> <a href="/my-blog/tags/Vue3/" style="font-size: 1.1em; color: #999">Vue3</a> <a href="/my-blog/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 1.1em; color: #999">博客</a> <a href="/my-blog/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" style="font-size: 1.1em; color: #999">学习笔记</a> <a href="/my-blog/tags/XML/" style="font-size: 1.1em; color: #999">XML</a> <a href="/my-blog/tags/Hexo/" style="font-size: 1.1em; color: #999">Hexo</a> <a href="/my-blog/tags/MySQL/" style="font-size: 1.1em; color: #999">MySQL</a> <a href="/my-blog/tags/JAXB/" style="font-size: 1.1em; color: #999">JAXB</a></div></div><div class="card-widget card-archives">
+    <div class="item-headline">
+      <i class="fas fa-archive"></i>
+      <span>归档</span>
+      
+    </div>
+  
+    <ul class="card-archive-list">
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/my-blog/archives/2026/01/">
+            <span class="card-archive-list-date">
+              一月 2026
+            </span>
+            <span class="card-archive-list-count">3</span>
+          </a>
+        </li>
+      
+    </ul>
+  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">3</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总浏览量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2026-08-25T06:02:40.870Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 炜煜</span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/my-blog/js/utils.js?v=5.5.4"></script><script src="/my-blog/js/main.js?v=5.5.4"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

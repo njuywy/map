@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="南通港通海港区至通州湾港区铁路专用线交互式卫星地图" />
+    <title>通海铁路专用线交互式地图</title>
+    <link rel="stylesheet" href="vendor/leaflet/leaflet.css" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="vendor/leaflet/leaflet.js" defer></script>
+    <script src="config.js" defer></script>
+    <script src="map-data.js" defer></script>
+    <script src="map-utils.js" defer></script>
+    <script src="cache-utils.js" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <main class="map-page">
+      <section class="map-square" aria-label="铁路专用线正方形地图">
+        <div id="map" role="application" aria-label="可缩放和拖动的铁路卫星地图"></div>
+
+        <header class="map-heading">
+          <p>TIANDITU · NANTONG</p>
+          <h1>通海铁路专用线（一期）</h1>
+          <span>海门站—通海港站 · 24.481 km · <b id="point-count">正在加载点位…</b></span>
+        </header>
+
+        <nav class="map-actions" aria-label="地图操作">
+          <a href="blog/">博客文章</a>
+          <button type="button" id="show-point">显示全部点位</button>
+          <button type="button" id="fit-route">显示全线</button>
+          <button type="button" id="cache-settings-toggle" aria-expanded="false" aria-controls="settings-panel">缓存设置</button>
+        </nav>
+
+        <aside id="settings-panel" class="settings-panel" aria-labelledby="settings-title" hidden>
+          <div class="settings-heading">
+            <div>
+              <p>ONLINE MAP</p>
+              <h2 id="settings-title">天地图与缓存设置</h2>
+            </div>
+            <button type="button" id="close-settings" aria-label="关闭设置">×</button>
+          </div>
+
+          <section class="setting-group">
+            <div class="setting-title-row">
+              <h3>瓦片缓存</h3>
+              <label class="switch">
+                <input id="cache-enabled" type="checkbox" checked />
+                <span aria-hidden="true"></span>
+                <b>启用</b>
+              </label>
+            </div>
+            <div class="setting-grid">
+              <label for="cache-days">保存天数
+                <input id="cache-days" type="number" min="1" max="365" value="30" />
+              </label>
+              <label for="cache-limit">最大瓦片数
+                <input id="cache-limit" type="number" min="100" max="10000" step="100" value="2000" />
+              </label>
+            </div>
+            <div class="cache-summary">
+              <span id="cache-stats">正在读取缓存…</span>
+              <button type="button" id="clear-cache">清除缓存</button>
+            </div>
+            <p id="cache-message" class="setting-message" role="status"></p>
+          </section>
+
+          <section class="setting-group">
+            <div class="setting-title-row">
+              <h3>在线影像</h3>
+              <span id="map-mode" class="status-badge">本地影像</span>
+            </div>
+            <label for="token-input">天地图浏览器端 Token</label>
+            <div class="token-row">
+              <input id="token-input" type="password" autocomplete="off" placeholder="可选" />
+              <button type="button" id="enable-online">启用在线影像</button>
+            </div>
+            <p id="online-message" class="setting-message" role="status"></p>
+          </section>
+
+          <p class="settings-note">缓存仅保存浏览过的在线影像瓦片；Token 不写入缓存键。使用本地影像时不会调用天地图 API。</p>
+        </aside>
+
+        <div class="legend"><span></span>铁路专用线公开线位</div>
+        <div class="map-help">滚轮缩放 · 拖动地图 · 点击任一红色点位查看经纬度</div>
+        <footer class="attribution">影像 © 天地图　线路 © OpenStreetMap contributors</footer>
+      </section>
+    </main>
+  </body>
+</html>

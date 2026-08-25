@@ -1,0 +1,951 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>炜煜之博客 | 炜煜之博客</title><meta name="author" content="炜煜"><meta name="copyright" content="炜煜"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="💎 宝石迷阵 - 炜煜之博客              * { margin: 0; padding: 0; box-sizing: border-box; }         body {             font-family: &#39;Segoe UI&#39;, sans-serif;             background: linear-gradie">
+<meta property="og:type" content="website">
+<meta property="og:title" content="炜煜之博客">
+<meta property="og:url" content="https://njuywy.github.io/my-blog/games/bejeweled.html">
+<meta property="og:site_name" content="炜煜之博客">
+<meta property="og:description" content="💎 宝石迷阵 - 炜煜之博客              * { margin: 0; padding: 0; box-sizing: border-box; }         body {             font-family: &#39;Segoe UI&#39;, sans-serif;             background: linear-gradie">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://njuywy.github.io/my-blog/img/avatar.png">
+<meta property="article:published_time" content="2026-08-25T05:35:02.744Z">
+<meta property="article:modified_time" content="2026-08-25T05:35:02.744Z">
+<meta property="article:author" content="炜煜">
+<meta property="article:tag" content="技术, 生活, 编程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://njuywy.github.io/my-blog/img/avatar.png"><script type="application/ld+json"></script><link rel="shortcut icon" href="/my-blog/img/favicon.png"><link rel="canonical" href="https://njuywy.github.io/my-blog/games/bejeweled.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/my-blog/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/my-blog/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '炜煜之博客',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'page'
+}</script><meta name="generator" content="Hexo 8.1.1"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/my-blog/img/avatar.png" onerror="this.onerror=null;this.src='/my-blog/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/my-blog/archives/"><div class="headline">文章</div><div class="length-num">3</div></a><a href="/my-blog/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/my-blog/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/my-blog/"><i class="fa-fw fas fa-map-location-dot"></i><span> Railway Map</span></a></div><div class="menus_item"><a class="site-page" href="/my-blog/blog/"><i class="fa-fw fas fa-newspaper"></i><span> Blog</span></a></div><div class="menus_item"><a class="site-page" href="/my-blog/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/my-blog/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/my-blog/categories/"><i class="fa-fw fas fa-th"></i><span> Categories</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="not-home-page" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/my-blog/"><span class="site-name">炜煜之博客</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/my-blog/"><i class="fa-fw fas fa-map-location-dot"></i><span> Railway Map</span></a></div><div class="menus_item"><a class="site-page" href="/my-blog/blog/"><i class="fa-fw fas fa-newspaper"></i><span> Blog</span></a></div><div class="menus_item"><a class="site-page" href="/my-blog/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/my-blog/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/my-blog/categories/"><i class="fa-fw fas fa-th"></i><span> Categories</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="page-site-info"><h1 id="site-title"></h1></div></header><main class="layout" id="content-inner"><div id="page"><div class="container" id="article-container"><!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💎 宝石迷阵 - 炜煜之博客</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        h1 { color: #fff; margin-bottom: 15px; font-size: 2em; }
+        .game-container {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+        }
+        canvas { border-radius: 10px; box-shadow: 0 0 30px rgba(253, 203, 110, 0.3); }
+        .side-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            min-width: 200px;
+        }
+        .info-box {
+            background: rgba(255,255,255,0.1);
+            padding: 15px 20px;
+            border-radius: 10px;
+            color: #fff;
+        }
+        .info-label { color: #aaa; font-size: 0.9em; }
+        .info-value { font-size: 1.5em; font-weight: bold; color: #fdcb6e; }
+        .combo-bar {
+            width: 100%;
+            height: 10px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        .combo-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #fdcb6e, #e17055);
+            width: 0%;
+            transition: width 0.3s;
+        }
+        .power-ups {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .power-btn {
+            width: 50px;
+            height: 50px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.5em;
+            transition: all 0.3s;
+        }
+        .power-btn:hover { transform: scale(1.1); }
+        .power-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .controls {
+            margin-top: 20px;
+            color: #aaa;
+            text-align: center;
+        }
+        .back-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            margin-top: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>💎 宝石迷阵</h1>
+    <div class="game-container">
+        <canvas id="gameCanvas" width="480" height="560"></canvas>
+        <div class="side-panel">
+            <div class="info-box">
+                <div class="info-label">分数</div>
+                <div class="info-value" id="score">0</div>
+            </div>
+            <div class="info-box">
+                <div class="info-label">连击</div>
+                <div class="info-value" id="combo">0</div>
+                <div class="combo-bar">
+                    <div class="combo-fill" id="comboFill"></div>
+                </div>
+            </div>
+            <div class="info-box">
+                <div class="info-label">等级</div>
+                <div class="info-value" id="level">1</div>
+            </div>
+            <div class="info-box">
+                <div class="info-label">目标分数</div>
+                <div class="info-value" id="target">1000</div>
+            </div>
+            <div class="info-box">
+                <div class="info-label">特殊道具</div>
+                <div class="power-ups">
+                    <button class="power-btn" id="bombBtn" onclick="useBomb()" disabled>💣</button>
+                    <button class="power-btn" id="colorBtn" onclick="useColor()" disabled>🌈</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="controls">
+        <p>🖱️ 点击交换相邻宝石 | 💎 3个以上相同消除 | ⭐ 4个产生爆炸宝石 | 💫 5个产生彩虹宝石</p>
+    </div>
+    <a href="index.html" class="back-btn">← 返回游戏选择</a>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        const ROWS = 8;
+        const COLS = 8;
+        const GEM_SIZE = 50;
+        const OFFSET_X = 40;
+        const OFFSET_Y = 60;
+        
+        const GEMS = [
+            { color: '#e74c3c', shape: '🔴' },  // 红
+            { color: '#3498db', shape: '💎' },  // 蓝
+            { color: '#2ecc71', shape: '💚' },  // 绿
+            { color: '#f1c40f', shape: '⭐' },  // 黄
+            { color: '#9b59b6', shape: '🔮' },  // 紫
+            { color: '#e67e22', shape: '🔶' },  // 橙
+            { color: '#1abc9c', shape: '💠' },  // 青
+        ];
+        
+        let board = [];
+        let selected = null;
+        let score = 0;
+        let combo = 0;
+        let level = 1;
+        let targetScore = 1000;
+        let gameOver = false;
+        let isAnimating = false;
+        let specialGems = [];
+        let bombCount = 0;
+        let colorBombCount = 0;
+        let fallingGems = [];
+        let particles = [];
+        
+        function initBoard() {
+            board = [];
+            for (let r = 0; r < ROWS; r++) {
+                board[r] = [];
+                for (let c = 0; c < COLS; c++) {
+                    board[r][c] = createRandomGem(r, c);
+                }
+            }
+            // 消除初始匹配
+            while (findMatches().length > 0) {
+                const matches = findMatches();
+                matches.forEach(({r, c}) => {
+                    board[r][c] = createRandomGem(r, c);
+                });
+            }
+            score = 0;
+            combo = 0;
+            level = 1;
+            targetScore = 1000;
+            bombCount = 3;
+            colorBombCount = 1;
+            updateUI();
+        }
+        
+        function createRandomGem(row, col) {
+            const type = Math.floor(Math.random() * GEMS.length);
+            return {
+                type: type,
+                special: null,
+                animOffset: 0,
+                scale: 1
+            };
+        }
+        
+        function drawGem(x, y, gem, scale = 1) {
+            const cx = x + GEM_SIZE / 2;
+            const cy = y + GEM_SIZE / 2;
+            
+            ctx.save();
+            ctx.translate(cx, cy);
+            ctx.scale(scale, scale);
+            ctx.translate(-GEM_SIZE / 2, -GEM_SIZE / 2);
+            
+            // 宝石背景
+            const gradient = ctx.createRadialGradient(GEM_SIZE/3, GEM_SIZE/3, 0, GEM_SIZE/2, GEM_SIZE/2, GEM_SIZE/2);
+            gradient.addColorStop(0, GEMS[gem.type].color);
+            gradient.addColorStop(1, shadeColor(GEMS[gem.type].color, -30));
+            ctx.fillStyle = gradient;
+            
+            ctx.beginPath();
+            ctx.roundRect(5, 5, GEM_SIZE - 10, GEM_SIZE - 10, 8);
+            ctx.fill();
+            
+            // 高光
+            ctx.fillStyle = 'rgba(255,255,255,0.3)';
+            ctx.beginPath();
+            ctx.roundRect(8, 8, GEM_SIZE - 25, GEM_SIZE/3, 4);
+            ctx.fill();
+            
+            // 特殊宝石效果
+            if (gem.special === 'bomb') {
+                ctx.strokeStyle = '#ff6b6b';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.arc(GEM_SIZE/2, GEM_SIZE/2, GEM_SIZE/3, 0, Math.PI * 2);
+                ctx.stroke();
+                ctx.font = '20px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillStyle = '#ff6b6b';
+                ctx.fillText('💣', GEM_SIZE/2, GEM_SIZE/2);
+            } else if (gem.special === 'color') {
+                const angle = Date.now() / 200;
+                const hue = (angle * 50) % 360;
+                ctx.strokeStyle = `hsl(${hue}, 70%, 60%)`;
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.arc(GEM_SIZE/2, GEM_SIZE/2, GEM_SIZE/3, 0, Math.PI * 2);
+                ctx.stroke();
+                ctx.font = '20px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillStyle = '#fff';
+                ctx.fillText('🌈', GEM_SIZE/2, GEM_SIZE/2);
+            } else {
+                ctx.font = '28px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(GEMS[gem.type].shape, GEM_SIZE/2, GEM_SIZE/2 + 2);
+            }
+            
+            ctx.restore();
+        }
+        
+        function shadeColor(color, percent) {
+            const num = parseInt(color.replace('#', ''), 16);
+            const amt = Math.round(2.55 * percent);
+            const R = (num >> 16) + amt;
+            const G = (num >> 8 & 0x00FF) + amt;
+            const B = (num & 0x0000FF) + amt;
+            return '#' + (0x1000000 + (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 + 
+                (G < 255 ? G < 1 ? 0 : G : 255) * 0x100 + 
+                (B < 255 ? B < 1 ? 0 : B : 255)).toString(16).slice(1);
+        }
+        
+        function draw() {
+            ctx.fillStyle = '#0a0a0a';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // 绘制棋盘
+            for (let r = 0; r < ROWS; r++) {
+                for (let c = 0; c < COLS; c++) {
+                    const x = OFFSET_X + c * GEM_SIZE;
+                    const y = OFFSET_Y + r * GEM_SIZE;
+                    
+                    // 棋盘格
+                    ctx.fillStyle = (r + c) % 2 === 0 ? '#1a1a2e' : '#252540';
+                    ctx.fillRect(x, y, GEM_SIZE, GEM_SIZE);
+                    
+                    // 选中高亮
+                    if (selected && selected.row === r && selected.col === c) {
+                        ctx.strokeStyle = '#fdcb6e';
+                        ctx.lineWidth = 3;
+                        ctx.strokeRect(x + 2, y + 2, GEM_SIZE - 4, GEM_SIZE - 4);
+                    }
+                    
+                    // 绘制宝石
+                    if (board[r][c]) {
+                        drawGem(x, y, board[r][c]);
+                    }
+                }
+            }
+            
+            // 动画宝石
+            fallingGems.forEach(gem => {
+                const x = OFFSET_X + gem.col * GEM_SIZE;
+                const y = OFFSET_Y + gem.row * GEM_SIZE + gem.offset;
+                drawGem(x, y, gem);
+            });
+            
+            // 粒子效果
+            particles.forEach(p => {
+                ctx.globalAlpha = p.life / 30;
+                ctx.fillStyle = p.color;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            ctx.globalAlpha = 1;
+            
+            // 更新粒子
+            particles = particles.filter(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vy += 0.2;
+                p.life--;
+                return p.life > 0;
+            });
+            
+            // 游戏结束
+            if (gameOver) {
+                ctx.fillStyle = 'rgba(0,0,0,0.8)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = score >= targetScore ? '#00b894' : '#ff6b6b';
+                ctx.font = 'bold 40px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(score >= targetScore ? '🎉 关卡完成!' : '💔 游戏结束', canvas.width/2, canvas.height/2 - 30);
+                ctx.fillStyle = '#fff';
+                ctx.font = '25px Arial';
+                ctx.fillText(`最终分数: ${score}`, canvas.width/2, canvas.height/2 + 20);
+            }
+            
+            requestAnimationFrame(draw);
+        }
+        
+        function getGemAt(x, y) {
+            const col = Math.floor((x - OFFSET_X) / GEM_SIZE);
+            const row = Math.floor((y - OFFSET_Y) / GEM_SIZE);
+            if (col >= 0 && col < COLS && row >= 0 && row < ROWS) {
+                return { row, col };
+            }
+            return null;
+        }
+        
+        function areAdjacent(g1, g2) {
+            const dr = Math.abs(g1.row - g2.row);
+            const dc = Math.abs(g1.col - g2.col);
+            return (dr === 1 && dc === 0) || (dr === 0 && dc === 1);
+        }
+        
+        function swap(g1, g2) {
+            const temp = board[g1.row][g1.col];
+            board[g1.row][g1.col] = board[g2.row][g2.col];
+            board[g2.row][g2.col] = temp;
+        }
+        
+        function findMatches() {
+            const matches = [];
+            
+            // 水平匹配
+            for (let r = 0; r < ROWS; r++) {
+                for (let c = 0; c < COLS - 2; c++) {
+                    const type = board[r][c].type;
+                    if (type === board[r][c+1].type && type === board[r][c+2].type) {
+                        let length = 3;
+                        while (c + length < COLS && board[r][c+length].type === type) {
+                            length++;
+                        }
+                        for (let i = 0; i < length; i++) {
+                            matches.push({ row: r, col: c + i });
+                        }
+                        c += length - 1;
+                    }
+                }
+            }
+            
+            // 垂直匹配
+            for (let c = 0; c < COLS; c++) {
+                for (let r = 0; r < ROWS - 2; r++) {
+                    const type = board[r][c].type;
+                    if (type === board[r+1][c].type && type === board[r+2][c].type) {
+                        let length = 3;
+                        while (r + length < ROWS && board[r+length][c].type === type) {
+                            length++;
+                        }
+                        for (let i = 0; i < length; i++) {
+                            const pos = { row: r + i, col: c };
+                            if (!matches.some(m => m.row === pos.row && m.col === pos.col)) {
+                                matches.push(pos);
+                            }
+                        }
+                        r += length - 1;
+                    }
+                }
+            }
+            
+            return matches;
+        }
+        
+        function removeMatches(matches) {
+            matches.forEach(({ row, col }) => {
+                const gem = board[row][col];
+                // 创建粒子
+                for (let i = 0; i < 10; i++) {
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = Math.random() * 5 + 2;
+                    particles.push({
+                        x: OFFSET_X + col * GEM_SIZE + GEM_SIZE / 2,
+                        y: OFFSET_Y + row * GEM_SIZE + GEM_SIZE / 2,
+                        vx: Math.cos(angle) * speed,
+                        vy: Math.sin(angle) * speed,
+                        life: 30,
+                        color: GEMS[gem.type].color,
+                        size: Math.random() * 5 + 2
+                    });
+                }
+                board[row][col] = null;
+            });
+        }
+        
+        function applyGravity() {
+            for (let c = 0; c < COLS; c++) {
+                let emptyRow = ROWS - 1;
+                for (let r = ROWS - 1; r >= 0; r--) {
+                    if (board[r][c] !== null) {
+                        if (r !== emptyRow) {
+                            board[emptyRow][c] = board[r][c];
+                            board[r][c] = null;
+                        }
+                        emptyRow--;
+                    }
+                }
+                // 填充新宝石
+                for (let r = emptyRow; r >= 0; r--) {
+                    board[r][c] = createRandomGem(r, c);
+                }
+            }
+        }
+        
+        function checkMatches() {
+            const matches = findMatches();
+            if (matches.length >= 3) {
+                combo++;
+                const baseScore = matches.length * 10 * combo;
+                score += baseScore;
+                
+                // 检查是否产生特殊宝石
+                const horMatches = {};
+                const verMatches = {};
+                matches.forEach(({ row, col }) => {
+                    horMatches[row] = (horMatches[row] || 0) + 1;
+                    verMatches[col] = (verMatches[col] || 0) + 1;
+                });
+                
+                // 4个或以上产生炸弹
+                Object.entries(horMatches).forEach(([r, count]) => {
+                    if (count >= 4) {
+                        const col = matches.find(m => m.row == r).col;
+                        board[r][col] = { type: Math.floor(Math.random() * GEMS.length), special: 'bomb' };
+                    }
+                });
+                Object.entries(verMatches).forEach(([c, count]) => {
+                    if (count >= 4) {
+                        const row = matches.find(m => m.col == c).row;
+                        board[row][c] = { type: Math.floor(Math.random() * GEMS.length), special: 'bomb' };
+                    }
+                });
+                
+                // 5个产生彩虹
+                if (matches.length >= 5) {
+                    const center = matches[Math.floor(matches.length / 2)];
+                    board[center.row][center.col] = { type: 0, special: 'color' };
+                }
+                
+                removeMatches(matches);
+                updateUI();
+                
+                setTimeout(() => {
+                    applyGravity();
+                    setTimeout(() => checkMatches(), 200);
+                }, 200);
+            } else {
+                combo = 0;
+                // 检查是否有合法移动
+                if (!hasValidMoves()) {
+                    shuffleBoard();
+                }
+            }
+            updateUI();
+        }
+        
+        function hasValidMoves() {
+            for (let r = 0; r < ROWS; r++) {
+                for (let c = 0; c < COLS; c++) {
+                    // 尝试向右交换
+                    if (c < COLS - 1) {
+                        swap({ row: r, col: c }, { row: r, col: c + 1 });
+                        if (findMatches().length > 0) {
+                            swap({ row: r, col: c }, { row: r, col: c + 1 });
+                            return true;
+                        }
+                        swap({ row: r, col: c }, { row: r, col: c + 1 });
+                    }
+                    // 尝试向下交换
+                    if (r < ROWS - 1) {
+                        swap({ row: r, col: c }, { row: r + 1, col: c });
+                        if (findMatches().length > 0) {
+                            swap({ row: r, col: c }, { row: r + 1, col: c });
+                            return true;
+                        }
+                        swap({ row: r, col: c }, { row: r + 1, col: c });
+                    }
+                }
+            }
+            return false;
+        }
+        
+        function shuffleBoard() {
+            // 打乱棋盘
+            const gems = board.flat();
+            for (let i = gems.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [gems[i], gems[j]] = [gems[j], gems[i]];
+            }
+            for (let r = 0; r < ROWS; r++) {
+                for (let c = 0; c < COLS; c++) {
+                    board[r][c] = gems[r * COLS + c];
+                }
+            }
+            // 重新检查
+            if (!hasValidMoves()) {
+                initBoard();
+            }
+        }
+        
+        function updateUI() {
+            document.getElementById('score').textContent = score;
+            document.getElementById('combo').textContent = combo;
+            document.getElementById('level').textContent = level;
+            document.getElementById('target').textContent = targetScore;
+            document.getElementById('comboFill').style.width = Math.min(combo * 20, 100) + '%';
+            document.getElementById('bombBtn').disabled = bombCount <= 0;
+            document.getElementById('bombBtn').textContent = `💣${bombCount}`;
+            document.getElementById('colorBtn').disabled = colorBombCount <= 0;
+            document.getElementById('colorBtn').textContent = `🌈${colorBombCount}`;
+        }
+        
+        function useBomb() {
+            if (bombCount <= 0 || !selected || isAnimating) return;
+            bombCount--;
+            
+            // 消除周围宝石
+            const { row, col } = selected;
+            for (let dr = -1; dr <= 1; dr++) {
+                for (let dc = -1; dc <= 1; dc++) {
+                    const nr = row + dr;
+                    const nc = col + dc;
+                    if (nr >= 0 && nr < ROWS && nc >= 0 && nc < COLS && board[nr][nc]) {
+                        for (let i = 0; i < 15; i++) {
+                            const angle = Math.random() * Math.PI * 2;
+                            const speed = Math.random() * 5 + 2;
+                            particles.push({
+                                x: OFFSET_X + nc * GEM_SIZE + GEM_SIZE / 2,
+                                y: OFFSET_Y + nr * GEM_SIZE + GEM_SIZE / 2,
+                                vx: Math.cos(angle) * speed,
+                                vy: Math.sin(angle) * speed,
+                                life: 30,
+                                color: GEMS[board[nr][nc].type].color,
+                                size: Math.random() * 5 + 2
+                            });
+                        }
+                        board[nr][nc] = null;
+                    }
+                }
+            }
+            score += 50;
+            updateUI();
+            applyGravity();
+            setTimeout(checkMatches, 300);
+        }
+        
+        function useColor() {
+            if (colorBombCount <= 0 || !selected || isAnimating) return;
+            colorBombCount--;
+            
+            // 消除所有指定颜色
+            const { row, col } = selected;
+            const targetType = board[row][col].type;
+            
+            for (let r = 0; r < ROWS; r++) {
+                for (let c = 0; c < COLS; c++) {
+                    if (board[r][c] && board[r][c].type === targetType) {
+                        for (let i = 0; i < 15; i++) {
+                            const angle = Math.random() * Math.PI * 2;
+                            const speed = Math.random() * 5 + 2;
+                            particles.push({
+                                x: OFFSET_X + c * GEM_SIZE + GEM_SIZE / 2,
+                                y: OFFSET_Y + r * GEM_SIZE + GEM_SIZE / 2,
+                                vx: Math.cos(angle) * speed,
+                                vy: Math.sin(angle) * speed,
+                                life: 30,
+                                color: GEMS[board[r][c].type].color,
+                                size: Math.random() * 5 + 2
+                            });
+                        }
+                        board[r][c] = null;
+                    }
+                }
+            }
+            score += 100;
+            updateUI();
+            applyGravity();
+            setTimeout(checkMatches, 300);
+        }
+        
+        canvas.addEventListener('click', (e) => {
+            if (gameOver || isAnimating) return;
+            
+            const rect = canvas.getBoundingClientRect();
+            const gem = getGemAt(e.clientX - rect.left, e.clientY - rect.top);
+            
+            if (!gem) {
+                selected = null;
+                return;
+            }
+            
+            if (!selected) {
+                selected = gem;
+            } else if (areAdjacent(selected, gem)) {
+                swap(selected, gem);
+                const matches = findMatches();
+                if (matches.length >= 3) {
+                    selected = null;
+                    checkMatches();
+                } else {
+                    swap(selected, gem); // 换回来
+                    selected = null;
+                }
+            } else {
+                selected = gem;
+            }
+        });
+        
+        initBoard();
+        draw();
+    </script>
+
+<!-- 彩蛋脚本：连续点击头像3次进入游戏页面 -->
+<style>
+.avatar-click-counter {
+    position: fixed !important;
+    top: 20px !important;
+    right: 20px !important;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: white !important;
+    padding: 15px 25px !important;
+    border-radius: 15px !important;
+    font-size: 16px !important;
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4) !important;
+    z-index: 9999 !important;
+    opacity: 0 !important;
+    transition: opacity 0.3s !important;
+    cursor: pointer !important;
+}
+.avatar-click-counter.show {
+    opacity: 1 !important;
+    animation: pulse 0.5s ease-in-out;
+}
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+.easter-egg-success {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    background: linear-gradient(135deg, #00b894 0%, #00cec9 100%) !important;
+    color: white !important;
+    padding: 30px 50px !important;
+    border-radius: 20px !important;
+    font-size: 24px !important;
+    font-weight: bold !important;
+    box-shadow: 0 10px 40px rgba(0, 184, 148, 0.5) !important;
+    z-index: 10000 !important;
+    text-align: center !important;
+    animation: bounceIn 0.5s ease-out !important;
+}
+@keyframes bounceIn {
+    0% { transform: translate(-50%, -50%) scale(0); }
+    50% { transform: translate(-50%, -50%) scale(1.1); }
+    100% { transform: translate(-50%, -50%) scale(1); }
+}
+</style>
+<script>
+(function(){
+    var clickCount = 0;
+    var clickTimer = null;
+    var avatarArea = document.querySelector('.avatar-img') || document.querySelector('#aside-profile') || document.querySelector('.author-info');
+    var counter = null;
+    var successShown = false;
+    
+    if (!avatarArea) return;
+    
+    avatarArea.style.cursor = 'pointer';
+    avatarArea.title = '🎮 连续点击3次进入游戏页面！';
+    
+    avatarArea.addEventListener('click', function(e){
+        if (successShown) return;
+        
+        clickCount++;
+        
+        // 显示计数器
+        if (!counter) {
+            counter = document.createElement('div');
+            counter.className = 'avatar-click-counter';
+            counter.innerHTML = '🎮 已点击 <span id="clickNum">0</span>/3 次';
+            document.body.appendChild(counter);
+        }
+        
+        document.getElementById('clickNum').textContent = clickCount;
+        counter.classList.add('show');
+        
+        // 视觉反馈
+        avatarArea.style.transition = 'transform 0.1s';
+        avatarArea.style.transform = 'scale(0.95)';
+        setTimeout(function(){
+            avatarArea.style.transform = 'scale(1)';
+        }, 100);
+        
+        // 清除之前的定时器
+        if (clickTimer) clearTimeout(clickTimer);
+        
+        // 检查是否达到3次
+        if (clickCount >= 3) {
+            successShown = true;
+            
+            // 显示成功提示
+            var success = document.createElement('div');
+            success.className = 'easter-egg-success';
+            success.innerHTML = '🎉 恭喜触发彩蛋！<br><br>正在进入游戏页面...';
+            document.body.appendChild(success);
+            
+            // 3秒后跳转
+            setTimeout(function(){
+                window.location.href = '/my-blog/games/';
+            }, 1500);
+            
+            // 移除计数器
+            if (counter) {
+                counter.classList.remove('show');
+                setTimeout(function(){ counter.remove(); }, 300);
+            }
+        } else {
+            // 重置计时器
+            clickTimer = setTimeout(function(){
+                clickCount = 0;
+                if (counter) {
+                    counter.classList.remove('show');
+                    document.getElementById('clickNum').textContent = '0';
+                }
+            }, 3000);
+        }
+    });
+    
+    // 本地存储状态
+    try {
+        var savedState = localStorage.getItem('avatarEasterEgg');
+        if (savedState === 'triggered') {
+            // 已经触发过，显示简短提示
+            var hint = document.createElement('div');
+            hint.className = 'avatar-click-counter show';
+            hint.innerHTML = '🎮 <a href="/my-blog/games/" style="color:white;text-decoration:underline;">点击这里进入游戏页面</a>';
+            document.body.appendChild(hint);
+        }
+    } catch(e) {}
+})();
+</script>
+</body>
+</html>
+</div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/my-blog/img/avatar.png" onerror="this.onerror=null;this.src='/my-blog/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">炜煜</div><div class="author-info-description">个人博客，分享技术与生活</div><div class="site-data"><a href="/my-blog/archives/"><div class="headline">文章</div><div class="length-num">3</div></a><a href="/my-blog/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/my-blog/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/你的用户名" target="_blank" title="GitHub"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:your@email.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/my-blog/2026/01/30/jaxb-docs/" title="JAXB使用文档">JAXB使用文档</a><time datetime="2026-01-30T07:30:00.000Z" title="发表于 2026-01-30 15:30:00">2026-01-30</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/my-blog/2026/01/30/hello-world/" title="你好，世界！">你好，世界！</a><time datetime="2026-01-30T06:00:00.000Z" title="发表于 2026-01-30 14:00:00">2026-01-30</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/my-blog/2026/01/30/20260130-work-log/" title="20260130-数智公司">20260130-数智公司</a><time datetime="2026-01-30T06:00:00.000Z" title="发表于 2026-01-30 14:00:00">2026-01-30</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>分类</span>
+            
+          </div>
+          <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/my-blog/categories/%E5%B7%A5%E4%BD%9C%E8%AE%B0%E5%BD%95/"><span class="card-category-list-name">工作记录</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/my-blog/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3/"><span class="card-category-list-name">技术文档</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/my-blog/categories/%E9%9A%8F%E7%AC%94/"><span class="card-category-list-name">随笔</span><span class="card-category-list-count">1</span></a></li>
+          </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/my-blog/tags/Java/" style="font-size: 1.1em; color: #999">Java</a> <a href="/my-blog/tags/Vue3/" style="font-size: 1.1em; color: #999">Vue3</a> <a href="/my-blog/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 1.1em; color: #999">博客</a> <a href="/my-blog/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" style="font-size: 1.1em; color: #999">学习笔记</a> <a href="/my-blog/tags/XML/" style="font-size: 1.1em; color: #999">XML</a> <a href="/my-blog/tags/Hexo/" style="font-size: 1.1em; color: #999">Hexo</a> <a href="/my-blog/tags/MySQL/" style="font-size: 1.1em; color: #999">MySQL</a> <a href="/my-blog/tags/JAXB/" style="font-size: 1.1em; color: #999">JAXB</a></div></div><div class="card-widget card-archives">
+    <div class="item-headline">
+      <i class="fas fa-archive"></i>
+      <span>归档</span>
+      
+    </div>
+  
+    <ul class="card-archive-list">
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/my-blog/archives/2026/01/">
+            <span class="card-archive-list-date">
+              一月 2026
+            </span>
+            <span class="card-archive-list-count">3</span>
+          </a>
+        </li>
+      
+    </ul>
+  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">3</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总浏览量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2026-08-25T06:02:40.870Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 炜煜</span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/my-blog/js/utils.js?v=5.5.4"></script><script src="/my-blog/js/main.js?v=5.5.4"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

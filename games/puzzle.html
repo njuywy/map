@@ -1,0 +1,793 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>炜煜之博客 | 炜煜之博客</title><meta name="author" content="炜煜"><meta name="copyright" content="炜煜"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="🧩 拼图游戏 - 炜煜之博客              * { margin: 0; padding: 0; box-sizing: border-box; }         body {             font-family: &#39;Segoe UI&#39;, sans-serif;             background: linear-gradie">
+<meta property="og:type" content="website">
+<meta property="og:title" content="炜煜之博客">
+<meta property="og:url" content="https://njuywy.github.io/my-blog/games/puzzle.html">
+<meta property="og:site_name" content="炜煜之博客">
+<meta property="og:description" content="🧩 拼图游戏 - 炜煜之博客              * { margin: 0; padding: 0; box-sizing: border-box; }         body {             font-family: &#39;Segoe UI&#39;, sans-serif;             background: linear-gradie">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://njuywy.github.io/my-blog/img/avatar.png">
+<meta property="article:published_time" content="2026-08-25T05:35:02.744Z">
+<meta property="article:modified_time" content="2026-08-25T05:35:02.744Z">
+<meta property="article:author" content="炜煜">
+<meta property="article:tag" content="技术, 生活, 编程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://njuywy.github.io/my-blog/img/avatar.png"><script type="application/ld+json"></script><link rel="shortcut icon" href="/my-blog/img/favicon.png"><link rel="canonical" href="https://njuywy.github.io/my-blog/games/puzzle.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/my-blog/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/my-blog/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '炜煜之博客',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'page'
+}</script><meta name="generator" content="Hexo 8.1.1"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/my-blog/img/avatar.png" onerror="this.onerror=null;this.src='/my-blog/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/my-blog/archives/"><div class="headline">文章</div><div class="length-num">3</div></a><a href="/my-blog/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/my-blog/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/my-blog/"><i class="fa-fw fas fa-map-location-dot"></i><span> Railway Map</span></a></div><div class="menus_item"><a class="site-page" href="/my-blog/blog/"><i class="fa-fw fas fa-newspaper"></i><span> Blog</span></a></div><div class="menus_item"><a class="site-page" href="/my-blog/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/my-blog/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/my-blog/categories/"><i class="fa-fw fas fa-th"></i><span> Categories</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="not-home-page" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/my-blog/"><span class="site-name">炜煜之博客</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/my-blog/"><i class="fa-fw fas fa-map-location-dot"></i><span> Railway Map</span></a></div><div class="menus_item"><a class="site-page" href="/my-blog/blog/"><i class="fa-fw fas fa-newspaper"></i><span> Blog</span></a></div><div class="menus_item"><a class="site-page" href="/my-blog/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/my-blog/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/my-blog/categories/"><i class="fa-fw fas fa-th"></i><span> Categories</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="page-site-info"><h1 id="site-title"></h1></div></header><main class="layout" id="content-inner"><div id="page"><div class="container" id="article-container"><!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧩 拼图游戏 - 炜煜之博客</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        h1 { color: #fff; margin-bottom: 15px; font-size: 2em; }
+        .game-container {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+        }
+        canvas { border-radius: 10px; box-shadow: 0 0 30px rgba(253, 203, 110, 0.3); cursor: pointer; }
+        .side-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            min-width: 220px;
+        }
+        .info-box {
+            background: rgba(255,255,255,0.1);
+            padding: 15px 20px;
+            border-radius: 10px;
+            color: #fff;
+        }
+        .info-label { color: #aaa; font-size: 0.9em; }
+        .info-value { font-size: 1.5em; font-weight: bold; color: #fdcb6e; }
+        .difficulty-btns {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .diff-btn {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .diff-btn.easy { background: #00b894; color: white; }
+        .diff-btn.medium { background: #fdcb6e; color: #333; }
+        .diff-btn.hard { background: #e17055; color: white; }
+        .diff-btn.active { outline: 3px solid #fff; }
+        .diff-btn:hover { transform: translateY(-2px); }
+        
+        .preview-canvas {
+            border-radius: 8px;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+        .controls {
+            margin-top: 20px;
+            color: #aaa;
+            text-align: center;
+        }
+        .back-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            margin-top: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+        }
+        .image-select {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .img-btn {
+            width: 50px;
+            height: 50px;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            background-size: cover;
+            transition: all 0.3s;
+        }
+        .img-btn.active { border-color: #fdcb6e; transform: scale(1.1); }
+    </style>
+</head>
+<body>
+    <h1>🧩 拼图游戏</h1>
+    <div class="game-container">
+        <div>
+            <canvas id="gameCanvas"></canvas>
+        </div>
+        <div class="side-panel">
+            <div class="info-box">
+                <div class="info-label">难度</div>
+                <div class="difficulty-btns">
+                    <button class="diff-btn easy active" onclick="setDifficulty(3)">简单</button>
+                    <button class="diff-btn medium" onclick="setDifficulty(4)">中等</button>
+                    <button class="diff-btn hard" onclick="setDifficulty(5)">困难</button>
+                </div>
+            </div>
+            <div class="info-box">
+                <div class="info-label">选择图案</div>
+                <div class="image-select" id="imageSelect">
+                    <button class="img-btn active" onclick="setImage(0)" style="background: linear-gradient(135deg, #667eea, #764ba2);"></button>
+                    <button class="img-btn" onclick="setImage(1)" style="background: linear-gradient(135deg, #f093fb, #f5576c);"></button>
+                    <button class="img-btn" onclick="setImage(2)" style="background: linear-gradient(135deg, #4facfe, #00f2fe);"></button>
+                    <button class="img-btn" onclick="setImage(3)" style="background: linear-gradient(135deg, #43e97b, #38f9d7);"></button>
+                    <button class="img-btn" onclick="setImage(4)" style="background: linear-gradient(135deg, #fa709a, #fee140);"></button>
+                    <button class="img-btn" onclick="setImage(5)" style="background: linear-gradient(135deg, #a8edea, #fed6e3);"></button>
+                </div>
+            </div>
+            <div class="info-box">
+                <div class="info-label">预览</div>
+                <canvas id="previewCanvas" class="preview-canvas" width="150" height="150"></canvas>
+            </div>
+            <div class="info-box">
+                <div class="info-label">步数</div>
+                <div class="info-value" id="moves">0</div>
+            </div>
+            <div class="info-box">
+                <div class="info-label">时间</div>
+                <div class="info-value" id="timer">0:00</div>
+            </div>
+        </div>
+    </div>
+    <div class="controls">
+        <p>🖱️ 点击两个方块交换位置 | 🔄 点击重新开始 | ⏱️ 步数越少越好！</p>
+    </div>
+    <a href="index.html" class="back-btn">← 返回游戏选择</a>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const previewCanvas = document.getElementById('previewCanvas');
+        const previewCtx = previewCanvas.getContext('2d');
+        
+        const GRID_SIZE = 3;
+        let PUZZLE_SIZE = 300;
+        let CELL_SIZE = PUZZLE_SIZE / GRID_SIZE;
+        
+        let pieces = [];
+        let emptyCell = { row: GRID_SIZE - 1, col: GRID_SIZE - 1 };
+        let selectedPiece = null;
+        let moves = 0;
+        let startTime = null;
+        let timerInterval = null;
+        let gameWon = false;
+        let currentImage = 0;
+        
+        const GRADIENTS = [
+            ['#667eea', '#764ba2'],
+            ['#f093fb', '#f5576c'],
+            ['#4facfe', '#00f2fe'],
+            ['#43e97b', '#38f9d7'],
+            ['#fa709a', '#fee140'],
+            ['#a8edea', '#fed6e3']
+        ];
+        
+        function generateGradient(ctx, width, height, colors) {
+            const gradient = ctx.createLinearGradient(0, 0, width, height);
+            gradient.addColorStop(0, colors[0]);
+            gradient.addColorStop(1, colors[1]);
+            return gradient;
+        }
+        
+        function drawPieceImage(ctx, x, y, size, row, col, imageIdx) {
+            const colors = GRADIENTS[imageIdx];
+            
+            // 绘制渐变背景
+            ctx.fillStyle = generateGradient(ctx, size, size, colors);
+            ctx.fillRect(x, y, size, size);
+            
+            // 添加装饰图案
+            const cx = x + size / 2;
+            const cy = y + size / 2;
+            
+            // 根据位置绘制不同图案
+            const patterns = [
+                () => {
+                    ctx.fillStyle = 'rgba(255,255,255,0.3)';
+                    ctx.beginPath();
+                    ctx.arc(cx, cy, size * 0.3, 0, Math.PI * 2);
+                    ctx.fill();
+                },
+                () => {
+                    ctx.fillStyle = 'rgba(255,255,255,0.3)';
+                    ctx.fillRect(x + size * 0.2, y + size * 0.2, size * 0.6, size * 0.6);
+                },
+                () => {
+                    ctx.strokeStyle = 'rgba(255,255,255,0.4)';
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.moveTo(x + size * 0.2, y + size * 0.8);
+                    ctx.lineTo(cx, y + size * 0.2);
+                    ctx.lineTo(x + size * 0.8, y + size * 0.8);
+                    ctx.stroke();
+                },
+                () => {
+                    ctx.fillStyle = 'rgba(255,255,255,0.3)';
+                    for (let i = 0; i < 3; i++) {
+                        ctx.beginPath();
+                        ctx.arc(x + size * (0.2 + i * 0.3), cy, size * 0.15, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                },
+                () => {
+                    ctx.strokeStyle = 'rgba(255,255,255,0.4)';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.arc(cx, cy, size * 0.35, 0, Math.PI * 2);
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.arc(cx, cy, size * 0.2, 0, Math.PI * 2);
+                    ctx.stroke();
+                },
+                () => {
+                    ctx.fillStyle = 'rgba(255,255,255,0.3)';
+                    ctx.beginPath();
+                    ctx.moveTo(cx, y + size * 0.2);
+                    ctx.lineTo(x + size * 0.8, y + size * 0.8);
+                    ctx.lineTo(x + size * 0.2, y + size * 0.8);
+                    ctx.closePath();
+                    ctx.fill();
+                }
+            ];
+            
+            patterns[imageIdx % patterns.length]();
+            
+            // 绘制数字
+            ctx.fillStyle = 'rgba(255,255,255,0.9)';
+            ctx.font = `bold ${size * 0.4}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(row * GRID_SIZE + col + 1, cx, cy);
+        }
+        
+        function initPuzzle() {
+            pieces = [];
+            for (let row = 0; row < GRID_SIZE; row++) {
+                for (let col = 0; col < GRID_SIZE; col++) {
+                    pieces.push({
+                        row: row,
+                        col: col,
+                        correctRow: row,
+                        correctCol: col
+                    });
+                }
+            }
+            
+            // 随机打乱
+            shufflePuzzle();
+        }
+        
+        function shufflePuzzle() {
+            // 随机交换多个次
+            const shuffleCount = GRID_SIZE * GRID_SIZE * 20;
+            for (let i = 0; i < shuffleCount; i++) {
+                const neighbors = getNeighbors(emptyCell);
+                const randomNeighbor = neighbors[Math.floor(Math.random() * neighbors.length)];
+                swapPieces(randomNeighbor, emptyCell);
+                emptyCell = randomNeighbor;
+            }
+        }
+        
+        function getNeighbors(cell) {
+            const neighbors = [];
+            if (cell.row > 0) neighbors.push({ row: cell.row - 1, col: cell.col });
+            if (cell.row < GRID_SIZE - 1) neighbors.push({ row: cell.row + 1, col: cell.col });
+            if (cell.col > 0) neighbors.push({ row: cell.row, col: cell.col - 1 });
+            if (cell.col < GRID_SIZE - 1) neighbors.push({ row: cell.row, col: cell.col + 1 });
+            return neighbors;
+        }
+        
+        function swapPieces(cell1, cell2) {
+            const piece1 = pieces.find(p => p.row === cell1.row && p.col === cell1.col);
+            const piece2 = pieces.find(p => p.row === cell2.row && p.col === cell2.col);
+            const tempRow = piece1.row;
+            const tempCol = piece1.col;
+            piece1.row = piece2.row;
+            piece1.col = piece2.col;
+            piece2.row = tempRow;
+            piece2.col = tempCol;
+        }
+        
+        function draw() {
+            ctx.fillStyle = '#1a1a2e';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // 绘制每个拼图块
+            pieces.forEach((piece, index) => {
+                const x = piece.col * CELL_SIZE;
+                const y = piece.row * CELL_SIZE;
+                
+                // 绘制拼图块
+                drawPieceImage(ctx, x, y, CELL_SIZE, piece.correctRow, piece.correctCol, currentImage);
+                
+                // 选中高亮
+                if (selectedPiece === piece) {
+                    ctx.strokeStyle = '#fdcb6e';
+                    ctx.lineWidth = 4;
+                    ctx.strokeRect(x + 2, y + 2, CELL_SIZE - 4, CELL_SIZE - 4);
+                }
+                
+                // 正确位置边框
+                if (piece.row === piece.correctRow && piece.col === piece.correctCol) {
+                    ctx.strokeStyle = 'rgba(0, 184, 148, 0.3)';
+                    ctx.lineWidth = 2;
+                    ctx.strokeRect(x + 5, y + 5, CELL_SIZE - 10, CELL_SIZE - 10);
+                }
+            });
+            
+            // 游戏结束
+            if (gameWon) {
+                ctx.fillStyle = 'rgba(0,0,0,0.7)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                ctx.fillStyle = '#00b894';
+                ctx.font = 'bold 40px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('🎉 恭喜完成!', canvas.width/2, canvas.height/2 - 40);
+                
+                ctx.fillStyle = '#fff';
+                ctx.font = '25px Arial';
+                ctx.fillText(`用时: ${document.getElementById('timer').textContent}`, canvas.width/2, canvas.height/2 + 10);
+                ctx.fillText(`步数: ${moves}`, canvas.width/2, canvas.height/2 + 50);
+            }
+            
+            requestAnimationFrame(draw);
+        }
+        
+        function drawPreview() {
+            previewCtx.fillStyle = '#1a1a2e';
+            previewCtx.fillRect(0, 0, 150, 150);
+            
+            const previewCellSize = 150 / GRID_SIZE;
+            for (let row = 0; row < GRID_SIZE; row++) {
+                for (let col = 0; col < GRID_SIZE; col++) {
+                    const x = col * previewCellSize;
+                    const y = row * previewCellSize;
+                    
+                    // 绘制正确顺序的图案
+                    previewCtx.fillStyle = generateGradient(previewCtx, previewCellSize, previewCellSize, GRADIENTS[currentImage]);
+                    previewCtx.fillRect(x, y, previewCellSize, previewCellSize);
+                    
+                    previewCtx.fillStyle = 'rgba(255,255,255,0.8)';
+                    previewCtx.font = `bold ${previewCellSize * 0.4}px Arial`;
+                    previewCtx.textAlign = 'center';
+                    previewCtx.textBaseline = 'middle';
+                    previewCtx.fillText(row * GRID_SIZE + col + 1, x + previewCellSize/2, y + previewCellSize/2);
+                }
+            }
+        }
+        
+        function setDifficulty(size) {
+            GRID_SIZE = size;
+            CELL_SIZE = PUZZLE_SIZE / GRID_SIZE;
+            canvas.width = PUZZLE_SIZE;
+            canvas.height = PUZZLE_SIZE;
+            
+            document.querySelectorAll('.diff-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            resetGame();
+        }
+        
+        function setImage(idx) {
+            currentImage = idx;
+            document.querySelectorAll('.img-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.img-btn')[idx].classList.add('active');
+            drawPreview();
+            resetGame();
+        }
+        
+        function checkWin() {
+            const isWin = pieces.every(p => 
+                p.row === p.correctRow && p.col === p.correctCol
+            );
+            
+            if (isWin) {
+                gameWon = true;
+                clearInterval(timerInterval);
+                
+                // 绘制完整图案
+                setTimeout(() => {
+                    ctx.fillStyle = generateGradient(ctx, canvas.width, canvas.height, GRADIENTS[currentImage]);
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    
+                    // 添加装饰
+                    const cx = canvas.width / 2;
+                    const cy = canvas.height / 2;
+                    ctx.fillStyle = 'rgba(255,255,255,0.2)';
+                    ctx.beginPath();
+                    ctx.arc(cx, cy, canvas.width * 0.3, 0, Math.PI * 2);
+                    ctx.fill();
+                }, 500);
+            }
+        }
+        
+        function resetGame() {
+            initPuzzle();
+            selectedPiece = null;
+            moves = 0;
+            gameWon = false;
+            startTime = null;
+            
+            if (timerInterval) clearInterval(timerInterval);
+            
+            document.getElementById('moves').textContent = '0';
+            document.getElementById('timer').textContent = '0:00';
+            
+            drawPreview();
+        }
+        
+        function updateTimer() {
+            if (!startTime) {
+                startTime = Date.now();
+            }
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            const min = Math.floor(elapsed / 60);
+            const sec = elapsed % 60;
+            document.getElementById('timer').textContent = `${min}:${sec.toString().padStart(2, '0')}`;
+        }
+        
+        canvas.addEventListener('click', (e) => {
+            if (gameWon) return;
+            
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const col = Math.floor(x / CELL_SIZE);
+            const row = Math.floor(y / CELL_SIZE);
+            
+            const clickedPiece = pieces.find(p => p.row === row && p.col === col);
+            if (!clickedPiece) return;
+            
+            if (!selectedPiece) {
+                selectedPiece = clickedPiece;
+            } else {
+                // 检查是否相邻
+                const dr = Math.abs(selectedPiece.row - clickedPiece.row);
+                const dc = Math.abs(selectedPiece.col - clickedPiece.col);
+                
+                if ((dr === 1 && dc === 0) || (dr === 0 && dc === 1)) {
+                    // 交换
+                    const tempRow = selectedPiece.row;
+                    const tempCol = selectedPiece.col;
+                    selectedPiece.row = clickedPiece.row;
+                    selectedPiece.col = clickedPiece.col;
+                    clickedPiece.row = tempRow;
+                    clickedPiece.col = tempCol;
+                    
+                    // 更新空格位置
+                    if (selectedPiece.row === emptyCell.row && selectedPiece.col === emptyCell.col) {
+                        emptyCell = { row: clickedPiece.row, col: clickedPiece.col };
+                    } else if (clickedPiece.row === emptyCell.row && clickedPiece.col === emptyCell.col) {
+                        emptyCell = { row: selectedPiece.row, col: selectedPiece.col };
+                    }
+                    
+                    moves++;
+                    document.getElementById('moves').textContent = moves;
+                    
+                    if (!startTime) {
+                        startTime = Date.now();
+                        timerInterval = setInterval(updateTimer, 1000);
+                    }
+                    
+                    checkWin();
+                }
+                selectedPiece = null;
+            }
+        });
+        
+        resetGame();
+        draw();
+    </script>
+
+<!-- 彩蛋脚本：连续点击头像3次进入游戏页面 -->
+<style>
+.avatar-click-counter {
+    position: fixed !important;
+    top: 20px !important;
+    right: 20px !important;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: white !important;
+    padding: 15px 25px !important;
+    border-radius: 15px !important;
+    font-size: 16px !important;
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4) !important;
+    z-index: 9999 !important;
+    opacity: 0 !important;
+    transition: opacity 0.3s !important;
+    cursor: pointer !important;
+}
+.avatar-click-counter.show {
+    opacity: 1 !important;
+    animation: pulse 0.5s ease-in-out;
+}
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+.easter-egg-success {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    background: linear-gradient(135deg, #00b894 0%, #00cec9 100%) !important;
+    color: white !important;
+    padding: 30px 50px !important;
+    border-radius: 20px !important;
+    font-size: 24px !important;
+    font-weight: bold !important;
+    box-shadow: 0 10px 40px rgba(0, 184, 148, 0.5) !important;
+    z-index: 10000 !important;
+    text-align: center !important;
+    animation: bounceIn 0.5s ease-out !important;
+}
+@keyframes bounceIn {
+    0% { transform: translate(-50%, -50%) scale(0); }
+    50% { transform: translate(-50%, -50%) scale(1.1); }
+    100% { transform: translate(-50%, -50%) scale(1); }
+}
+</style>
+<script>
+(function(){
+    var clickCount = 0;
+    var clickTimer = null;
+    var avatarArea = document.querySelector('.avatar-img') || document.querySelector('#aside-profile') || document.querySelector('.author-info');
+    var counter = null;
+    var successShown = false;
+    
+    if (!avatarArea) return;
+    
+    avatarArea.style.cursor = 'pointer';
+    avatarArea.title = '🎮 连续点击3次进入游戏页面！';
+    
+    avatarArea.addEventListener('click', function(e){
+        if (successShown) return;
+        
+        clickCount++;
+        
+        // 显示计数器
+        if (!counter) {
+            counter = document.createElement('div');
+            counter.className = 'avatar-click-counter';
+            counter.innerHTML = '🎮 已点击 <span id="clickNum">0</span>/3 次';
+            document.body.appendChild(counter);
+        }
+        
+        document.getElementById('clickNum').textContent = clickCount;
+        counter.classList.add('show');
+        
+        // 视觉反馈
+        avatarArea.style.transition = 'transform 0.1s';
+        avatarArea.style.transform = 'scale(0.95)';
+        setTimeout(function(){
+            avatarArea.style.transform = 'scale(1)';
+        }, 100);
+        
+        // 清除之前的定时器
+        if (clickTimer) clearTimeout(clickTimer);
+        
+        // 检查是否达到3次
+        if (clickCount >= 3) {
+            successShown = true;
+            
+            // 显示成功提示
+            var success = document.createElement('div');
+            success.className = 'easter-egg-success';
+            success.innerHTML = '🎉 恭喜触发彩蛋！<br><br>正在进入游戏页面...';
+            document.body.appendChild(success);
+            
+            // 3秒后跳转
+            setTimeout(function(){
+                window.location.href = '/my-blog/games/';
+            }, 1500);
+            
+            // 移除计数器
+            if (counter) {
+                counter.classList.remove('show');
+                setTimeout(function(){ counter.remove(); }, 300);
+            }
+        } else {
+            // 重置计时器
+            clickTimer = setTimeout(function(){
+                clickCount = 0;
+                if (counter) {
+                    counter.classList.remove('show');
+                    document.getElementById('clickNum').textContent = '0';
+                }
+            }, 3000);
+        }
+    });
+    
+    // 本地存储状态
+    try {
+        var savedState = localStorage.getItem('avatarEasterEgg');
+        if (savedState === 'triggered') {
+            // 已经触发过，显示简短提示
+            var hint = document.createElement('div');
+            hint.className = 'avatar-click-counter show';
+            hint.innerHTML = '🎮 <a href="/my-blog/games/" style="color:white;text-decoration:underline;">点击这里进入游戏页面</a>';
+            document.body.appendChild(hint);
+        }
+    } catch(e) {}
+})();
+</script>
+</body>
+</html>
+</div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/my-blog/img/avatar.png" onerror="this.onerror=null;this.src='/my-blog/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">炜煜</div><div class="author-info-description">个人博客，分享技术与生活</div><div class="site-data"><a href="/my-blog/archives/"><div class="headline">文章</div><div class="length-num">3</div></a><a href="/my-blog/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/my-blog/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/你的用户名" target="_blank" title="GitHub"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:your@email.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/my-blog/2026/01/30/jaxb-docs/" title="JAXB使用文档">JAXB使用文档</a><time datetime="2026-01-30T07:30:00.000Z" title="发表于 2026-01-30 15:30:00">2026-01-30</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/my-blog/2026/01/30/hello-world/" title="你好，世界！">你好，世界！</a><time datetime="2026-01-30T06:00:00.000Z" title="发表于 2026-01-30 14:00:00">2026-01-30</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/my-blog/2026/01/30/20260130-work-log/" title="20260130-数智公司">20260130-数智公司</a><time datetime="2026-01-30T06:00:00.000Z" title="发表于 2026-01-30 14:00:00">2026-01-30</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>分类</span>
+            
+          </div>
+          <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/my-blog/categories/%E5%B7%A5%E4%BD%9C%E8%AE%B0%E5%BD%95/"><span class="card-category-list-name">工作记录</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/my-blog/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3/"><span class="card-category-list-name">技术文档</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/my-blog/categories/%E9%9A%8F%E7%AC%94/"><span class="card-category-list-name">随笔</span><span class="card-category-list-count">1</span></a></li>
+          </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/my-blog/tags/Java/" style="font-size: 1.1em; color: #999">Java</a> <a href="/my-blog/tags/Vue3/" style="font-size: 1.1em; color: #999">Vue3</a> <a href="/my-blog/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 1.1em; color: #999">博客</a> <a href="/my-blog/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" style="font-size: 1.1em; color: #999">学习笔记</a> <a href="/my-blog/tags/XML/" style="font-size: 1.1em; color: #999">XML</a> <a href="/my-blog/tags/Hexo/" style="font-size: 1.1em; color: #999">Hexo</a> <a href="/my-blog/tags/MySQL/" style="font-size: 1.1em; color: #999">MySQL</a> <a href="/my-blog/tags/JAXB/" style="font-size: 1.1em; color: #999">JAXB</a></div></div><div class="card-widget card-archives">
+    <div class="item-headline">
+      <i class="fas fa-archive"></i>
+      <span>归档</span>
+      
+    </div>
+  
+    <ul class="card-archive-list">
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/my-blog/archives/2026/01/">
+            <span class="card-archive-list-date">
+              一月 2026
+            </span>
+            <span class="card-archive-list-count">3</span>
+          </a>
+        </li>
+      
+    </ul>
+  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">3</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总浏览量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2026-08-25T06:02:40.870Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 炜煜</span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/my-blog/js/utils.js?v=5.5.4"></script><script src="/my-blog/js/main.js?v=5.5.4"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
