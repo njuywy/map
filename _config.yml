@@ -13,7 +13,7 @@ timezone: 'Asia/Shanghai'
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: https://njuywy.github.io/my-blog
+url: https://njuywy.github.io/map
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
@@ -111,7 +111,7 @@ theme: butterfly
 # Deployment
 deploy:
   type: git
-  repo: https://github.com/njuywy/my-blog.git
+  repo: https://github.com/njuywy/map.git
   branch: gh-pages
 
 # Custom configurations
@@ -119,4 +119,4 @@ inject:
   head:
     - <script>console.log('彩蛋脚本已加载');</script>
   bottom:
-    - <script src="/js/easter-egg.js"></script>
+    - <script src="/map/js/easter-egg.js"></script>

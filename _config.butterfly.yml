@@ -26,7 +26,7 @@ favicon: /img/favicon.png
 avatar:
   img: /img/avatar.png
   effect: true
-  url: /my-blog/games/
+  url: /map/games/
 
 # Disable all banner images
 disable_top_img: false

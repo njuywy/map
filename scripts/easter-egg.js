@@ -101,7 +101,7 @@ hexo.extend.filter.register('after_render:html', function(html, data) {
             
             // 3秒后跳转
             setTimeout(function(){
-                window.location.href = '/my-blog/games/';
+                window.location.href = '/map/games/';
             }, 1500);
             
             // 移除计数器
@@ -128,7 +128,7 @@ hexo.extend.filter.register('after_render:html', function(html, data) {
             // 已经触发过，显示简短提示
             var hint = document.createElement('div');
             hint.className = 'avatar-click-counter show';
-            hint.innerHTML = '🎮 <a href="/my-blog/games/" style="color:white;text-decoration:underline;">点击这里进入游戏页面</a>';
+            hint.innerHTML = '🎮 <a href="/map/games/" style="color:white;text-decoration:underline;">点击这里进入游戏页面</a>';
             document.body.appendChild(hint);
         }
     } catch(e) {}

@@ -33,7 +33,21 @@ assert.equal(features.filter((feature) => feature.geometry.type === 'LineString'
 const config = read('_config.yml');
 assert.match(config, /index_generator:\s*\n\s+path:\s*blog/);
 assert.match(config, /skip_render:[\s\S]*?-\s+["']?index\.html["']?/);
+assert.match(config, /^url:\s*https:\/\/njuywy\.github\.io\/map\s*$/m);
+assert.match(config, /^\s+repo:\s*https:\/\/github\.com\/njuywy\/map\.git\s*$/m);
 assert.match(read('source/categories/index.md'), /layout:\s*categories/);
 assert.match(read('source/tags/index.md'), /layout:\s*tags/);
+
+for (const relativePath of [
+  '_config.butterfly.yml',
+  'source/_data/footer.swig',
+  'source/_data/head.swig',
+  'source/games/index.html',
+  'source/games/tetris.html',
+  'source/js/easter-egg.js',
+  'scripts/easter-egg.js',
+]) {
+  assert.doesNotMatch(read(relativePath), /my-blog/, `${relativePath} still references my-blog`);
+}
 
 console.log('✓ railway map is the blog homepage and the original app is archived');

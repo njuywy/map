@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // 点击事件
         pacman.onclick = function() {
-            window.location.href = '/my-blog/games/';
+            window.location.href = '/map/games/';
         };
         
         avatarContainer.appendChild(pacman);
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
         hint.className = 'pacman-hint';
         hint.innerHTML = '🎮 点击吃豆人进入小游戏！';
         hint.onclick = function() {
-            window.location.href = '/my-blog/games/';
+            window.location.href = '/map/games/';
             hint.remove();
         };
         document.body.appendChild(hint);
