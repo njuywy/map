@@ -4,7 +4,7 @@ const TILE_CACHE = 'tianditu-tiles-v1';
 const META_CACHE = 'tianditu-tiles-meta-v1';
 const CONFIG_CACHE = 'tianditu-cache-config-v1';
 const CONFIG_KEY = new URL('/__tile-cache-config', self.location.origin).toString();
-const DEFAULT_SETTINGS = { enabled: true, maxAgeDays: 30, maxEntries: 2000 };
+const DEFAULT_SETTINGS = CacheUtils.DEFAULT_SETTINGS;
 let writesSinceTrim = 0;
 
 self.addEventListener('install', function (event) {

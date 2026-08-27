@@ -116,10 +116,11 @@
   const cacheDays = document.getElementById('cache-days');
   const cacheLimit = document.getElementById('cache-limit');
   const cacheMessage = document.getElementById('cache-message');
+  cacheLimit.max = CacheUtils.DEFAULT_SETTINGS.maxEntries;
   const savedCacheSettings = CacheUtils.sanitizeSettings({
-    enabled: safeStorageGet('tileCacheEnabled', 'true') !== 'false',
-    maxAgeDays: safeStorageGet('tileCacheDays', '30'),
-    maxEntries: safeStorageGet('tileCacheLimit', '2000'),
+    enabled: safeStorageGet('tileCacheEnabled', String(CacheUtils.DEFAULT_SETTINGS.enabled)) !== 'false',
+    maxAgeDays: safeStorageGet('tileCacheDays', String(CacheUtils.DEFAULT_SETTINGS.maxAgeDays)),
+    maxEntries: safeStorageGet('tileCacheLimit', String(CacheUtils.DEFAULT_SETTINGS.maxEntries)),
   });
   cacheEnabled.checked = savedCacheSettings.enabled;
   cacheDays.value = savedCacheSettings.maxAgeDays;
@@ -193,10 +194,14 @@
   }
 
   let onlineLayer = null;
-  const tokenInput = document.getElementById('token-input');
   const onlineMessage = document.getElementById('online-message');
-  const configuredToken = (window.APP_CONFIG && window.APP_CONFIG.tiandituToken) || safeStorageGet('tiandituToken', '');
-  tokenInput.value = configuredToken;
+  const configuredToken = (window.APP_CONFIG && window.APP_CONFIG.tiandituToken) || '';
+
+  function bringMapOverlaysToFront() {
+    routeLayer.bringToFront();
+    stations.bringToFront();
+    pointLayer.bringToFront();
+  }
 
   function activateOnlineLayer(token) {
     const imageUrl = MapUtils.tiandituUrl('img', token);
@@ -209,24 +214,26 @@
     ]);
     map.removeLayer(offlineLayer);
     onlineLayer.addTo(map);
-    routeLayer.bringToFront();
-    stations.bringToFront();
-    pointLayer.bringToFront();
+    bringMapOverlaysToFront();
     document.getElementById('map-mode').textContent = '在线影像';
     document.getElementById('map-mode').classList.add('online');
     return true;
   }
-  document.getElementById('enable-online').addEventListener('click', function () {
-    const token = tokenInput.value.trim();
-    if (!token) {
-      onlineMessage.textContent = '请先填写天地图浏览器端 Token。';
-      return;
-    }
-    safeStorageSet('tiandituToken', token);
-    activateOnlineLayer(token);
-    onlineMessage.textContent = '已切换至在线影像；浏览过的瓦片将按设置缓存。';
+
+  document.getElementById('disable-online').addEventListener('click', function () {
+    if (onlineLayer) map.removeLayer(onlineLayer);
+    onlineLayer = null;
+    offlineLayer.addTo(map);
+    bringMapOverlaysToFront();
+    document.getElementById('map-mode').textContent = '本地影像';
+    document.getElementById('map-mode').classList.remove('online');
+    onlineMessage.textContent = '已关闭在线影像，当前使用本地影像。';
   });
-  if (configuredToken) activateOnlineLayer(configuredToken);
+  if (activateOnlineLayer(configuredToken)) {
+    onlineMessage.textContent = '在线影像已默认开启；浏览过的瓦片将按设置缓存。';
+  } else {
+    onlineMessage.textContent = '在线影像配置不可用，当前使用本地影像。';
+  }
 
   fitSquare(false);
   window.addEventListener('resize', function () { window.setTimeout(function () { fitSquare(false); }, 120); });
