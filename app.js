@@ -33,9 +33,13 @@
   L.control.zoom({ position: 'bottomright', zoomInTitle: '放大', zoomOutTitle: '缩小' }).addTo(map);
   L.control.scale({ position: 'bottomleft', imperial: false, maxWidth: 160 }).addTo(map);
 
+  const offlinePane = map.createPane('offlinePane');
+  offlinePane.style.zIndex = '150';
+  offlinePane.style.pointerEvents = 'none';
   const offlineLayer = L.imageOverlay('assets/tonghai-tianditu-satellite-square.jpg', squareBounds, {
     alt: '仅覆盖通海铁路专用线全线范围的正方形天地图卫星影像',
     opacity: 1,
+    pane: 'offlinePane',
   }).addTo(map);
 
   const routeLayer = L.geoJSON({ type: 'FeatureCollection', features: routeFeatures }, {
@@ -47,8 +51,6 @@
       lineJoin: 'round',
     },
   }).bindTooltip('通海港区铁路专用线（公开线位）', { sticky: true }).addTo(map);
-  offlineLayer.bringToBack();
-
   const pointLayer = L.featureGroup();
   points.forEach(function (point) {
     const marker = L.circleMarker([point.lat, point.lng], {
@@ -208,15 +210,23 @@
     const annotationUrl = MapUtils.tiandituUrl('cia', token);
     if (!imageUrl || !annotationUrl) return false;
     if (onlineLayer) map.removeLayer(onlineLayer);
-    onlineLayer = L.layerGroup([
-      L.tileLayer(imageUrl, { subdomains: '01234567', minZoom: 1, maxZoom: 18, maxNativeZoom: 18, attribution: '影像 © 天地图' }),
+    const imageLayer = L.tileLayer(imageUrl, { subdomains: '01234567', minZoom: 1, maxZoom: 18, maxNativeZoom: 18, attribution: '影像 © 天地图' });
+    const nextOnlineLayer = L.layerGroup([
+      imageLayer,
       L.tileLayer(annotationUrl, { subdomains: '01234567', minZoom: 1, maxZoom: 18, maxNativeZoom: 18, pane: 'shadowPane' }),
     ]);
-    map.removeLayer(offlineLayer);
+    onlineLayer = nextOnlineLayer;
+    imageLayer.once('tileload', function () {
+      if (onlineLayer !== nextOnlineLayer) return;
+      document.getElementById('map-mode').textContent = '在线影像';
+      document.getElementById('map-mode').classList.add('online');
+      onlineMessage.textContent = '在线影像加载成功；浏览过的瓦片将按设置缓存。';
+    });
     onlineLayer.addTo(map);
     bringMapOverlaysToFront();
-    document.getElementById('map-mode').textContent = '在线影像';
-    document.getElementById('map-mode').classList.add('online');
+    document.getElementById('map-mode').textContent = '正在加载';
+    document.getElementById('map-mode').classList.remove('online');
+    onlineMessage.textContent = '正在通过浏览器端 Token 加载在线影像…';
     return true;
   }
 
@@ -229,12 +239,16 @@
     document.getElementById('map-mode').classList.remove('online');
     onlineMessage.textContent = '已关闭在线影像，当前使用本地影像。';
   });
-  if (activateOnlineLayer(configuredToken)) {
-    onlineMessage.textContent = '在线影像已默认开启；浏览过的瓦片将按设置缓存。';
-  } else {
-    onlineMessage.textContent = '在线影像配置不可用，当前使用本地影像。';
+
+  function startOnlineLayer() {
+    if (!activateOnlineLayer(configuredToken)) {
+      onlineMessage.textContent = '在线影像配置不可用，当前使用本地影像。';
+    }
   }
 
   fitSquare(false);
+  offlineLayer.once('load', function () {
+    window.requestAnimationFrame(startOnlineLayer);
+  });
   window.addEventListener('resize', function () { window.setTimeout(function () { fitSquare(false); }, 120); });
 })();
