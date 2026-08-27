@@ -23,7 +23,7 @@
   const map = L.map('map', {
     zoomControl: false,
     minZoom: 11,
-    maxZoom: 19,
+    maxZoom: 18,
     zoomSnap: 0.25,
     zoomDelta: 0.5,
     wheelPxPerZoomLevel: 90,

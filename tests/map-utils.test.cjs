@@ -137,6 +137,22 @@ test('default imagery stays visible while browser-token tiles load', () => {
   assert.match(app, /offlineLayer\.once\('load',[\s\S]*requestAnimationFrame\(startOnlineLayer\)/);
 });
 
+test('maximum zoom keeps the bottom-left scale at 50 meters', () => {
+  const app = fs.readFileSync(path.join(projectRoot, 'app.js'), 'utf8');
+  const maxZoom = Number(app.match(/const map = L\.map\('map',[\s\S]*?maxZoom: (\d+)/)[1]);
+  const scaleWidth = Number(app.match(/L\.control\.scale\(\{[\s\S]*?maxWidth: (\d+)/)[1]);
+  const routeLatitude = 31.87;
+  const webMercatorEarthRadius = 6378137;
+  const tileSize = 256;
+  const metersPerPixel = Math.cos(routeLatitude * Math.PI / 180) * 2 * Math.PI * webMercatorEarthRadius / (tileSize * (2 ** maxZoom));
+  const maxMeters = metersPerPixel * scaleWidth;
+  const magnitude = 10 ** Math.floor(Math.log10(maxMeters));
+  const leadingDigit = maxMeters / magnitude;
+  const roundedScale = magnitude * (leadingDigit >= 10 ? 10 : leadingDigit >= 5 ? 5 : leadingDigit >= 3 ? 3 : leadingDigit >= 2 ? 2 : 1);
+
+  assert.equal(roundedScale, 50);
+});
+
 let failures = 0;
 for (const { name, run } of tests) {
   try {
