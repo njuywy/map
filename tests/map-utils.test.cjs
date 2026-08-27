@@ -87,6 +87,11 @@ test('tile cache keys exclude the Tianditu token', () => {
     cacheUtils.sanitizeSettings({ enabled: false, maxAgeDays: 999, maxEntries: 5 }),
     { enabled: false, maxAgeDays: 365, maxEntries: 100 },
   );
+  assert.deepEqual(
+    cacheUtils.sanitizeSettings({}),
+    { enabled: true, maxAgeDays: 30, maxEntries: 20000 },
+  );
+  assert.equal(cacheUtils.sanitizeSettings({ maxEntries: 99999 }).maxEntries, 20000);
 });
 
 test('page exposes cache settings and uses a light-blue railway style', () => {
@@ -99,6 +104,22 @@ test('page exposes cache settings and uses a light-blue railway style', () => {
   assert.doesNotMatch(app, /routeOutline/);
   assert.match(html, /class="map-square"/);
   assert.doesNotMatch(html, /class="sidebar"/);
+});
+
+test('online imagery opens by default without asking for a token and can be closed', () => {
+  const html = fs.readFileSync(path.join(projectRoot, 'index.html'), 'utf8');
+  const app = fs.readFileSync(path.join(projectRoot, 'app.js'), 'utf8');
+  const configSource = fs.readFileSync(path.join(projectRoot, 'config.js'), 'utf8');
+  const sandbox = { window: {} };
+  vm.runInNewContext(configSource, sandbox);
+
+  assert.equal(sandbox.window.APP_CONFIG.tiandituToken, '8311ec3baf61aca104ce358a2fcdbb6d');
+  assert.doesNotMatch(html, /id="token-input"|id="enable-online"/);
+  assert.match(html, /id="disable-online"[^>]*>关闭在线影像</);
+  assert.match(app, /cacheLimit\.max = CacheUtils\.DEFAULT_SETTINGS\.maxEntries/);
+  assert.doesNotMatch(app, /safeStorage(?:Get|Set)\('tiandituToken'|tokenInput/);
+  assert.match(app, /activateOnlineLayer\(configuredToken\)/);
+  assert.match(app, /id="disable-online"|getElementById\('disable-online'\)/);
 });
 
 let failures = 0;

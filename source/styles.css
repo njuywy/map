@@ -92,11 +92,11 @@ button, input { font: inherit; }
 .setting-title-row h3 { margin: 0; color: var(--navy); font-size: 16px; }
 .setting-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 13px; }
 .setting-group > label, .setting-grid label { display: grid; gap: 5px; color: #53676f; font-size: 12px; font-weight: 700; }
-.setting-grid input, .token-row input { width: 100%; min-width: 0; height: 38px; padding: 0 10px; border: 1px solid #c9d5da; border-radius: 8px; background: #fff; color: #243941; }
+.setting-grid input { width: 100%; min-width: 0; height: 38px; padding: 0 10px; border: 1px solid #c9d5da; border-radius: 8px; background: #fff; color: #243941; }
 .cache-summary { margin-top: 11px; color: var(--muted); font-size: 12px; }
 .cache-summary button { min-height: 32px; padding: 0 10px; border: 1px solid #d2dde1; border-radius: 8px; background: #fff; color: #9a2634; cursor: pointer; }
-.token-row { display: grid; grid-template-columns: 1fr auto; gap: 8px; margin-top: 6px; }
-.token-row button { min-height: 38px; padding: 0 12px; border: 0; border-radius: 8px; background: var(--navy); color: #fff; cursor: pointer; font-weight: 700; }
+.online-actions { display: flex; justify-content: flex-end; margin-top: 12px; }
+.online-actions button { min-height: 38px; padding: 0 12px; border: 0; border-radius: 8px; background: #9a2634; color: #fff; cursor: pointer; font-weight: 700; }
 .setting-message { min-height: 17px; margin: 7px 0 0; color: #0c8399; font-size: 11px; }
 .settings-note { margin: 15px 0 0; padding: 10px; border-radius: 8px; background: #f0f5f7; color: #687b83; font-size: 11px; line-height: 1.55; }
 .status-badge { padding: 4px 8px; border-radius: 999px; background: #e7eef1; color: #5d717b; font-size: 10px; font-weight: 800; }

@@ -54,7 +54,7 @@
                 <input id="cache-days" type="number" min="1" max="365" value="30" />
               </label>
               <label for="cache-limit">最大瓦片数
-                <input id="cache-limit" type="number" min="100" max="10000" step="100" value="2000" />
+                <input id="cache-limit" type="number" min="100" step="100" />
               </label>
             </div>
             <div class="cache-summary">
@@ -69,15 +69,13 @@
               <h3>在线影像</h3>
               <span id="map-mode" class="status-badge">本地影像</span>
             </div>
-            <label for="token-input">天地图浏览器端 Token</label>
-            <div class="token-row">
-              <input id="token-input" type="password" autocomplete="off" placeholder="可选" />
-              <button type="button" id="enable-online">启用在线影像</button>
+            <div class="online-actions">
+              <button type="button" id="disable-online">关闭在线影像</button>
             </div>
             <p id="online-message" class="setting-message" role="status"></p>
           </section>
 
-          <p class="settings-note">缓存仅保存浏览过的在线影像瓦片；Token 不写入缓存键。使用本地影像时不会调用天地图 API。</p>
+          <p class="settings-note">在线影像默认开启，缓存仅保存浏览过的瓦片；关闭在线影像后将使用本地影像。</p>
         </aside>
 
         <div class="legend"><span></span>铁路专用线公开线位</div>

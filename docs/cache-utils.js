@@ -7,6 +7,8 @@
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
   'use strict';
 
+  const DEFAULT_SETTINGS = Object.freeze({ enabled: true, maxAgeDays: 30, maxEntries: 20000 });
+
   function isTiandituTileUrl(rawUrl) {
     try {
       const url = new URL(rawUrl);
@@ -31,10 +33,10 @@
 
   function sanitizeSettings(settings) {
     const source = settings || {};
-    const days = Math.min(365, Math.max(1, Number(source.maxAgeDays) || 30));
-    const entries = Math.min(10000, Math.max(100, Number(source.maxEntries) || 2000));
+    const days = Math.min(365, Math.max(1, Number(source.maxAgeDays) || DEFAULT_SETTINGS.maxAgeDays));
+    const entries = Math.min(DEFAULT_SETTINGS.maxEntries, Math.max(100, Number(source.maxEntries) || DEFAULT_SETTINGS.maxEntries));
     return { enabled: source.enabled !== false, maxAgeDays: days, maxEntries: entries };
   }
 
-  return { isTiandituTileUrl, normalizedTileKey, sanitizeSettings };
+  return { DEFAULT_SETTINGS, isTiandituTileUrl, normalizedTileKey, sanitizeSettings };
 });
