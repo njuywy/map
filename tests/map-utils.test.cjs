@@ -1,4 +1,5 @@
 const assert = require('assert').strict;
+const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
@@ -35,7 +36,10 @@ test('Tianditu URL only exists when a token is configured', () => {
 
 test('page loads Leaflet locally and exposes accessible map controls', () => {
   const html = fs.readFileSync(path.join(projectRoot, 'index.html'), 'utf8');
+  const app = fs.readFileSync(path.join(projectRoot, 'app.js'), 'utf8');
+  const appVersion = crypto.createHash('sha256').update(app).digest('hex').slice(0, 12);
   assert.match(html, /vendor\/leaflet\/leaflet\.js/);
+  assert.match(html, new RegExp(`app\\.js\\?v=${appVersion}`));
   assert.match(html, /id="map"/);
   assert.match(html, /id="show-point"/);
   assert.match(html, /id="fit-route"/);
