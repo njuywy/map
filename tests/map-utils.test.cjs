@@ -122,6 +122,21 @@ test('online imagery opens by default without asking for a token and can be clos
   assert.match(app, /id="disable-online"|getElementById\('disable-online'\)/);
 });
 
+test('default imagery stays visible while browser-token tiles load', () => {
+  const app = fs.readFileSync(path.join(projectRoot, 'app.js'), 'utf8');
+  const activationStart = app.indexOf('function activateOnlineLayer');
+  const closeHandlerStart = app.indexOf("document.getElementById('disable-online')", activationStart);
+  const activationSource = app.slice(activationStart, closeHandlerStart);
+
+  assert.ok(activationStart >= 0 && closeHandlerStart > activationStart);
+  assert.doesNotMatch(activationSource, /removeLayer\(offlineLayer\)/);
+  assert.match(activationSource, /onlineLayer\.addTo\(map\)/);
+  assert.match(activationSource, /imageLayer\.once\('tileload'/);
+  assert.match(app, /createPane\('offlinePane'\)/);
+  assert.match(app, /pane: 'offlinePane'/);
+  assert.match(app, /offlineLayer\.once\('load',[\s\S]*requestAnimationFrame\(startOnlineLayer\)/);
+});
+
 let failures = 0;
 for (const { name, run } of tests) {
   try {
