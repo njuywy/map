@@ -53,12 +53,15 @@
     },
   }).bindTooltip('通海港区铁路专用线（公开线位）', { sticky: true }).addTo(map);
   const pointLayer = L.featureGroup();
+  const pointCountsByColor = {};
   points.forEach(function (point) {
+    const color = MapUtils.pointDistanceStyle(point.towerDistance).color;
+    pointCountsByColor[color] = (pointCountsByColor[color] || 0) + 1;
     const marker = L.circleMarker([point.lat, point.lng], {
       radius: 5,
       color: '#ffffff',
       weight: 2,
-      fillColor: MapUtils.pointDistanceStyle(point.towerDistance).color,
+      fillColor: color,
       fillOpacity: 0.95,
     });
     marker.bindTooltip(point.name, { direction: 'top' });
@@ -67,6 +70,9 @@
   });
   pointLayer.addTo(map);
   document.getElementById('point-count').textContent = `${points.length} 个 CGCS2000 点位`;
+  document.querySelectorAll('[data-distance-color]').forEach(function (counter) {
+    counter.textContent = `${pointCountsByColor[counter.dataset.distanceColor] || 0} 个`;
+  });
 
   const stations = L.featureGroup([
     L.circleMarker([31.9278785, 121.1783968], { radius: 7, color: '#fff', weight: 2, fillColor: '#79d7ee', fillOpacity: 1 }).bindTooltip('海门站', { permanent: true, direction: 'right' }),
