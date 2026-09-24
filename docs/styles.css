@@ -65,8 +65,13 @@ button, input { font: inherit; }
 .map-actions button:hover, .map-actions a:hover { background: #124c64; }
 .map-actions button:focus-visible, .settings-panel button:focus-visible, .settings-panel input:focus-visible { outline: 3px solid rgba(121, 215, 238, 0.55); outline-offset: 2px; }
 
-.legend { left: 18px; bottom: 48px; display: flex; align-items: center; gap: 8px; padding: 7px 10px; border-radius: 8px; background: rgba(7, 31, 42, 0.82); color: #fff; font-size: 11px; }
-.legend span { display: inline-block; width: 34px; height: 6px; border-radius: 99px; background: var(--cyan); }
+.legend { left: 18px; bottom: 48px; display: grid; gap: 6px; padding: 7px 10px; border-radius: 8px; background: rgba(7, 31, 42, 0.82); color: #fff; font-size: 11px; }
+.legend-item { display: flex; align-items: center; gap: 8px; }
+.legend-route { display: inline-block; width: 14px; height: 4px; border-radius: 99px; background: var(--cyan); }
+.legend-dot { display: inline-block; width: 12px; height: 12px; margin: 0 1px; border: 1px solid #fff; border-radius: 50%; }
+.distance-near { background: #22c55e; }
+.distance-medium { background: #3b82f6; }
+.distance-far { background: #dc293a; }
 .map-help { right: 18px; bottom: 48px; padding: 7px 10px; border-radius: 8px; background: rgba(7, 31, 42, 0.82); color: #fff; font-size: 11px; pointer-events: none; }
 .attribution { right: 12px; bottom: 7px; padding: 3px 6px; border-radius: 5px; background: rgba(255, 255, 255, 0.75); color: #42565f; font-size: 9px; }
 
@@ -125,6 +130,7 @@ button, input { font: inherit; }
   .map-heading { top: 10px; left: 10px; max-width: calc(100% - 20px); padding: 9px 12px; }
   .map-heading span { display: none; }
   .map-actions { top: auto; right: auto; left: 10px; bottom: 42px; }
-  .map-help, .legend { display: none; }
+  .map-help { display: none; }
+  .legend { left: 10px; bottom: 92px; font-size: 10px; }
   .settings-panel { top: 10px; right: 10px; width: calc(100% - 20px); max-height: calc(100% - 20px); }
 }

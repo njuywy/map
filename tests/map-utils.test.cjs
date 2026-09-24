@@ -27,6 +27,36 @@ test('point popup exposes CGCS2000 latitude and longitude to nine decimals', () 
   assert.match(html, /CGCS2000/);
 });
 
+test('tower distance colors include the 250m and 500m upper boundaries', () => {
+  const utils = require(path.join(projectRoot, 'map-utils.js'));
+  for (const distance of [0, 100, 250]) assert.equal(utils.pointDistanceStyle(distance).color, '#22c55e');
+  for (const distance of [250.01, 400, 500]) assert.equal(utils.pointDistanceStyle(distance).color, '#3b82f6');
+  for (const distance of [500.01, 1120]) assert.equal(utils.pointDistanceStyle(distance).color, '#dc293a');
+  for (const distance of [undefined, null, '', -1, NaN, Infinity]) {
+    assert.equal(utils.pointDistanceStyle(distance).label, '距离未填写');
+  }
+  const point = { name: '点位 17', lat: 31.865525942, lng: 121.080135312, crs: 'CGCS2000', towerDistance: 247 };
+  assert.match(utils.buildPointPopup(point), /247 米/);
+  assert.match(utils.buildPointPopup({ ...point, towerDistance: 0 }), />0 米</);
+  assert.match(utils.buildPointPopup({ ...point, towerDistance: null }), /未填写/);
+});
+
+test('all workbook distances are imported and produce the expected color totals', () => {
+  const utils = require(path.join(projectRoot, 'map-utils.js'));
+  const sandbox = { window: {} };
+  vm.runInNewContext(fs.readFileSync(path.join(projectRoot, 'map-data.js'), 'utf8'), sandbox);
+  const points = sandbox.window.MAP_DATA.features.filter((feature) => feature.geometry.type === 'Point');
+  const counts = {};
+  for (const point of points) {
+    assert.ok(Number.isFinite(point.properties.tower_distance_m));
+    const color = utils.pointDistanceStyle(point.properties.tower_distance_m).color;
+    counts[color] = (counts[color] || 0) + 1;
+  }
+  assert.deepEqual(counts, { '#dc293a': 30, '#3b82f6': 28, '#22c55e': 15 });
+  assert.equal(points[0].properties.tower_distance_m, 800);
+  assert.equal(points[72].properties.tower_distance_m, 254);
+});
+
 test('Tianditu URL only exists when a token is configured', () => {
   const utils = require(path.join(projectRoot, 'map-utils.js'));
   assert.equal(utils.tiandituUrl('img', ''), null);

@@ -488,7 +488,8 @@ window.MAP_DATA = {
         "point_number": 1,
         "source_row": 2,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 800.0
       },
       "geometry": {
         "type": "Point",
@@ -505,7 +506,8 @@ window.MAP_DATA = {
         "point_number": 2,
         "source_row": 3,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 578.0
       },
       "geometry": {
         "type": "Point",
@@ -522,7 +524,8 @@ window.MAP_DATA = {
         "point_number": 3,
         "source_row": 4,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 402.0
       },
       "geometry": {
         "type": "Point",
@@ -539,7 +542,8 @@ window.MAP_DATA = {
         "point_number": 4,
         "source_row": 5,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 790.0
       },
       "geometry": {
         "type": "Point",
@@ -556,7 +560,8 @@ window.MAP_DATA = {
         "point_number": 5,
         "source_row": 6,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 650.0
       },
       "geometry": {
         "type": "Point",
@@ -573,7 +578,8 @@ window.MAP_DATA = {
         "point_number": 6,
         "source_row": 7,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 671.0
       },
       "geometry": {
         "type": "Point",
@@ -590,7 +596,8 @@ window.MAP_DATA = {
         "point_number": 7,
         "source_row": 8,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 720.0
       },
       "geometry": {
         "type": "Point",
@@ -607,7 +614,8 @@ window.MAP_DATA = {
         "point_number": 8,
         "source_row": 9,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 714.0
       },
       "geometry": {
         "type": "Point",
@@ -624,7 +632,8 @@ window.MAP_DATA = {
         "point_number": 9,
         "source_row": 10,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 950.0
       },
       "geometry": {
         "type": "Point",
@@ -641,7 +650,8 @@ window.MAP_DATA = {
         "point_number": 10,
         "source_row": 11,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 990.0
       },
       "geometry": {
         "type": "Point",
@@ -658,7 +668,8 @@ window.MAP_DATA = {
         "point_number": 11,
         "source_row": 12,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 1120.0
       },
       "geometry": {
         "type": "Point",
@@ -675,7 +686,8 @@ window.MAP_DATA = {
         "point_number": 12,
         "source_row": 13,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 1094.0
       },
       "geometry": {
         "type": "Point",
@@ -692,7 +704,8 @@ window.MAP_DATA = {
         "point_number": 13,
         "source_row": 14,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 777.0
       },
       "geometry": {
         "type": "Point",
@@ -709,7 +722,8 @@ window.MAP_DATA = {
         "point_number": 14,
         "source_row": 15,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 526.0
       },
       "geometry": {
         "type": "Point",
@@ -726,7 +740,8 @@ window.MAP_DATA = {
         "point_number": 15,
         "source_row": 16,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 407.0
       },
       "geometry": {
         "type": "Point",
@@ -743,7 +758,8 @@ window.MAP_DATA = {
         "point_number": 16,
         "source_row": 17,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 274.0
       },
       "geometry": {
         "type": "Point",
@@ -760,7 +776,8 @@ window.MAP_DATA = {
         "point_number": 17,
         "source_row": 18,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 247.0
       },
       "geometry": {
         "type": "Point",
@@ -777,7 +794,8 @@ window.MAP_DATA = {
         "point_number": 18,
         "source_row": 19,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 290.0
       },
       "geometry": {
         "type": "Point",
@@ -794,7 +812,8 @@ window.MAP_DATA = {
         "point_number": 19,
         "source_row": 20,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 456.0
       },
       "geometry": {
         "type": "Point",
@@ -811,7 +830,8 @@ window.MAP_DATA = {
         "point_number": 20,
         "source_row": 21,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 537.0
       },
       "geometry": {
         "type": "Point",
@@ -828,7 +848,8 @@ window.MAP_DATA = {
         "point_number": 21,
         "source_row": 22,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 663.0
       },
       "geometry": {
         "type": "Point",
@@ -845,7 +866,8 @@ window.MAP_DATA = {
         "point_number": 22,
         "source_row": 23,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 863.0
       },
       "geometry": {
         "type": "Point",
@@ -862,7 +884,8 @@ window.MAP_DATA = {
         "point_number": 23,
         "source_row": 24,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 766.0
       },
       "geometry": {
         "type": "Point",
@@ -879,7 +902,8 @@ window.MAP_DATA = {
         "point_number": 24,
         "source_row": 25,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 700.0
       },
       "geometry": {
         "type": "Point",
@@ -896,7 +920,8 @@ window.MAP_DATA = {
         "point_number": 25,
         "source_row": 26,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 621.0
       },
       "geometry": {
         "type": "Point",
@@ -913,7 +938,8 @@ window.MAP_DATA = {
         "point_number": 26,
         "source_row": 27,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 648.0
       },
       "geometry": {
         "type": "Point",
@@ -930,7 +956,8 @@ window.MAP_DATA = {
         "point_number": 27,
         "source_row": 28,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 596.0
       },
       "geometry": {
         "type": "Point",
@@ -947,7 +974,8 @@ window.MAP_DATA = {
         "point_number": 28,
         "source_row": 29,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 440.0
       },
       "geometry": {
         "type": "Point",
@@ -964,7 +992,8 @@ window.MAP_DATA = {
         "point_number": 29,
         "source_row": 30,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 252.0
       },
       "geometry": {
         "type": "Point",
@@ -981,7 +1010,8 @@ window.MAP_DATA = {
         "point_number": 30,
         "source_row": 31,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 144.0
       },
       "geometry": {
         "type": "Point",
@@ -998,7 +1028,8 @@ window.MAP_DATA = {
         "point_number": 31,
         "source_row": 32,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 131.0
       },
       "geometry": {
         "type": "Point",
@@ -1015,7 +1046,8 @@ window.MAP_DATA = {
         "point_number": 32,
         "source_row": 33,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 66.0
       },
       "geometry": {
         "type": "Point",
@@ -1032,7 +1064,8 @@ window.MAP_DATA = {
         "point_number": 33,
         "source_row": 34,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 177.0
       },
       "geometry": {
         "type": "Point",
@@ -1049,7 +1082,8 @@ window.MAP_DATA = {
         "point_number": 34,
         "source_row": 35,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 252.0
       },
       "geometry": {
         "type": "Point",
@@ -1066,7 +1100,8 @@ window.MAP_DATA = {
         "point_number": 35,
         "source_row": 36,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 253.0
       },
       "geometry": {
         "type": "Point",
@@ -1083,7 +1118,8 @@ window.MAP_DATA = {
         "point_number": 36,
         "source_row": 37,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 537.0
       },
       "geometry": {
         "type": "Point",
@@ -1100,7 +1136,8 @@ window.MAP_DATA = {
         "point_number": 37,
         "source_row": 38,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 463.0
       },
       "geometry": {
         "type": "Point",
@@ -1117,7 +1154,8 @@ window.MAP_DATA = {
         "point_number": 38,
         "source_row": 39,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 396.0
       },
       "geometry": {
         "type": "Point",
@@ -1134,7 +1172,8 @@ window.MAP_DATA = {
         "point_number": 39,
         "source_row": 40,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 387.0
       },
       "geometry": {
         "type": "Point",
@@ -1151,7 +1190,8 @@ window.MAP_DATA = {
         "point_number": 40,
         "source_row": 41,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 560.0
       },
       "geometry": {
         "type": "Point",
@@ -1168,7 +1208,8 @@ window.MAP_DATA = {
         "point_number": 41,
         "source_row": 42,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 630.0
       },
       "geometry": {
         "type": "Point",
@@ -1185,7 +1226,8 @@ window.MAP_DATA = {
         "point_number": 42,
         "source_row": 43,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 717.0
       },
       "geometry": {
         "type": "Point",
@@ -1202,7 +1244,8 @@ window.MAP_DATA = {
         "point_number": 43,
         "source_row": 44,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 988.0
       },
       "geometry": {
         "type": "Point",
@@ -1219,7 +1262,8 @@ window.MAP_DATA = {
         "point_number": 44,
         "source_row": 45,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 985.0
       },
       "geometry": {
         "type": "Point",
@@ -1236,7 +1280,8 @@ window.MAP_DATA = {
         "point_number": 45,
         "source_row": 46,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 802.0
       },
       "geometry": {
         "type": "Point",
@@ -1253,7 +1298,8 @@ window.MAP_DATA = {
         "point_number": 46,
         "source_row": 47,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 666.0
       },
       "geometry": {
         "type": "Point",
@@ -1270,7 +1316,8 @@ window.MAP_DATA = {
         "point_number": 47,
         "source_row": 48,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 506.0
       },
       "geometry": {
         "type": "Point",
@@ -1287,7 +1334,8 @@ window.MAP_DATA = {
         "point_number": 48,
         "source_row": 49,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 434.0
       },
       "geometry": {
         "type": "Point",
@@ -1304,7 +1352,8 @@ window.MAP_DATA = {
         "point_number": 49,
         "source_row": 50,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 365.0
       },
       "geometry": {
         "type": "Point",
@@ -1321,7 +1370,8 @@ window.MAP_DATA = {
         "point_number": 50,
         "source_row": 51,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 345.0
       },
       "geometry": {
         "type": "Point",
@@ -1338,7 +1388,8 @@ window.MAP_DATA = {
         "point_number": 51,
         "source_row": 52,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 285.0
       },
       "geometry": {
         "type": "Point",
@@ -1355,7 +1406,8 @@ window.MAP_DATA = {
         "point_number": 52,
         "source_row": 53,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 286.0
       },
       "geometry": {
         "type": "Point",
@@ -1372,7 +1424,8 @@ window.MAP_DATA = {
         "point_number": 53,
         "source_row": 54,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 321.0
       },
       "geometry": {
         "type": "Point",
@@ -1389,7 +1442,8 @@ window.MAP_DATA = {
         "point_number": 54,
         "source_row": 55,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 376.0
       },
       "geometry": {
         "type": "Point",
@@ -1406,7 +1460,8 @@ window.MAP_DATA = {
         "point_number": 55,
         "source_row": 56,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 444.0
       },
       "geometry": {
         "type": "Point",
@@ -1423,7 +1478,8 @@ window.MAP_DATA = {
         "point_number": 56,
         "source_row": 57,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 252.0
       },
       "geometry": {
         "type": "Point",
@@ -1440,7 +1496,8 @@ window.MAP_DATA = {
         "point_number": 57,
         "source_row": 58,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 174.0
       },
       "geometry": {
         "type": "Point",
@@ -1457,7 +1514,8 @@ window.MAP_DATA = {
         "point_number": 58,
         "source_row": 59,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 184.0
       },
       "geometry": {
         "type": "Point",
@@ -1474,7 +1532,8 @@ window.MAP_DATA = {
         "point_number": 59,
         "source_row": 60,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 246.0
       },
       "geometry": {
         "type": "Point",
@@ -1491,7 +1550,8 @@ window.MAP_DATA = {
         "point_number": 60,
         "source_row": 61,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 340.0
       },
       "geometry": {
         "type": "Point",
@@ -1508,7 +1568,8 @@ window.MAP_DATA = {
         "point_number": 61,
         "source_row": 62,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 278.0
       },
       "geometry": {
         "type": "Point",
@@ -1525,7 +1586,8 @@ window.MAP_DATA = {
         "point_number": 62,
         "source_row": 63,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 239.0
       },
       "geometry": {
         "type": "Point",
@@ -1542,7 +1604,8 @@ window.MAP_DATA = {
         "point_number": 63,
         "source_row": 64,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 252.0
       },
       "geometry": {
         "type": "Point",
@@ -1559,7 +1622,8 @@ window.MAP_DATA = {
         "point_number": 64,
         "source_row": 65,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 161.0
       },
       "geometry": {
         "type": "Point",
@@ -1576,7 +1640,8 @@ window.MAP_DATA = {
         "point_number": 65,
         "source_row": 66,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 268.0
       },
       "geometry": {
         "type": "Point",
@@ -1593,7 +1658,8 @@ window.MAP_DATA = {
         "point_number": 66,
         "source_row": 67,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 115.0
       },
       "geometry": {
         "type": "Point",
@@ -1610,7 +1676,8 @@ window.MAP_DATA = {
         "point_number": 67,
         "source_row": 68,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 47.0
       },
       "geometry": {
         "type": "Point",
@@ -1627,7 +1694,8 @@ window.MAP_DATA = {
         "point_number": 68,
         "source_row": 69,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 322.0
       },
       "geometry": {
         "type": "Point",
@@ -1644,7 +1712,8 @@ window.MAP_DATA = {
         "point_number": 69,
         "source_row": 70,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 219.0
       },
       "geometry": {
         "type": "Point",
@@ -1661,7 +1730,8 @@ window.MAP_DATA = {
         "point_number": 70,
         "source_row": 71,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 269.0
       },
       "geometry": {
         "type": "Point",
@@ -1678,7 +1748,8 @@ window.MAP_DATA = {
         "point_number": 71,
         "source_row": 72,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 137.0
       },
       "geometry": {
         "type": "Point",
@@ -1695,7 +1766,8 @@ window.MAP_DATA = {
         "point_number": 72,
         "source_row": 73,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 164.0
       },
       "geometry": {
         "type": "Point",
@@ -1712,7 +1784,8 @@ window.MAP_DATA = {
         "point_number": 73,
         "source_row": 74,
         "source_sheet": "xl/worksheets/sheet1.xml",
-        "crs": "CGCS2000 / EPSG:4490"
+        "crs": "CGCS2000 / EPSG:4490",
+        "tower_distance_m": 254.0
       },
       "geometry": {
         "type": "Point",

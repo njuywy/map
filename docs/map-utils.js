@@ -23,13 +23,27 @@
     return Number(value).toFixed(9);
   }
 
+  function pointDistanceStyle(distance) {
+    if (!Number.isFinite(distance) || distance < 0) {
+      return { color: '#647780', label: '距离未填写' };
+    }
+    if (distance <= 250) return { color: '#22c55e', label: '0–250 米（含 250）' };
+    if (distance <= 500) return { color: '#3b82f6', label: '>250–500 米（含 500）' };
+    return { color: '#dc293a', label: '>500 米' };
+  }
+
   function buildPointPopup(point) {
     const latitude = formatCoordinate(point.lat);
     const longitude = formatCoordinate(point.lng);
+    const distanceStyle = pointDistanceStyle(point.towerDistance);
+    const distanceText = Number.isFinite(point.towerDistance) && point.towerDistance >= 0
+      ? `${point.towerDistance} 米` : '未填写';
     return [
       '<section class="point-popup">',
       `<strong>${escapeHtml(point.name)}</strong>`,
       '<dl>',
+      `<div><dt>铁塔距离</dt><dd>${distanceText}</dd></div>`,
+      `<div><dt>距离分类</dt><dd>${escapeHtml(distanceStyle.label)}</dd></div>`,
       `<div><dt>纬度</dt><dd>${latitude}°</dd></div>`,
       `<div><dt>经度</dt><dd>${longitude}°</dd></div>`,
       `<div><dt>坐标系</dt><dd>${escapeHtml(point.crs)}</dd></div>`,
@@ -73,5 +87,5 @@
     ];
   }
 
-  return { buildPointPopup, escapeHtml, formatCoordinate, squareMercatorBounds, tiandituUrl };
+  return { buildPointPopup, escapeHtml, formatCoordinate, pointDistanceStyle, squareMercatorBounds, tiandituUrl };
 });
