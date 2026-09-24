@@ -9,6 +9,7 @@
     const crs = feature.properties.crs || 'CGCS2000 / EPSG:4490';
     return {
       name: feature.properties.name,
+      towerDistance: feature.properties.tower_distance_m,
       lat: feature.geometry.coordinates[1],
       lng: feature.geometry.coordinates[0],
       crs: crs.replace(' / ', '（') + (crs.includes(' / ') ? '）' : ''),
@@ -57,7 +58,7 @@
       radius: 5,
       color: '#ffffff',
       weight: 2,
-      fillColor: '#dc293a',
+      fillColor: MapUtils.pointDistanceStyle(point.towerDistance).color,
       fillOpacity: 0.95,
     });
     marker.bindTooltip(point.name, { direction: 'top' });
